@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Blending</title>
+</head>
+<body style="background-color: cadetblue;">
+    <h1 style="color: orange;">FlaskArchitect's Image Blending with Grayscale Mask</h1>
+    <form action="/get_images" method="post">
+        <button type="submit">Get Three Random Images</button>
+    </form>&nbsp;&nbsp;|&nbsp;&nbsp;<form action="/select_mask_image" method="post">
+        <button type="submit">Special Mask -Choice-</button>
+    </form>
+    <!--show images in store-->
+   
+    <h2>Stored Images</h2>
+    <form action="/display_images" method="post">
+        {% for image_path in image_paths %}
+        <img src="{{ url_for('static', filename='store/' + image_path.split('/')[-1]) }}" width="200px">
+
+        {% endfor %}
+
+</body>
+</html>

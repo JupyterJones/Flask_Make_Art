@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Mask Type</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #c7c7c7;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .form-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .form-container select, .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Choose Mask Type</h1>
+    <form action="{{ url_for('choose_mask') }}" method="post">
+        <input type="hidden" name="selected_image" value="{{ selected_image }}">
+        <div class="form-container">
+            <select name="mask_type">
+                <option value="grayscale">Grayscale</option>
+                <option value="binary">Binary</option>
+            </select>
+            <button type="submit">Generate Mask</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Blending</title>
+
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .refresh-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #5C5CFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px;
+        }
+        .refresh-button:hover {
+            background-color: #3C3CFF;
+        }
+    </style>
+</head>
+<body style="background-color: cadetblue;">
+    <h1 style="color: orange;">FlaskArchitect's Image Blending with Grayscale Mask</h1>
+    <a href="{{ url_for('refresh_images') }}" class="refresh-button">Refresh Images</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ url_for('display_resources') }}" class="refresh-button">Display Resource Images</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ url_for('select_images') }}" class="refresh-button">Select Images to Blend</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('index_upload') }}" class="refresh-button">Upload a Specific Image</a><br/><br/>
+    <a href="{{ url_for('refresh_video') }}" class="refresh-button">Make Video</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ url_for('select_mask_image') }}" class="refresh-button">Special Mask -Choice-</a>
+    <form action="/get_images" method="post">
+        <button type="submit">Get Three Random Images</button>
+    </form>
+    
+    
+    <!--show images in store-->
+   
+    <h2>Stored Images</h2>
+    <form action="/display_images" method="post">
+        {% for image_path in image_paths %}
+        &nbsp;<img src="{{ url_for('static', filename='archived-store/' + image_path.split('/')[-1]) }}" width="200px">
+
+        {% endfor %}
+        </form>
+    <h2>Stored Video</h2>
+
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/final_output_exp.mp4" type="video/mp4">
+        </video>
+        <video width="300" height="auto" controls>
+            <source src="static/archived-store/output_videos/final_result.mp4" type="video/mp4">
+        </video>
+        <video width="300" height="auto" controls>
+            <source src="static/temp/final_flipbook.mp4" type="video/mp4">
+        </video>
+    
+
+</body>
+</html>

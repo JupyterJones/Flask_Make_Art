@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .gallery-item {
+            margin: 20px;
+        }
+        .gallery-item img {
+            max-width: 300px;
+            max-height: 200px;
+            display: block;
+            margin: 10px auto;
+        }
+        .sp {
+            display: block;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            max-width: 300px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Gallery</h1>
+    <div class="gallery">
+        {% for item in gallery_data %}
+        <div class="gallery-item">
+            <h3 class='sp' >Directory: {{ item.directory }}</h3>
+            {% for image in item.images %}
+            <img src="{{ image }}" alt="Image">
+            <p class='sp'>{{ image }}</p>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

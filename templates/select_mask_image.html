@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Mask Image</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #c7c7c7;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .image-item {
+            flex: 1 1 calc(20% - 10px);
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .image-item img {
+            max-width: 205px;
+            
+            height: auto;
+            display: block;
+            border: 2px solid #444;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+        .image-item img:hover {
+            transform: scale(1.05);
+        }
+        .image-item input[type="radio"] {
+            display: none;
+        }
+        .image-item label {
+            display: block;
+            cursor: pointer;
+        }
+        .image-item input[type="radio"]:checked + label img {
+            border-color: #007bff;
+        }
+        .form-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        img {
+            width: 200px;
+            height: auto;
+        }
+    
+    </style>
+</head>
+<body>
+    <h1>Select an Image for Masking</h1>
+    <form action="{{ url_for('select_mask_image') }}" method="post">
+        <div class="image-container">
+            {% for image_path in image_paths %}
+                <div class="image-item">
+                    <input type="radio" name="selected_image" id="{{ image_path }}" value="{{ image_path }}">
+                    <label for="{{ image_path }}">
+                        <img src="{{ url_for('static', filename=image_path.split('static/')[-1]) }}" alt="Image">
+                    </label>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="form-container">
+            <button type="submit">Select Image</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blended Result</title>
+</head>
+<body  style="background-color: cadetblue;">
+    <h1  style="color: orange;">Blended Image Result</h1>
+
+    <form action="/store_result" method="post">
+        <input type="hidden" name="result_image" value="{{ url_for('static', filename='images/result.png') }}">
+        <button type="submit">Store Result</button>
+    </form>
+    <form action="/edit_mask" method="post">
+        {% for image_path in image_paths %}
+        <input type="hidden" name="image_paths" value="{{ image_path }}">
+        {% endfor %}
+        <input type="hidden" name="mask_path" value="{{ mask_path }}">
+        <input type="hidden" name="opacity" value="{{ opacity }}">
+        <button type="submit">Edit Mask and Blend Again</button>
+    </form>
+    <!-- return home -->
+    <form action="/" method="get">
+        <button type="submit">Home</button>
+    </form>
+    <img src="{{ url_for('static', filename='images/result.png') }}" width="400px">
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Mask Type</title>
+</head>
+<body>
+    <h1>Choose Mask Type</h1>
+    <form action="{{ url_for('choose_mask') }}" method="post">
+        <input type="hidden" name="image_paths" value="{{ image_paths }}">
+        <label for="mask_type">Select Mask Type:</label>
+        <select name="mask_type" id="mask_type">
+            <option value="grayscale">Grayscale</option>
+            <option value="binary">Binary</option>
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
