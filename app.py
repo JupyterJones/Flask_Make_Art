@@ -503,42 +503,6 @@ def create_feathered_image(foreground_path, output_path):
 
     return output_path
 
-'''
-def overlay_feathered_on_background(foreground_path, background_path, output_path):
-    # Load the feathered image and background image
-    foreground = cv2.imread(foreground_path, cv2.IMREAD_UNCHANGED)  # Load with alpha channel
-    background = cv2.imread(background_path)
-
-    # Resize and crop both images to 512x768
-    foreground = resize_and_crop(foreground)
-    background = resize_and_crop(background)
-
-    # Extract the alpha channel from the foreground image
-    alpha_channel = foreground[:, :, 3] / 255.0
-    foreground_rgb = foreground[:, :, :3]
-
-    # Ensure background has 4 channels
-    background_rgba = cv2.cvtColor(background, cv2.COLOR_BGR2BGRA)
-
-    # Blend the images
-    for i in range(3):  # For each color channel
-        background_rgba[:, :, i] = (foreground_rgb[:, :, i] * alpha_channel + background_rgba[:, :, i] * (1 - alpha_channel)).astype(np.uint8)
-
-    # Save the result
-    cv2.imwrite(output_path, background_rgba)
-
-# Generate a unique filename
-    unique_filename = 'static/archived-images/' + str(uuid.uuid4()) + '.jpg'
-
-    # Optionally convert the composite to a JPG
-    im = Image.open(output_path).convert('RGB')
-    im.save(unique_filename, quality=95)
-
-    print(f"Composite image saved to: {unique_filename}")
-    
-    return unique_filename
-    #return output_path
-'''
 def overlay_feathered_on_background(foreground_path, background_path, output_path):
     # Load the feathered image and background image
     foreground = cv2.imread(foreground_path, cv2.IMREAD_UNCHANGED)  # Load with alpha channel
@@ -634,6 +598,16 @@ def face_detect():
             return render_template('face_detect.html', feathered_image=feathered_image_path, composite_image=output_composite_path)
 
     return render_template('face_detect.html')
+
+
+
+@app.route('/about')#, methods=['POST', 'GET'])
+def about():
+    return render_template('application_overview.html')
+
+
+
+
 # Example usage
 # Paths to the input images and output composite image
 # use glob to get random choice of image
