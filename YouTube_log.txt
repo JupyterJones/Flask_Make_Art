@@ -1,0 +1,176 @@
+Friday_Aug-09-2024_10-15-43 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 57: App started
+Friday_Aug-09-2024_10-22-31 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 57: App started
+Friday_Aug-09-2024_10-24-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_10-25-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-25-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-30-00 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_10-35-49 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 43: App started
+Friday_Aug-09-2024_10-35-49 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 43: App started
+Friday_Aug-09-2024_10-37-14 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 54: Error downloading video: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-37-15 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 88: Error in /get_images: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-38-45 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 54: Error downloading video: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-38-45 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 88: Error in /get_images: HTTP Error 410: Gone
+Friday_Aug-09-2024_10-43-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_10-44-49 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_10-51-23 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_10-58-40 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_10-58-40 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_11-00-49 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_11-00-49 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_11-00-57 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_11-00-57 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: HTTP Error 400: Bad Request
+Friday_Aug-09-2024_11-03-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-03-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-05-45 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 55: App started
+Friday_Aug-09-2024_11-08-42 - File: /home/jack/Desktop/Flask_Make_Art/test_download, Line: 52: App started
+Friday_Aug-09-2024_11-09-13 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-09-13 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-15-37 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Error downloading video: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-15-37 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 103: Error in /get_images: map_functions: could not find match for multiple
+Friday_Aug-09-2024_11-21-34 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 53: App started
+Friday_Aug-09-2024_11-21-35 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 53: App started
+Friday_Aug-09-2024_11-22-25 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 65: Video downloaded: Rick Astley - Never Gonna Give You Up (Official Music Video) to static/downloads/Rick Astley - Never Gonna Give You Up (Official Music Video).mp4
+Friday_Aug-09-2024_11-22-25 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 88: Error extracting frames: MoviePy error: the file static/downloads/Rick Astley - Never Gonna Give You Up (Official Music Video).mp4 could not be found!
+Please check that you entered the correct path.
+Friday_Aug-09-2024_11-22-25 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 106: Error in /get_images: MoviePy error: the file static/downloads/Rick Astley - Never Gonna Give You Up (Official Music Video).mp4 could not be found!
+Please check that you entered the correct path.
+Friday_Aug-09-2024_11-25-22 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 53: App started
+Friday_Aug-09-2024_11-28-02 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_11-29-40 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: Rick Astley - Never Gonna Give You Up (Official Music Video) to static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-29-40 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 96: Error extracting frames: MoviePy error: the file static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4 could not be found!
+Please check that you entered the correct path.
+Friday_Aug-09-2024_11-29-40 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 114: Error in /get_images: MoviePy error: the file static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4 could not be found!
+Please check that you entered the correct path.
+Friday_Aug-09-2024_11-30-59 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_11-34-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: Rick Astley - Never Gonna Give You Up (Official Music Video) to static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-34-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-34-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: Error downloading video: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-34-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 118: Error in /get_images: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-48-06 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_11-48-06 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_11-49-15 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: Rick Astley - Never Gonna Give You Up (Official Music Video) to static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-49-15 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-49-15 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: Error downloading video: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-49-15 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 118: Error in /get_images: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_11-58-13 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_11-58-38 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 84: Error downloading video: local variable 'video_path' referenced before assignment
+Friday_Aug-09-2024_11-58-38 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 122: Error in /get_images: local variable 'video_path' referenced before assignment
+Friday_Aug-09-2024_12-00-00 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-00-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 77: Video downloaded: Rick Astley - Never Gonna Give You Up (Official Music Video) to static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_12-00-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_12-00-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 84: Error downloading video: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_12-00-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 122: Error in /get_images: File not found: static/downloads/Rick_Astley_Never_Gonna_Give_You_Up_Official_Music_Video.mp4
+Friday_Aug-09-2024_12-04-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 77: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-04-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-04-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 84: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-04-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 122: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-08-41 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-09-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 77: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-09-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 85: Error downloading video: name 'subprocess' is not defined
+Friday_Aug-09-2024_12-09-27 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 123: Error in /get_images: name 'subprocess' is not defined
+Friday_Aug-09-2024_12-09-55 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-10-18 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 77: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-10-18 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 81: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-10-18 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 85: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-10-18 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 123: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-12-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-19-08 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-19-51 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-20-33 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-20-33 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: name 'title' is not defined
+Friday_Aug-09-2024_12-20-33 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 125: Error in /get_images: name 'title' is not defined
+Friday_Aug-09-2024_12-21-06 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-22-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-22-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-22-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-22-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-22-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 125: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-23-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-23-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-23-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-23-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-23-01 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 125: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-27-00 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-27-21 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-27-21 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-27-21 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-27-21 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-27-21 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 126: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-28-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-28-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-28-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-28-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-28-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 126: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-29-33 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-29-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-30-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-30-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-30-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-30-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-30-28 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 127: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-36-23 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-36-44 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-36-44 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: TEMP.mp4 to static/downloads/TEMP.mp4.mp4
+Friday_Aug-09-2024_12-36-44 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/TEMP.mp4.mp4
+Friday_Aug-09-2024_12-36-44 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/TEMP.mp4.mp4
+Friday_Aug-09-2024_12-36-44 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 127: Error in /get_images: File not found: static/downloads/TEMP.mp4.mp4
+Friday_Aug-09-2024_12-37-50 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-38-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: Video downloaded: AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect
+Friday_Aug-09-2024_12-38-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 79: Video downloaded: TEMP to static/downloads/TEMP.mp4
+Friday_Aug-09-2024_12-38-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: File not found: static/downloads/TEMP.mp4
+Friday_Aug-09-2024_12-38-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 87: Error downloading video: File not found: static/downloads/TEMP.mp4
+Friday_Aug-09-2024_12-38-16 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 127: Error in /get_images: File not found: static/downloads/TEMP.mp4
+Friday_Aug-09-2024_12-41-36 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-42-10 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-10 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-10 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-10 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 118: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-53 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-53 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-53 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-42-53 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 118: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-43-39 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-44-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 73: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-44-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 76: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-44-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 80: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-44-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 118: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-51-22 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-51-43 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-52-04 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 83: Error downloading video: [Errno 2] No such file or directory: 'https://rr1---sn-2aqu-hoal6.googlevideo.com/videoplayback?expire=1723200723&ei=c6C1ZveXDLe50-kP3crMqQY&ip=124.107.220.97&id=o-APSVo1KGJbwUCpl9l6xJTboHjuPb1dalEapYqlnG1rKx&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=Mi&mm=31%2C26&mn=sn-2aqu-hoal6%2Csn-npoeenll&ms=au%2Conr&mv=m&mvi=1&pl=24&initcwndbps=826250&bui=AXc671JqTJlZL1bWsP123P5ylNdypRK27F0cnTz4ETHH4LiUYxub68pm8oc-DgP8yM0j_55n4R2eNtqz&spc=Mv1m9oJ-FgGIQGA6u2fyU1eWJy-xqsvGYWMjG4O8EcKIFa3YHG0ad6Y&vprv=1&svpuc=1&mime=video%2Fmp4&ns=PcDeUiVckMVF_zBxaEMtJD0Q&rqh=1&gir=yes&clen=3247997&ratebypass=yes&dur=50.816&lmt=1722500536091672&mt=1723178716&fvip=4&c=WEB_CREATOR&sefc=1&txp=6300224&n=zWEDsOpq9B3ymw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgcs_4A392BHyBy_36SPawmfIwFWlqJGdAmhX3Yg_WCCkCIBGQaMP0JE1R2Vnve2iOtT8EnY2PWPjsmPMgTmVBF21E&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AGtxev0wRQIhAP6eTz-9OfdvcMbCnL2xJjDzrablwdN9xwFRJUYYb28zAiB-XPTd1DYKaWMJDMAy3rirI01hVNZnXW5u9m_uqA7p-A%3D%3D'
+Friday_Aug-09-2024_12-52-04 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 121: Error in /get_images: [Errno 2] No such file or directory: 'https://rr1---sn-2aqu-hoal6.googlevideo.com/videoplayback?expire=1723200723&ei=c6C1ZveXDLe50-kP3crMqQY&ip=124.107.220.97&id=o-APSVo1KGJbwUCpl9l6xJTboHjuPb1dalEapYqlnG1rKx&itag=18&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&mh=Mi&mm=31%2C26&mn=sn-2aqu-hoal6%2Csn-npoeenll&ms=au%2Conr&mv=m&mvi=1&pl=24&initcwndbps=826250&bui=AXc671JqTJlZL1bWsP123P5ylNdypRK27F0cnTz4ETHH4LiUYxub68pm8oc-DgP8yM0j_55n4R2eNtqz&spc=Mv1m9oJ-FgGIQGA6u2fyU1eWJy-xqsvGYWMjG4O8EcKIFa3YHG0ad6Y&vprv=1&svpuc=1&mime=video%2Fmp4&ns=PcDeUiVckMVF_zBxaEMtJD0Q&rqh=1&gir=yes&clen=3247997&ratebypass=yes&dur=50.816&lmt=1722500536091672&mt=1723178716&fvip=4&c=WEB_CREATOR&sefc=1&txp=6300224&n=zWEDsOpq9B3ymw&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Cns%2Crqh%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AJfQdSswRAIgcs_4A392BHyBy_36SPawmfIwFWlqJGdAmhX3Yg_WCCkCIBGQaMP0JE1R2Vnve2iOtT8EnY2PWPjsmPMgTmVBF21E&lsparams=mh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Cinitcwndbps&lsig=AGtxev0wRQIhAP6eTz-9OfdvcMbCnL2xJjDzrablwdN9xwFRJUYYb28zAiB-XPTd1DYKaWMJDMAy3rirI01hVNZnXW5u9m_uqA7p-A%3D%3D'
+Friday_Aug-09-2024_12-54-15 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-54-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 75: Video downloaded: AI Creates Images Using My Original Art | By FlaskArchitect to static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-54-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 78: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-54-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 82: Error downloading video: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-54-47 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 120: Error in /get_images: File not found: static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4
+Friday_Aug-09-2024_12-55-45 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-56-11 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 84: Error downloading video: [Errno 2] No such file or directory: 'static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4'
+Friday_Aug-09-2024_12-56-11 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 122: Error in /get_images: [Errno 2] No such file or directory: 'static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4'
+Friday_Aug-09-2024_12-58-05 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-58-38 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 86: Error downloading video: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA ' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA " ) to search YouTube
+Friday_Aug-09-2024_12-58-38 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 124: Error in /get_images: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA ' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA " ) to search YouTube
+Friday_Aug-09-2024_12-59-42 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_12-59-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 86: Error downloading video: [Errno 2] No such file or directory: 'static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4'
+Friday_Aug-09-2024_12-59-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 124: Error in /get_images: [Errno 2] No such file or directory: 'static/downloads/AI_Creates_Images_Using_My_Original_Art_By_FlaskArchitect.mp4'
+Friday_Aug-09-2024_13-04-52 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 60: App started
+Friday_Aug-09-2024_13-05-20 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 92: Error downloading video: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA" ) to search YouTube
+Friday_Aug-09-2024_13-05-20 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 130: Error in /get_images: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA" ) to search YouTube
+Friday_Aug-09-2024_13-06-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 92: Error downloading video: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA" ) to search YouTube
+Friday_Aug-09-2024_13-06-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 130: Error in /get_images: [0;31mERROR:[0m [generic] ' https://www.youtube.com/shorts/ZKD0t4kt0MA' is not a valid URL. Set --default-search "ytsearch" (or run  yt-dlp "ytsearch: https://www.youtube.com/shorts/ZKD0t4kt0MA" ) to search YouTube
+Friday_Aug-09-2024_13-06-29 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 92: Error downloading video: name 'secure_filename' is not defined
+Friday_Aug-09-2024_13-06-29 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 130: Error in /get_images: name 'secure_filename' is not defined
+Friday_Aug-09-2024_13-06-54 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 62: App started
+Friday_Aug-09-2024_13-07-02 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 88: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-07-02 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 94: Error downloading video: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-07-02 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 132: Error in /get_images: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-11-03 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 62: App started
+Friday_Aug-09-2024_13-11-17 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 89: Download path does not exist: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-11-17 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 95: Error downloading video: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-11-17 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 133: Error in /get_images: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-12-20 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 89: Download path does not exist: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-12-20 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 95: Error downloading video: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-12-20 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 133: Error in /get_images: File not found: static/downloads/AI_Creates_Evil_Dolls__Auto_Created_by_FlaskArchitect.mp4
+Friday_Aug-09-2024_13-15-23 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 62: App started
+Friday_Aug-09-2024_13-15-48 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 98: Video downloaded and moved to: static/temp.mp4
+Friday_Aug-09-2024_13-17-09 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 98: Video downloaded and moved to: static/temp.mp4
+Friday_Aug-09-2024_13-22-31 - File: /home/jack/Desktop/Flask_Make_Art/YouTube_Images, Line: 98: Video downloaded and moved to: static/temp.mp4

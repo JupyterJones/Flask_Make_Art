@@ -1,0 +1,160 @@
+import os
+import random
+import re
+import inspect
+from flask import Flask, request, render_template, redirect, url_for
+import yt_dlp
+from moviepy.editor import VideoFileClip
+from PIL import Image
+from datetime import datetime
+import shutil
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+
+# Directory to save downloaded videos and extracted images
+DOWNLOAD_FOLDER = 'static/downloads'
+ARCHIVED_IMAGES_FOLDER = 'static/archived-images'
+app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+app.config['ARCHIVED_IMAGES_FOLDER'] = ARCHIVED_IMAGES_FOLDER
+
+# Ensure the directories exist
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+os.makedirs(ARCHIVED_IMAGES_FOLDER, exist_ok=True)
+
+def sanitize_filename(filename):
+    # Replace spaces with underscores and remove special characters
+    filename = re.sub(r'[^\w\s-]', '', filename).strip()
+    filename = re.sub(r'[-\s]+', '_', filename)
+    return filename
+
+def logit(message):
+    try:
+        # Get the current timestamp
+        timestr = datetime.now().strftime('%A_%b-%d-%Y_%H-%M-%S')
+
+        # Get the caller's frame information
+        caller_frame = inspect.stack()[1]
+        filename = caller_frame.filename
+        lineno = caller_frame.lineno
+
+        # Convert message to string if it's a list
+        if isinstance(message, list):
+            message_str = ' '.join(map(str, message))
+        else:
+            message_str = str(message)
+
+        # Construct the log message with filename and line number
+        log_message = f"{timestr} - File: {filename}, Line: {lineno}: {message_str}\n"
+
+        # Open the log file in append mode
+        with open("YouTube_log.txt", "a") as file:
+            # Write the log message to the file
+            file.write(log_message)
+
+            # Print the log message to the console
+            print(log_message)
+
+    except Exception as e:
+        # If an exception occurs during logging, print an error message
+        print(f"Error occurred while logging: {e}")
+
+logit("App started")
+
+def download_youtube_video(url):
+    try:
+        # Set the download options
+        ydl_opts = {
+            'outtmpl': os.path.join(app.config['DOWNLOAD_FOLDER'], '%(title)s.%(ext)s'),
+            'format': 'mp4',  # Best format available
+            'noplaylist': True
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # Extract video information and download the video
+            info_dict = ydl.extract_info(url, download=True)
+            video_title = info_dict.get('title')
+            
+            # Sanitize and format the filename to remove spaces and special characters
+            sanitized_title = secure_filename(video_title)
+            sanitized_title = sanitized_title.replace(" ", "_")
+            download_path = os.path.join(app.config['DOWNLOAD_FOLDER'], f"{sanitized_title}.mp4")
+            static_video_path = os.path.join('static', 'temp.mp4')
+
+            # Find the downloaded file
+            for root, dirs, files in os.walk(app.config['DOWNLOAD_FOLDER']):
+                for file in files:
+                    if file.endswith('.mp4'):
+                        actual_downloaded_file = os.path.join(root, file)
+                        break
+                else:
+                    continue
+                break
+
+            # Check if the video was downloaded correctly
+            if os.path.exists(actual_downloaded_file):
+                # Move the downloaded video to the static/temp.mp4 path
+                shutil.move(actual_downloaded_file, static_video_path)
+                logit(f"Video downloaded and moved to: {static_video_path}")
+            else:
+                logit(f"Downloaded file does not exist: {actual_downloaded_file}")
+                raise FileNotFoundError(f"File not found: {actual_downloaded_file}")
+
+            return static_video_path
+
+    except Exception as e:
+        logit(f"Error downloading video: {e}")
+        raise
+
+def extract_random_frames(video_path, num_frames=25):
+    try:
+        video = VideoFileClip(video_path)
+        duration = video.duration
+        timestamps = sorted([random.uniform(0, duration) for _ in range(num_frames)])
+        saved_images = []
+        
+        for i, timestamp in enumerate(timestamps):
+            frame = video.get_frame(timestamp)
+            img = Image.fromarray(frame)
+            image_filename = f"frame_{i+1}.jpg"
+            image_path = os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], image_filename)
+            img.save(image_path)
+            saved_images.append(image_filename)
+        
+        return saved_images
+    except Exception as e:
+        logit(f"Error extracting frames: {e}")
+        raise
+
+@app.route('/get_images', methods=['GET', 'POST'])
+def get_images():
+    if request.method == 'POST':
+        url = request.form['url']
+        if url:
+            try:
+                # Download the YouTube video
+                video_path = download_youtube_video(url)
+                
+                # Extract 25 random frames
+                images = extract_random_frames(video_path)
+                
+                # Redirect to display the images
+                return redirect(url_for('display_images'))
+            except Exception as e:
+                logit(f"Error in /get_images: {e}")
+                return str(e)
+    
+    return render_template('get_images.html')
+
+@app.route('/images')
+def display_images():
+    try:
+        images = os.listdir(app.config['ARCHIVED_IMAGES_FOLDER'])
+        images = [os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], img) for img in images]
+        return render_template('YouTube_gallery.html', images=images)
+    except Exception as e:
+        logit(f"Error in /images: {e}")
+        return str(e)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5200)

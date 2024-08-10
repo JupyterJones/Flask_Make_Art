@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extracted Images</title>
+</head>
+<body>
+    <h1>Extracted Images</h1>
+    <!-- link to home -->
+     <a href="/">Index</a>
+    <div>
+        {% for image in images %}
+            <img src="{{ image }}" alt="Extracted Frame" style="width: 256px; height:384px; margin: 10px;">
+        {% endfor %}
+    </div>
+    <a href="/">Back</a>
+</body>
+</html>

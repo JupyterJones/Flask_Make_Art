@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Detection and Overlay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-display {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .image-display img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .upload-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body style="background-color: cadetblue;">
+    <h1 style="color: orange;">Face Detection and Image Overlay</h1>
+    <!-- link index/home -->
+<a href="{{ url_for('index') }}" class="refresh-button">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="container">
+        <p>Upload an image to detect the face, apply feathering, and overlay it onto a random background.</p>
+
+        <div class="upload-form">
+            <form action="/face_detect" method="post" enctype="multipart/form-data">
+                <input type="file" name="file">
+                <button type="submit">Upload and Process</button>
+            </form>
+        </div>
+
+        {% if feathered_image %}
+        <div class="image-display">
+            <h2>Feathered Face Image</h2>
+            <img src="{{ url_for('static', filename=feathered_image.split('static/')[1]) }}" alt="Feathered Face Image">
+        </div>
+        {% endif %}
+
+        {% if composite_image %}
+        <div class="image-display">
+            <h2>Composite Image</h2>
+            <img src="{{ url_for('static', filename=composite_image.split('static/')[1]) }}" alt="Composite Image">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

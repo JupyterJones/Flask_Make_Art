@@ -1,0 +1,51 @@
+import yt_dlp
+import os
+import random
+from moviepy.editor import VideoFileClip
+
+def download_youtube_video(url, download_folder):
+    try:
+        ydl_opts = {
+            'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
+            'format': 'bestvideo+bestaudio/best',
+            'noplaylist': True
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(url, download=True)
+            print(f"Video downloaded: {info_dict.get('title')}")
+            video_path = os.path.join(download_folder, f"{info_dict.get('title')}.mp4")
+            return video_path
+    except Exception as e:
+        print(f"Error downloading video: {e}")
+        return None
+
+def extract_random_clips(video_path, num_clips=25):
+    try:
+        video = VideoFileClip(video_path)
+        duration = video.duration
+        timestamps = sorted([random.uniform(0, duration - 10) for _ in range(num_clips)])
+        clip_length = 10  # Length of each clip in seconds
+        saved_clips = []
+        for i, timestamp in enumerate(timestamps):
+            clip = video.subclip(timestamp, min(timestamp + clip_length, duration))
+            clip_filename = f"clip_{i+1}.mp4"
+            clip_path = os.path.join('static/archived-clips', clip_filename)
+            clip.write_videofile(clip_path, codec='libx264')
+            saved_clips.append(clip_filename)
+        return saved_clips
+    except Exception as e:
+        print(f"Error extracting clips: {e}")
+        return []
+
+if __name__ == '__main__':
+    DOWNLOAD_FOLDER = 'static/downloads'
+    os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+    video_url = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'  # Replace with your video URL
+
+    video_path = download_youtube_video(video_url, DOWNLOAD_FOLDER)
+    if video_path:
+        print(f"Video downloaded to {video_path}")
+        clips = extract_random_clips(video_path)
+        print(f"Extracted clips: {clips}")
+    else:
+        print("Failed to download video.")

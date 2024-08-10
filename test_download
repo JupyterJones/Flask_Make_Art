@@ -1,0 +1,88 @@
+from flask import Flask, request, render_template, redirect, url_for
+import yt_dlp
+import os
+import random
+from moviepy.editor import VideoFileClip
+from PIL import Image
+import logging
+
+app = Flask(__name__)
+
+# Configuration
+DOWNLOAD_FOLDER = 'static/downloads'
+ARCHIVED_IMAGES_FOLDER = 'static/archived-images'
+app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+app.config['ARCHIVED_IMAGES_FOLDER'] = ARCHIVED_IMAGES_FOLDER
+
+# Ensure the directories exist
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+os.makedirs(ARCHIVED_IMAGES_FOLDER, exist_ok=True)
+
+# Set up logging
+logging.basicConfig(filename='app.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def download_youtube_video(url, download_folder):
+    try:
+        ydl_opts = {
+            'outtmpl': os.path.join(download_folder, '%(title)s.%(ext)s'),
+            'format': 'bestvideo+bestaudio/best',
+            'noplaylist': True
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info_dict = ydl.extract_info(url, download=True)
+            video_path = os.path.join(download_folder, f"{info_dict.get('title')}.mp4")
+            logging.info(f"Video downloaded: {info_dict.get('title')} to {video_path}")
+            return video_path
+    except Exception as e:
+        logging.error(f"Error downloading video: {e}")
+        return None
+
+def extract_random_frames(video_path, num_frames=25):
+    try:
+        video = VideoFileClip(video_path)
+        duration = video.duration
+        timestamps = sorted([random.uniform(0, duration - 1) for _ in range(num_frames)])
+        saved_images = []
+        for i, timestamp in enumerate(timestamps):
+            frame = video.get_frame(timestamp)
+            img = Image.fromarray(frame)
+            image_filename = f"frame_{i+1}.jpg"
+            image_path = os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], image_filename)
+            img.save(image_path)
+            saved_images.append(image_filename)
+        logging.info(f"Extracted {num_frames} frames from {video_path}")
+        return saved_images
+    except Exception as e:
+        logging.error(f"Error extracting frames: {e}")
+        return []
+
+@app.route('/get_images', methods=['GET', 'POST'])
+def get_images():
+    if request.method == 'POST':
+        url = request.form['url']
+        if url:
+            try:
+                video_path = download_youtube_video(url, app.config['DOWNLOAD_FOLDER'])
+                if video_path:
+                    images = extract_random_frames(video_path)
+                    return redirect(url_for('display_images'))
+                else:
+                    return "Failed to download video."
+            except Exception as e:
+                logging.error(f"Error in /get_images route: {e}")
+                return str(e)
+    
+    return render_template('get_images.html')
+
+@app.route('/images')
+def display_images():
+    try:
+        images = os.listdir(app.config['ARCHIVED_IMAGES_FOLDER'])
+        images = [os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], img) for img in images]
+        return render_template('YouTube_gallery.html', images=images)
+    except Exception as e:
+        logging.error(f"Error displaying images: {e}")
+        return str(e)
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5200)

@@ -4,11 +4,21 @@ import random
 import glob
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, send_file, flash
 from PIL import Image, ImageOps
+from moviepy.editor import VideoFileClip
 from datetime import datetime
 import inspect
 import subprocess
 import shutil
 from werkzeug.utils import secure_filename
+import numpy as np
+import yt_dlp
+import dlib
+import cv2
+from PIL import Image
+import glob
+import subprocess
+import string
+import uuid
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/archived-images'
@@ -17,7 +27,15 @@ app.config['MASK_FOLDER'] = 'static/archived-masks'
 app.config['STORE_FOLDER'] = 'static/archived-store'
 #app.config['STORE_FOLDER'] = 'static/KLING'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit upload size to 16MB
+# Directory to save downloaded videos and extracted images
+DOWNLOAD_FOLDER = 'static/downloads'
+ARCHIVED_IMAGES_FOLDER = 'static/archived-images'
+app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
+app.config['ARCHIVED_IMAGES_FOLDER'] = ARCHIVED_IMAGES_FOLDER
 
+# Ensure the directories exist
+os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
+os.makedirs(ARCHIVED_IMAGES_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
@@ -102,13 +120,33 @@ def convert_to_grayscale(image_path):
     return mask_path
 
 def convert_to_binary(image_path):
+    # Convert image to grayscale
     image = Image.open(image_path).convert('L')
-    threshold = 128
-    image = image.point(lambda p: p > threshold and 255)
+    
+    # Calculate the mean pixel value to use as the threshold
+    np_image = np.array(image)
+    threshold = np.mean(np_image)
+    
+    # Convert image to binary based on the mean threshold
+    binary_image = image.point(lambda p: 255 if p > threshold else 0)
+    
+    # Save the binary mask
     mask_path = os.path.join(app.config['MASK_FOLDER'], 'binary_mask.png')
-    image.save(mask_path)
+    binary_image.save(mask_path)
+    
+    # Invert the binary mask
+    inverted_image = binary_image.point(lambda p: 255 - p)
+    
+    # Save the inverted binary mask
+    inverted_mask_path = os.path.join(app.config['MASK_FOLDER'], 'inverted_binary_mask.png')
+    inverted_image.save(inverted_mask_path)
+    
+    # Copy both images to the upload folder
     shutil.copy(mask_path, app.config['UPLOAD_FOLDER'])
-    return mask_path
+    shutil.copy(inverted_mask_path, app.config['UPLOAD_FOLDER'])
+    
+    return mask_path, inverted_mask_path
+
 
 def resize_images_to_base(base_image, images):
     base_size = base_image.size
@@ -185,6 +223,7 @@ def refresh_video():
         # Run the script using subprocess
         subprocess.run(['/home/jack/miniconda3/envs/cloned_base/bin/python', 'refresh_video.py'], check=True)
         subprocess.run(['/home/jack/miniconda3/envs/cloned_base/bin/python', 'Best_FlipBook'], check=True)
+        subprocess.run(['/home/jack/miniconda3/envs/cloned_base/bin/python', 'diagonal_transition'], check=True)        
         return redirect(url_for('index'))
     except subprocess.CalledProcessError as e:
         return f"An error occurred: {e}"
@@ -333,9 +372,287 @@ def uploaded_file(filename):
     logit(f"File uploaded: {filename}.")
     return redirect(url_for('index'))
 
+def extract_random_frames(video_path, num_frames=25):
+    try:
+        video = VideoFileClip(video_path)
+        duration = video.duration
+        timestamps = sorted([random.uniform(0, duration) for _ in range(num_frames)])
+        saved_images = []
+        
+        for i, timestamp in enumerate(timestamps):
+            frame = video.get_frame(timestamp)
+            img = Image.fromarray(frame)
+            image_filename = f"frame_{i+1}.jpg"
+            image_path = os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], image_filename)
+            img.save(image_path)
+            saved_images.append(image_filename)
+        
+        return saved_images
+    except Exception as e:
+        logit(f"Error extracting frames: {e}")
+        raise
+
+@app.route('/get_video_images', methods=['GET', 'POST'])
+def get_video_images():
+    if request.method == 'POST':
+        url = request.form['url']
+        if url:
+            try:
+                # Download the YouTube video
+                video_path = download_youtube_video(url)
+                
+                # Extract 25 random frames
+                images = extract_random_frames(video_path)
+                
+                # Redirect to display the images
+                return redirect(url_for('display_images'))
+            except Exception as e:
+                logit(f"Error in /get_images: {e}")
+                return str(e)
+    
+    return render_template('get_images.html')
+
+@app.route('/images')
+def display_images():
+    try:
+        images = os.listdir(app.config['ARCHIVED_IMAGES_FOLDER'])
+        images = [os.path.join(app.config['ARCHIVED_IMAGES_FOLDER'], img) for img in images]
+        return render_template('YouTube_gallery.html', images=images)
+    except Exception as e:
+        logit(f"Error in /images: {e}")
+        return str(e)
+
+def download_youtube_video(url):
+    try:
+        # Set the download options
+        ydl_opts = {
+            'outtmpl': os.path.join(app.config['DOWNLOAD_FOLDER'], '%(title)s.%(ext)s'),
+            'format': 'mp4',  # Best format available
+            'noplaylist': True
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            # Extract video information and download the video
+            info_dict = ydl.extract_info(url, download=True)
+            video_title = info_dict.get('title')
+            
+            # Sanitize and format the filename to remove spaces and special characters
+            sanitized_title = secure_filename(video_title)
+            sanitized_title = sanitized_title.replace(" ", "_")
+            download_path = os.path.join(app.config['DOWNLOAD_FOLDER'], f"{sanitized_title}.mp4")
+            static_video_path = os.path.join('static', 'temp.mp4')
+
+            # Find the downloaded file
+            for root, dirs, files in os.walk(app.config['DOWNLOAD_FOLDER']):
+                for file in files:
+                    if file.endswith('.mp4'):
+                        actual_downloaded_file = os.path.join(root, file)
+                        break
+                else:
+                    continue
+                break
+
+            # Check if the video was downloaded correctly
+            if os.path.exists(actual_downloaded_file):
+                # Move the downloaded video to the static/temp.mp4 path
+                shutil.move(actual_downloaded_file, static_video_path)
+                logit(f"Video downloaded and moved to: {static_video_path}")
+            else:
+                logit(f"Downloaded file does not exist: {actual_downloaded_file}")
+                raise FileNotFoundError(f"File not found: {actual_downloaded_file}")
+
+            return static_video_path
+
+    except Exception as e:
+        logit(f"Error downloading video: {e}")
+        raise
+def create_feathered_image(foreground_path, output_path):
+    # Load the foreground image
+    foreground = cv2.imread(foreground_path)
+    height, width = foreground.shape[:2]
+
+    # Initialize dlib's face detector
+    detector = dlib.get_frontal_face_detector()
+    gray_foreground = cv2.cvtColor(foreground, cv2.COLOR_BGR2GRAY)
+    faces = detector(gray_foreground)
+
+    # Create an alpha channel and a binary mask
+    alpha_channel = np.zeros((height, width), dtype=np.uint8)
+
+    if len(faces) == 0:
+        print("No face detected in the image. Using the entire image with no feathering.")
+        # Use the entire image with a full alpha channel
+        alpha_channel = np.full((height, width), 255, dtype=np.uint8)
+    else:
+        for face in faces:
+            x, y, w, h = face.left(), face.top(), face.width(), face.height()
+            center = (x + w // 2, y + h // 2)
+            radius = max(w, h) // 2
+            cv2.circle(alpha_channel, center, radius, 255, -1)
+
+        # Feather the edges of the mask
+        alpha_channel = cv2.GaussianBlur(alpha_channel, (101, 101), 0)
+
+    # Add the alpha channel to the foreground image
+    foreground_rgba = np.dstack((foreground, alpha_channel))
+
+    # Save the result as a PNG file with transparency
+    cv2.imwrite(output_path, foreground_rgba)
+
+    print(f"Feathered image saved to: {output_path}")
+
+    return output_path
+
+'''
+def overlay_feathered_on_background(foreground_path, background_path, output_path):
+    # Load the feathered image and background image
+    foreground = cv2.imread(foreground_path, cv2.IMREAD_UNCHANGED)  # Load with alpha channel
+    background = cv2.imread(background_path)
+
+    # Resize and crop both images to 512x768
+    foreground = resize_and_crop(foreground)
+    background = resize_and_crop(background)
+
+    # Extract the alpha channel from the foreground image
+    alpha_channel = foreground[:, :, 3] / 255.0
+    foreground_rgb = foreground[:, :, :3]
+
+    # Ensure background has 4 channels
+    background_rgba = cv2.cvtColor(background, cv2.COLOR_BGR2BGRA)
+
+    # Blend the images
+    for i in range(3):  # For each color channel
+        background_rgba[:, :, i] = (foreground_rgb[:, :, i] * alpha_channel + background_rgba[:, :, i] * (1 - alpha_channel)).astype(np.uint8)
+
+    # Save the result
+    cv2.imwrite(output_path, background_rgba)
+
+# Generate a unique filename
+    unique_filename = 'static/archived-images/' + str(uuid.uuid4()) + '.jpg'
+
+    # Optionally convert the composite to a JPG
+    im = Image.open(output_path).convert('RGB')
+    im.save(unique_filename, quality=95)
+
+    print(f"Composite image saved to: {unique_filename}")
+    
+    return unique_filename
+    #return output_path
+'''
+def overlay_feathered_on_background(foreground_path, background_path, output_path):
+    # Load the feathered image and background image
+    foreground = cv2.imread(foreground_path, cv2.IMREAD_UNCHANGED)  # Load with alpha channel
+    background = cv2.imread(background_path)
+
+    # Resize and crop both images to 512x768
+    foreground = resize_and_crop(foreground)
+    background = resize_and_crop(background)
+
+    # Extract the alpha channel from the foreground image
+    alpha_channel = foreground[:, :, 3] / 255.0
+    foreground_rgb = foreground[:, :, :3]
+
+    # Ensure background has 4 channels
+    background_rgba = cv2.cvtColor(background, cv2.COLOR_BGR2BGRA)
+    background_alpha = background_rgba[:, :, 3] / 255.0
+
+    # Validate dimensions
+    if foreground_rgb.shape[:2] != background_rgba.shape[:2]:
+        raise ValueError(f"Foreground and background dimensions do not match: {foreground_rgb.shape[:2]} vs {background_rgba.shape[:2]}")
+
+    # Blend the images
+    for i in range(3):  # For each color channel
+        background_rgba[:, :, i] = (foreground_rgb[:, :, i] * alpha_channel + background_rgba[:, :, i] * (1 - alpha_channel)).astype(np.uint8)
+
+    # Save the result
+    cv2.imwrite(output_path, background_rgba)
+
+    print(f"Composite image saved to: {output_path}")
+
+    im = Image.open(output_path).convert('RGB')
+    im.save(output_path[:-3] + 'jpg', quality=95)
+    return output_path
 
 
+def resize_and_crop(image, target_width=512, target_height=768):
+    # Resize the image to fit the target dimensions while maintaining the aspect ratio
+    height, width = image.shape[:2]
+    aspect_ratio = width / height
+    target_aspect_ratio = target_width / target_height
 
+    if aspect_ratio > target_aspect_ratio:
+        new_width = target_width
+        new_height = int(new_width / aspect_ratio)
+    else:
+        new_height = target_height
+        new_width = int(new_height * aspect_ratio)
+
+    resized_image = cv2.resize(image, (new_width, new_height))
+
+    # Ensure the resized image is at least the target dimensions
+    if resized_image.shape[0] < target_height or resized_image.shape[1] < target_width:
+        resized_image = cv2.resize(image, (target_width, target_height))
+
+    # Crop the resized image to the target dimensions
+    crop_x = (resized_image.shape[1] - target_width) // 2
+    crop_y = (resized_image.shape[0] - target_height) // 2
+    cropped_image = resized_image[crop_y:crop_y + target_height, crop_x:crop_x + target_width]
+
+    return cropped_image
+
+
+@app.route('/face_detect', methods=['POST', 'GET'])
+def face_detect():
+    if request.method == 'POST':
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            logit("No file part in request.")
+            return redirect(request.url)
+
+        file = request.files['file']
+
+        # If user does not select file, browser also submits an empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            logit("No file selected.")
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(save_path)
+            logit(f"File saved to {save_path}.")
+
+            # Create a feathered PNG image from the detected face
+            feathered_image_path = create_feathered_image(save_path, 'static/archived-images/feathered_face.png')
+
+            # Overlay the feathered image on the background
+            background_image_path = random.choice(glob.glob("static/archived-images/*.jpg"))
+            output_composite_path = overlay_feathered_on_background(feathered_image_path, background_image_path, 'static/archived-images/composite_image.png')
+
+            return render_template('face_detect.html', feathered_image=feathered_image_path, composite_image=output_composite_path)
+
+    return render_template('face_detect.html')
+# Example usage
+# Paths to the input images and output composite image
+# use glob to get random choice of image
+'''
+foreground_image_path = random.choice(glob.glob("static/archived-images/*.jpg"))
+background_image_path = random.choice(glob.glob("static/archived-images/*.jpg"))
+#foreground_image_path = 'static/archived-images/face.jpg'
+feathered_image_path = 'static/archived-images/feathered_face.png'
+#background_image_path = 'static/archived-images/background.jpg'
+#use uuid to create a unique name for the composite image
+output_composite_path = 'static/archived-images/composite_image' + str(uuid.uuid4()) + '.png'
+#output_composite_path = 'static/archived-images/composite_image.png'
+
+# Create a feathered PNG image from the detected face
+create_feathered_image(foreground_image_path, feathered_image_path)
+
+# Overlay the feathered image on the background
+overlay_feathered_on_background(feathered_image_path, background_image_path, output_composite_path)
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)
