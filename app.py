@@ -604,29 +604,28 @@ def face_detect():
 @app.route('/about')#, methods=['POST', 'GET'])
 def about():
     return render_template('application_overview.html')
-
-
-
-
-# Example usage
-# Paths to the input images and output composite image
-# use glob to get random choice of image
-'''
-foreground_image_path = random.choice(glob.glob("static/archived-images/*.jpg"))
-background_image_path = random.choice(glob.glob("static/archived-images/*.jpg"))
-#foreground_image_path = 'static/archived-images/face.jpg'
-feathered_image_path = 'static/archived-images/feathered_face.png'
-#background_image_path = 'static/archived-images/background.jpg'
-#use uuid to create a unique name for the composite image
-output_composite_path = 'static/archived-images/composite_image' + str(uuid.uuid4()) + '.png'
-#output_composite_path = 'static/archived-images/composite_image.png'
-
-# Create a feathered PNG image from the detected face
-create_feathered_image(foreground_image_path, feathered_image_path)
-
-# Overlay the feathered image on the background
-overlay_feathered_on_background(feathered_image_path, background_image_path, output_composite_path)
-'''
+def resize_image(image_path):
+    # Open the image
+    image = Image.open(image_path)
+    
+    # Resize the image
+    resized_image = image.resize((512, 768), Image.LANCZOS)
+    
+    # Save the resized image
+    resized_image.save(image_path)
+    
+    print(f"Resized image saved at: {image_path}")
+    
+@app.route('/resize_all')#, methods=['POST', 'GET'])
+def resize_all():
+    # Resize all images in the upload folder
+    image_paths = glob.glob(os.path.join(app.config['UPLOAD_FOLDER'], '*.jpg'))
+    logit(f"Image paths: {image_paths}")
+    for image_path in image_paths:
+        logit(f"Resizing image: {image_path}")
+        resize_image(image_path)
+    return redirect(url_for('index'))
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

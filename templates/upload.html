@@ -6,6 +6,8 @@
 </head>
 <body>
     <h1>Upload new File</h1>
+    <!--  link to index -->
+    <a href="{{ url_for('index') }}">Back to Home</a><br/><br/>
     <form method=post enctype=multipart/form-data action="{{ url_for('upload_file') }}">
         <input type=file name=file>
         <input type=submit value=Upload>
