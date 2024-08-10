@@ -65,7 +65,26 @@
             margin-top: 20px;
             white-space: pre-wrap;
         }
-   
+        <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .refresh-button {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #5C5CFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+        .refresh-button:hover {
+            background-color: #3C3CFF;
+        }
+    </style>
     </style>
 </head>
 <body>
@@ -79,10 +98,13 @@
         <h2>Key Features</h2>
         <p>
         <a href="{{ url_for('refresh_images') }}" class="refresh-button">Refresh Images</a><br/>
-    This command loads 25 images </p> 
-        <a href="{{ url_for('display_resources') }}" class="refresh-button">Display Resource Images</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="{{ url_for('select_images') }}" class="refresh-button">Select Images to Blend</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="{{ url_for('index_upload') }}" class="refresh-button">Upload a Specific Image</a><br/><br/>
+    This command loads 25 images. I save my images as videos so they may be retrieved for projects such as this. This selects twenty five videos and an image from each one to add to the resources. </p> 
+        <p><a href="{{ url_for('display_resources') }}" class="refresh-button">Display Resource Images</a><br/>
+        Display resource images Will display all images available for compositing.</p>
+        <p><a href="{{ url_for('select_images') }}" class="refresh-button">Select Images to Blend</a><br/>
+        The available images are displayed here. At this point you may choose a top image a mask and a bottom image. Then at the bottom of the page SUBMIT. The images will be composited and displayed. All images that have been created will be displayed. However, the last image will be shown first.</p><br/>
+            <p><a href="{{ url_for('index_upload') }}" class="refresh-button">Upload a Specific Image</a><br/>
+            Here you may select an image to add to you resources. As you see Last is displayed first. </p><br/>
         <a href="{{ url_for('get_video_images') }}" class="refresh-button">Get Images from YouTube Videos</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="{{ url_for('face_detect') }}" class="refresh-button">Get Image For Face Detection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="{{ url_for('refresh_video') }}" class="refresh-button">Make Video</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
