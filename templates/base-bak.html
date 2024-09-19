@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='dark.css') }}">
+    <script>
+        function findString(str) {
+            if (parseInt(navigator.appVersion) < 4) return;
+
+            if (window.find) {
+                var strFound = window.find(str);
+                if (!strFound) {
+                    window.find(str, 0, 1);
+                }
+                if (strFound) {
+                    var range = window.getSelection().getRangeAt(0);
+                    var span = document.createElement("span");
+                    span.style.backgroundColor = "yellow";
+                    range.surroundContents(span);
+                }
+            } else if (navigator.appName.indexOf("Microsoft") != -1) {
+                // Not implemented for brevity
+            } else if (navigator.appName == "Opera") {
+                alert("Opera browsers not supported, sorry...");
+                return;
+            }
+
+            if (!strFound) alert("String '" + str + "' not found!");
+        }
+
+        function moveToNextOccurrence() {
+            var search_str = document.getElementById("search_input").value;
+            findString(search_str);
+        }
+    </script>
+
+</head>
+<style>
+    .sticky {
+        position: -webkit-sticky;
+        margin-left: auto;
+        margin-right: auto;
+        position: sticky;
+        top: 0;
+        text-align: center!important;
+        padding: 10px 0;
+        z-index: 1000;
+        width: 100%!important;
+    }
+</style>
+
+<body>
+    <header class="sticky">
+        <span>FlaskArchitect Blog</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="{{ url_for('index') }}">App Home</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="{{ url_for('home2') }}">Text Home</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{{ url_for('gallery') }}">Gallery</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="{{ url_for('edit_text') }}">Edit Text File</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+             <a href="{{ url_for('new_post') }}">Create New Post</a><br>&nbsp;&nbsp;|&nbsp;&nbsp;
+
+          
+            <a href="{{ url_for('contents') }}">View All Contents</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="{{ url_for('ask') }}">Ask GPT2</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+
+            
+            <a href="{{ url_for('view_log') }}">View Log</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+            <a href="{{ url_for('search') }}">Search</a>
+            <input type="text" id="search_input" />
+            <button id="search_submit" onclick="moveToNextOccurrence()">
+                Find in page Next
+              </button>
+        
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 FlaskArchitect Blog</p>
+    </footer>
+</body>
+</html>

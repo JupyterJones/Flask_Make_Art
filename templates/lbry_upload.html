@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publish Video</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #34495e;
+            border-radius: 8px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #7f8c8d;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <form action="/publish" method="POST">
+        <h2>Publish Video to LBRY</h2>
+        Pxyackjs1948
+        <label for="password">Wallet Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="file_path">File Path</label>
+        <input type="text" id="file_path" name="file_path" placeholder="/path/to/video.mp4" required>
+        complete pathe/home/jack/...
+        <label for="description">Description</label>
+        <textarea id="description" name="description" rows="3" placeholder="Video description..." required></textarea>
+
+        <label for="bid">Bid Amount</label>
+        <input type="text" id="bid" name="bid" placeholder="0.5" required>
+        @PhilippineRetirement
+        <label for="channel_name">Channel Name</label>
+        <input type="text" id="channel_name" name="channel_name" placeholder="@PhilippineRetirement" required>
+
+        <label for="tags">Tags (comma-separated)</label>
+        <input type="text" id="tags" name="tags" placeholder="tag1, tag2, tag3" required>
+
+        <button type="submit">Publish</button>
+    </form>
+</body>
+</html>

@@ -1,25 +1,194 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
+
 <head>
-    <meta charset="utf-8">
-    <title>Upload new File</title>
+    <title>Image Blending</title>
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: orange;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button2 {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: rgb(255, 225, 0);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+        .refresh-button3 {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: blue;
+            color: yellow;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+        .refresh-button:hover {
+            background-color: orange;
+        }
+
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: orange;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        figure {
+            max-width: 300px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgb(156, 23, 23);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 23px;
+            color: black;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: orange;
+        }
+    </style>
 </head>
-<body>
-    <h1>Upload new File</h1>
-    <!--  link to index -->
-    <a href="{{ url_for('index') }}">Back to Home</a><br/><br/>
-    <form method=post enctype=multipart/form-data action="{{ url_for('upload_file') }}">
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-        {% for message in messages %}
-          <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+
+<body style="background-color: rgb(156, 23, 23);">
+    <center>
+        <h1 style="color: orange;">FlaskArchitect's Video Processing mk_videos.html</h1>
+        <a href="{{ url_for('index') }}" class="refresh-button2">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="{{ url_for('mk_videos') }}" class="refresh-button2">Video
+            Processing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('img_processing_route') }}"
+            class="refresh-button2">Image Procesing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('home2') }}"
+            class="refresh-button2">blog</a><br/.><br />
+
+
+        <a href="{{ url_for('clean_storage_route') }}" class="refresh-button">Remove Unwanted Video Images</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('get_videos') }}" class="refresh-button">View Video History</a>
+
+           <br />
+        <br />
+
+        <a href="{{ url_for('remove_images') }}" class="refresh-button3">Remove_images from Store</a><br /> <br />
+
+        <div class="container">
+            <h1>Control Panel</h1>
+            <a href="{{ url_for('convert_images_route') }}" class="button">Convert Images</a>
+
+    <a style ="font-size: 24px;color: rgb(255, 238, 0);" href="{{ url_for('index') }}">HOME</a>
+    <h1>Upload Background and Foreground Images</h1>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Video Processing</title>
+        <style>
+            body {
+                background-color: #1e1e1e;
+                color: #ffffff;
+                font-family: Arial, sans-serif;
+                text-align: center;
+            }
+            .form-section {
+                margin: 20px;
+            }
+            .video-container {
+                margin: 20px;
+            }
+            video {
+                max-width: 80%;
+                border: 2px solid #ffffff;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Create Title Video and View Final Video</h1>
+    
+        <div class="form-section">
+            <h2>Upload Images for Title Video</h2>z
+            <form action="{{ url_for('process_selected_images') }}" method="post" enctype="multipart/form-data">
+                <label for="bg_image">Select Background Image:</label>
+                <input type="file" name="bg_image" id="bg_image" required><br><br>
+                <label for="fg_image">Select Foreground Image:</label>
+                <input type="file" name="fg_image" id="fg_image" required><br><br>
+                <button type="submit">Create Title Video</button>
+            </form>
+        </div>
+    
+        {% if video_url %}
+        <div class="video-container">
+            <h2>{{ video_type|capitalize }} Video</h2>
+            <video controls>
+                <source src="{{ video_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        {% endif %}
+    
+        <div class="form-section">
+            <h2>Create Main Video from Directory</h2>
+            <form action="{{ url_for('process_directory') }}" method="get">
+                <button type="submit">Create Main Video</button>
+            </form>
+        </div>
+    
+        <div class="form-section">
+            <h2>Concatenate Title and Main Videos</h2>
+            <form action="{{ url_for('concatenate_videos') }}" method="get">
+                <button type="submit">Concatenate Videos</button>
+            </form>
+    
 </body>
 </html>

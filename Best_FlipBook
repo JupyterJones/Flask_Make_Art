@@ -19,9 +19,9 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 
 # Get the image directory from command-line arguments
 image_directory = 'static/archived-store'
-
+archive_diectory = 'static/temp_exp'
 # Set the output directory for generated videos
-output_directory = os.path.join(image_directory, "output_videos/")
+output_directory = 'static/temp_exp'
 logging.info("image_directory: %s", image_directory)
 logging.info("output_directory: %s", output_directory)
 
@@ -29,8 +29,10 @@ logging.info("output_directory: %s", output_directory)
 os.makedirs(output_directory, exist_ok=True)
 
 # Get the list of images in the directory and shuffle them
-image_list = sorted(glob.glob(os.path.join(image_directory, '*.png')))
-random.shuffle(image_list)
+image_list = sorted(glob.glob(os.path.join(image_directory, '*.png')))+sorted(glob.glob(os.path.join(image_directory, '*.jpg')))
+#random.shuffle(image_list)
+#sort by date last modified
+image_list = sorted(image_list, key=os.path.getmtime)
 logging.info("Number of images: %d", len(image_list))
 
 # Initialize a list to store the paths of generated videos
@@ -40,7 +42,7 @@ video_paths = []
 for i in range(len(image_list) - 1):
     try:
         base_image_path = image_list[i]
-        image_to_paste_path = image_list[(i + 1) % len(image_list)]  # Ensure a valid index
+        image_to_paste_path = image_list[(i - 1) % len(image_list)]  # Ensure a valid index
         logging.info("base_image_path: %s", base_image_path)
         logging.info("image_to_paste_path: %s", image_to_paste_path)
 
@@ -89,7 +91,7 @@ with open(input_list_path, 'w') as input_list_file:
 
 # Concatenate videos using ffmpeg
 concatenated_video_path = os.path.join(output_directory, "final_result.mp4")
-ffmpeg_command = f"ffmpeg -y -f concat -safe 0 -i {input_list_path} -c copy {concatenated_video_path}"
+ffmpeg_command = f"ffmpeg -y -f concat -safe 0 -i {input_list_path} -c copy -y {concatenated_video_path}"
 subprocess.run(ffmpeg_command, shell=True, check=True)
 
 # Check if concatenation was successful
@@ -143,7 +145,7 @@ def add_title_image(video_path, hex_color="#A52A2A"):
     music_clip = music_clip.audio_fadein(fade_duration).audio_fadeout(fade_duration)
     composite_clip = composite_clip.set_audio(music_clip)
     uid = uuid.uuid4().hex
-    output_path = f'static/temp/final_flipbook.mp4'
+    output_path = f'static/temp_exp/final_flipbookX.mp4'
     composite_clip.write_videofile(output_path)
     mp4_file = f"/mnt/HDD500/collections/vids/AI_Creates_a_Flipbook_of_Processed_AI_Generated_Images_ID{uid}.mp4"
     shutil.copyfile(output_path, mp4_file)

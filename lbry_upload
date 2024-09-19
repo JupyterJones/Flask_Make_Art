@@ -1,0 +1,121 @@
+from flask import Flask, render_template, request, jsonify
+import subprocess
+import json
+import datetime
+app = Flask(__name__)
+
+# Set up logging
+# Configure logging
+# Save log data to a file
+# ''' Explain the code
+'''
+I want to log data to a file and read the log file. I want to log data to two files and read the log files.
+'''
+def logit2(logdata):
+    with open("mylog2.txt", "a") as input_file:
+        input_file.write(logdata + "\n")
+    print("mylog2.txt entry: ", logdata)
+    
+def readLog1():
+    #return the entire log file
+    with open("mylog.txt", "r") as input_file:
+        for line in input_file:
+            print(line)
+    #return the last 5 lines of the log file
+    LINES = []
+    with open("mylog.txt", "r") as input_file:
+        lines = input_file.readlines()
+        last_lines = lines[-5:]
+        for line in last_lines:
+            print(line) 
+            LINES.append(line)
+    return LINES       
+    input_file.close()
+def readLog2():
+    #return the entire log file
+    with open("mylog2.txt", "r") as input_file2:
+        for line2 in input_file2:
+            print(line2)
+    #return the last 5 lines of the log file
+    LINES2 = []
+    with open("mylog2.txt", "r") as input_file2:
+        lines2 = input_file2.readlines()
+        last_lines2 = lines2[-5:]
+        for line2 in last_lines2:
+            print(line2) 
+            LINES2.append(line2)
+    return LINES2       
+    input_file.close()    
+# Route for the HTML form
+@app.route('/')
+def index():
+    return render_template('lbry_upload.html')
+
+# Route to handle form submission
+@app.route('/publish', methods=['POST'])
+def publish():
+    try:
+        password = request.form['password']
+        file_path = request.form['file_path']
+        description = request.form['description']
+        bid = request.form['bid']
+        channel_name = request.form['channel_name']
+        tags = request.form['tags'].split(',')  # Split tags by comma
+
+        # Trim whitespace from each tag
+        tags = [tag.strip() for tag in tags]
+
+        # First unlock the wallet
+        unlock_command = [
+            'curl', '-X', 'POST', '-d', 
+            json.dumps({
+                "method": "wallet_unlock",
+                "params": {"password": password}
+            }),
+            'http://localhost:5279'
+        ]
+
+        logit(f'Unlocking wallet with password: %s, {password}')
+
+        # Run the curl command to unlock wallet
+        unlock_result = subprocess.run(unlock_command, capture_output=True, text=True)
+
+        logging.debug(f'Wallet unlock response: %s, {unlock_result}.stdout')
+
+        # Now publish the video using provided parameters
+        publish_command = [
+            'curl', '-X', 'POST', '-d', 
+            json.dumps({
+                "method": "publish",
+                "params": {
+                    "name": "PYTHON_PIT",
+                    "file_path": file_path,
+                    "bid": bid,
+                    "channel_name": channel_name,
+                    "description": description,
+                    "tags": tags,
+                    "languages": ["en"],
+                    "optimize_file": False
+                }
+            }),
+            'http://localhost:5279'
+        ]
+
+        logit(f'Publishing video: %s, {file_path}')
+        
+        # Run the curl command to publish the video
+        publish_result = subprocess.run(publish_command, capture_output=True, text=True)
+
+        #logging.debug('Publish response: %s', publish_result.stdout)
+
+        # Return the publish result
+        return jsonify({
+            "wallet_unlock": unlock_result.stdout,
+            "publish_result": publish_result.stdout
+        })
+    
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5100)

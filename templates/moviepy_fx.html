@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoviePy FX Imports and Examples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #f0f0f0;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #7289da;
+            font-weight: bold;
+            font-size: 2.5em;
+        }
+        .example {
+            background-color: #23272a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #7289da;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #7289da;
+            color: white;
+        }
+        code {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        }
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 2.5em;
+        }
+        strong {
+            color: #43b581;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.7em;
+        }
+        a {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        }
+    </style>
+</head>
+<body>
+
+<h1>MoviePy FX Effects Explained</h1>
+<a href="{{ url_for('index') }}">Home</a>
+
+<h2>1. vfx.fadein</h2>
+<p>Creates a fade-in effect at the beginning of a clip.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+from moviepy.editor import VideoFileClip
+
+clip = VideoFileClip("video.mp4")
+faded_clip = clip.fx(vfx.fadein, duration=2)
+faded_clip.write_videofile("faded_in_video.mp4")
+    </pre>
+</div>
+
+<h2>2. vfx.fadeout</h2>
+<p>Creates a fade-out effect at the end of a clip.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+faded_clip = clip.fx(vfx.fadeout, duration=2)
+faded_clip.write_videofile("faded_out_video.mp4")
+    </pre>
+</div>
+
+<h2>3. vfx.speedx</h2>
+<p>Changes the speed of the clip by a given factor.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+sped_up_clip = clip.fx(vfx.speedx, factor=2)  # Doubles the speed
+sped_up_clip.write_videofile("sped_up_video.mp4")
+    </pre>
+</div>
+
+<h2>4. vfx.colorx</h2>
+<p>Multiplies the color of the clip by a factor, making it brighter or darker.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+brighter_clip = clip.fx(vfx.colorx, factor=1.5)  # Increases brightness by 50%
+brighter_clip.write_videofile("brighter_video.mp4")
+    </pre>
+</div>
+
+<h2>5. vfx.mirror_x</h2>
+<p>Creates a horizontal mirror effect of the clip.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+mirrored_clip = clip.fx(vfx.mirror_x)
+mirrored_clip.write_videofile("mirrored_video.mp4")
+    </pre>
+</div>
+
+<h2>6. vfx.mirror_y</h2>
+<p>Creates a vertical mirror effect of the clip.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+mirrored_clip = clip.fx(vfx.mirror_y)
+mirrored_clip.write_videofile("mirrored_video.mp4")
+    </pre>
+</div>
+
+<h2>7. vfx.lum_contrast</h2>
+<p>Modifies the brightness and contrast of the clip.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+contrast_clip = clip.fx(vfx.lum_contrast, lum=0, contrast=0.5, contrast_thr=128)
+contrast_clip.write_videofile("contrast_video.mp4")
+    </pre>
+</div>
+
+<h2>8. vfx.blackwhite</h2>
+<p>Converts the clip to black and white.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+bw_clip = clip.fx(vfx.blackwhite)
+bw_clip.write_videofile("bw_video.mp4")
+    </pre>
+</div>
+
+<h2>9. vfx.rotate</h2>
+<p>Rotates the clip by the specified degrees.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+rotated_clip = clip.fx(vfx.rotate, angle=90)  # Rotate 90 degrees
+rotated_clip.write_videofile("rotated_video.mp4")
+    </pre>
+</div>
+
+<h2>10. vfx.resize</h2>
+<p>Resizes the clip to a specific width and height or by a factor.</p>
+<div class="example">
+    <code>from moviepy.editor import vfx</code><br>
+    <strong>Example:</strong>
+    <pre>
+clip = VideoFileClip("video.mp4")
+resized_clip = clip.fx(vfx.resize, newsize=(512, 768))  # Resize to 512x768
+resized_clip.write_videofile("resized_video.mp4")
+    </pre>
+</div>
+
+<footer>
+    <p>Life is good, especially with MoviePy FX effects! 🎥</p>
+    <p>Generated by Esperanza for Jack 💻</p>
+</footer>
+
+</body>
+</html>

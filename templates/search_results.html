@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+
+    <script>
+        // Function to find and highlight the search string
+        function findString(str) {
+            if (parseInt(navigator.appVersion) < 4) return;
+
+            // Check if find method is supported
+            if (window.find) {
+                // Find the search string
+                var strFound = window.find(str);
+                if (!strFound) {
+                    // If not found, try to find from the beginning
+                    window.find(str, 0, 1);
+                }
+                if (strFound) {
+                    // Highlight the found text
+                    var range = window.getSelection().getRangeAt(0);
+                    var span = document.createElement("span");
+                    span.style.backgroundColor = "yellow";
+                    range.surroundContents(span);
+                }
+            } else if (navigator.appName.indexOf("Microsoft") != -1) {
+                // Handle Microsoft browsers
+                // Not implemented for brevity
+            } else if (navigator.appName == "Opera") {
+                // Handle Opera browsers
+                alert("Opera browsers not supported, sorry...");
+                return;
+            }
+
+            // If not found, show alert
+            if (!strFound) alert("String '" + str + "' not found!");
+        }
+
+        // Function to move cursor to next occurrence of search input
+        function moveToNextOccurrence() {
+            var search_str = document.getElementById("search_input").value;
+            findString(search_str);
+        }
+    </script>
+</head>
+
+<body>
+    <header class="sticky">
+    <span>Search Results</span>&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+    <input type="text" id="search_input" />
+
+    <button id="search_submit" onclick="moveToNextOccurrence()">
+        Find in page Next</button>&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+
+    <a class="note" href="{{ url_for('home') }}">Back to Home</a>
+    </header>
+    <div class="posts">
+        {% if results %} {% for post in results %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <pre>{{ post.content[:400] }}...</pre>
+            <a href="{{ url_for('post', post_id=post.id) }}">Read more</a>
+            <a href="{{ url_for('edit_post', post_id=post.id) }}">Edit</a>
+        </div>
+        {% endfor %} {% else %}
+        <p>No results found for search terms: {{ search_terms | join(", ") }}</p>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+
+</html>

@@ -36,10 +36,16 @@
             word-wrap: break-word;
             
         }
+        a {
+            color: #3498db;
+            font-size: 3em;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <h1>Image Gallery</h1>
+    <a href="{{ url_for('home2') }}">Home2</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('index') }}">Home</a>
     <div class="gallery">
         {% for item in gallery_data %}
         <div class="gallery-item">

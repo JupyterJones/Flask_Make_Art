@@ -1,0 +1,17 @@
+{% extends 'base_1.html' %}
+
+{% block title %}Contents{% endblock %}
+
+{% block content %}
+
+
+    {% for content in contents_data %}
+
+   <p style="width:98%;">     {{content.id}}: {{ content.title }}
+        <pre style="width:98%;">{{ content.excerpt }}</pre>
+        <a style="width:98%;"href="{{ url_for('show_post', post_id=content.id) }}">Read more</a>&nbsp;&nbsp;  |  &nbsp;&nbsp;
+        <a style="width:98%;"href="{{ url_for('edit_post', post_id=content.id) }}">Edit</a>
+</p>
+    <hr>
+    {% endfor %}
+{% endblock %}

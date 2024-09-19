@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Blending</title>
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Center the content */
+            gap: 20px; /* Spacing between videos */
+            padding: 20px;
+        }
+
+        figure {
+            margin: 0;
+            text-align: center;
+            max-width: 300px; /* Limit the width of each video container */
+        }
+
+        figcaption {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgb(156, 23, 23);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 23px;
+            color: black;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: orange;
+        }
+
+        video {
+            width: 100%; /* Make the video fill the container */
+            height: auto; /* Keep aspect ratio */
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="{{ url_for('index') }}" class="button">Home</a>
+        <div class="video-gallery">
+            {% for video in video_files %}
+            <figure>
+                <video controls>
+                    <source src="{{ video }}" type="video/mp4">
+                </video>
+                <figcaption>{{ video }}<br /> 
+                    <a href="{{ url_for('create_video_route') }}" class="button">Horizontal Scroll</a>
+                </figcaption>
+            </figure>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+#!/bin/bash
+rm -f list.txt
+
+# Define variables
+duration=3
+transition_duration=1
+output_width=512
+output_height=768
+scale_width=$((output_width - 0))
+scale_height=$((output_height - 0))
+
+# Create a slide-in transition function with random directions
+slide_in_transition() {
+    input_files=("$@")
+    num_files=${#input_files[@]}
+
+    filter_complex=""
+    for ((i = 0; i < num_files; i++)); do
+        file=${input_files[$i]}
+        direction=$((RANDOM % 4)) # Randomly select a direction (0: left, 1: right, 2: top, 3: bottom)
+        filter_complex+="[$i:v]scale=512:768,setsar=1[v$i]; "
+        
+        if [ $i -lt $((num_files - 1)) ]; then
+            filter_complex+="[v$i]pad=$output_width:$output_height:15:15:black[padded$i]; "
+            next_index=$((i + 1))
+
+            case $direction in
+                0) # Slide in from left
+                    overlay_x="x='if(gte(t,$duration), W*(t-$duration)/$transition_duration-W, NAN)'"
+                    overlay_y="y=15"
+                    ;;
+                1) # Slide in from right
+                    overlay_x="x='if(gte(t,$duration), W-(W*(t-$duration)/$transition_duration), NAN)'"
+                    overlay_y="y=15"
+                    ;;
+                2) # Slide in from top
+                    overlay_x="x=15"
+                    overlay_y="y='if(gte(t,$duration), H*(t-$duration)/$transition_duration-H, NAN)'"
+                    ;;
+                3) # Slide in from bottom
+                    overlay_x="x=15"
+                    overlay_y="y='if(gte(t,$duration), H-(H*(t-$duration)/$transition_duration), NAN)'"
+                    ;;
+            esac
+
+            filter_complex+="[padded$i][$(($next_index)):v]overlay=$overlay_x:$overlay_y:enable='between(t,$duration,$((duration + transition_duration)))'[vout$i]; "
+        else
+            filter_complex+="[v$i]pad=$output_width:$output_height:15:15:black[vout$i]; "
+        fi
+    done
+
+    concat_filter=""
+    for ((i = 0; i < num_files; i++)); do
+        concat_filter+="[vout$i]"
+    done
+
+    ffmpeg -hide_banner -y \
+    $(for file in "${input_files[@]}"; do echo -n "-loop 1 -t $((duration + transition_duration)) -i $file "; done) \
+    -filter_complex "$filter_complex ${concat_filter}concat=n=$num_files:v=1:a=0,setsar=1[v]" \
+    -map "[v]" -s ${output_width}x${output_height} -r 24 -y shortSlideshow768.mp4
+}
+
+# Get a list of random images from the directory (both .jpg and .png)
+image_directory="static/archived-store/"
+images=($(find "$image_directory" -type f \( -name '*.jpg' -o -name '*.png' \) | shuf -n 9))
+
+echo "Selected images: ${images[@]}"
+
+# Create slideshow with slide-in transitions
+slide_in_transition "${images[@]}"
+
+# Make our "list" of files to concatenate (repeat the slideshow video to extend duration)
+for i in {1..10}; do printf "file '%s'\n" shortSlideshow768.mp4 >> list.txt; done;
+
+# Generate filename
+filename='static/temp_exp/TEMP0X.mp4'
+
+# Select a random MP3 file from the directory
+music_directory="/home/jack/Desktop/collections/music_dark/"
+random_mp3=$(find "$music_directory" -type f -name '*.mp3' | shuf -n 1)
+echo "Selected random MP3: $random_mp3"
+
+# Combine the extended slideshow with audio
+ffmpeg -hide_banner -y \
+-f concat -safe 0 -i list.txt \
+-i /home/jack/Desktop/collections/assets/512x768_overlay.png -filter_complex "overlay=0:0" \
+-i "$random_mp3" -c:a copy \
+-s ${output_width}x${output_height} -strict -2 -shortest -t 57 -y "$filename"
+
+# Play the generated video
+#vlc "$filename"
+
+
+

@@ -1,0 +1,14 @@
+<!--  post.html      -->
+{% extends 'base.html' %}
+
+{% block title %}{{ post[1] }} - My Blog{% endblock %}
+
+{% block content %}
+    <article>
+        <h1>{{ post[1] }}</h1>
+        <div><pre>{{ post[2] }}</pre></div>
+        {% if post[3] %}
+            <img src="data:image/png;base64,{{ post[3] }}" alt="{{ post[1] }}">
+        {% endif %}
+    </article>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Selection</title>
+    <style>
+        body {
+            background-color: #2c2c2c;
+            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center!important;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+        .image-box {
+            margin: 10px;
+            text-align: center;
+        }
+        img {
+            max-width: 300px;
+            max-height: 400px;
+            display: block;
+            margin-bottom: 5px;
+            border-radius: 8px;
+        }
+        .btn-submit {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Select Images to Remove</h1>
+    <a style="font-size: 30px;color: chocolate;"href="{{ url_for('index') }}">Back to Home</a>
+    <p>Check the images you want to remove from the storage.</p>
+    <form method="POST" action="{{ url_for('clean_storage') }}">
+        <div class="image-container">
+            {% for image in images %}
+            <div class="image-box">
+                <img src="{{ url_for('static', filename='archived-store/' + image) }}" alt="{{ image }}">
+                <input type="checkbox" name="selected_images" value="{{ image }}">
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn-submit">Remove Selected Images</button>
+    </form>
+
+</body>
+</html>

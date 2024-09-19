@@ -1,0 +1,22 @@
+{% extends 'base_1.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+
+    <h1>Text File Editor / edit_text.html</h1>
+    <h2>Existing Text Files - click filenames to edit</h2>
+   
+        {% for file in files %}
+            
+                <p><a href="{{ url_for('edit', filename=file) }}">{{ file }}</a><br/>
+                <a style="color:red;" href="{{ url_for('delete', filename=file) }}">Delete</a></p><hr>
+            
+        {% endfor %}
+  
+
+
+{% endblock %}
+
+

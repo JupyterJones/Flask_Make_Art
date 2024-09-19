@@ -1,0 +1,64 @@
+#!/home/jack/miniconda3/envs/cloned_base/bin/python
+import os
+import moviepy.editor as mp
+import logging
+import random
+import glob
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+
+# Define paths
+video_dir = 'static/temp_exp/'  # Directory containing MP4 files
+output_video_path = 'static/temp_exp/all_videos.mp4'  # Path for the final output video
+
+# Directory containing music files
+music_dir = '/home/jack/Desktop/collections/music_long'
+
+# Pick a random music file
+music_files = glob.glob(os.path.join(music_dir, '*.mp3'))
+if not music_files:
+    raise ValueError("No music files found in the specified directory.")
+audio_path = random.choice(music_files)
+
+# Get all MP4 files with 'X' in the filename and sort by date created
+video_files = glob.glob(os.path.join(video_dir, '*X.mp4'))
+video_files.sort(key=os.path.getmtime, reverse=True)
+
+
+# List to store the resized video clips
+resized_clips = []
+
+# Resize each video and store in the list
+for video_file in video_files:
+    logging.info(f'Resizing video: {video_file}')
+    clip = mp.VideoFileClip(video_file).resize(newsize=(512, 768))
+    resized_clips.append(clip)
+
+# Concatenate all resized video clips
+logging.info('Concatenating videos...')
+final_clip = mp.concatenate_videoclips(resized_clips)
+
+# Load the new audio file
+logging.info('Replacing audio with new audio track...')
+audio = mp.AudioFileClip(audio_path)
+
+# Ensure the audio length matches the final video length
+if audio.duration > final_clip.duration:
+    logging.info('Trimming audio to match video duration...')
+    audio = audio.subclip(0, final_clip.duration)
+
+# Set the new audio to the final video
+final_clip = final_clip.set_audio(audio)
+
+# Export the final video with the new audio
+logging.info(f'Exporting final video to: {output_video_path}')
+final_clip.write_videofile(output_video_path, codec='libx264', audio_codec='aac')
+
+# Clean up
+final_clip.close()
+for clip in resized_clips:
+    clip.close()
+audio.close()
+
+logging.info('Video processing complete!')

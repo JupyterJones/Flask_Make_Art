@@ -1,0 +1,12 @@
+ffmpeg -loop 1 -i $1 -y -filter_complex \
+"[0]scale=1024:-2,setsar=1[out]; \
+ [out]crop=1024:1536[out]; \
+ [out]scale=8000:-1,zoompan=z='zoom+0.001':x=0:y=0:d=1500:\
+s=512x768:fps=25[out]" -acodec aac -vcodec libx264 -map "[out]" \
+-map 0:a? -pix_fmt yuv420p -r 25 -t 56 video01.mp4
+current_date=$(date +%Y%m%d)
+ffmpeg -hide_banner -i video01.mp4 -vf \
+"fps=60,scale=8000:-1,zoompan=z='pzoom+0.001':x='iw/2-(iw/zoom/2)'\
+:y='ih/2/zoom/2':d=1:s=512x768:fps=60,unsharp=3:3:0.5:3:3:0.5,\
+setpts=5*PTS" -c:v libx264 -pix_fmt yuv420p -y \
+-t 58 $current_date.mp4 && vlc $current_date.mp4

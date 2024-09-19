@@ -1,0 +1,41 @@
+import os
+from flask import Flask, render_template, request, redirect, url_for, flash
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with a secure key
+
+# Define the path to your templates directory
+TEMPLATE_DIR = 'templates/'
+
+@app.route('/')
+def index():
+    # List all HTML files in the templates directory
+    template_files = [f for f in os.listdir(TEMPLATE_DIR) if f.endswith('.html')]
+    return render_template('html_index.html', template_files=template_files)
+
+@app.route('/edit/<filename>', methods=['GET', 'POST'])
+def edit_template(filename):
+    file_path = os.path.join(TEMPLATE_DIR, filename)
+    if request.method == 'POST':
+        # Get the edited content from the form
+        content = request.form['content']
+        try:
+            with open(file_path, 'w') as file:
+                file.write(content)
+            flash('Template updated successfully!', 'success')
+        except Exception as e:
+            flash(f'Error updating template: {str(e)}', 'danger')
+        return redirect(url_for('index'))
+
+    try:
+        # Read the content of the template file
+        with open(file_path, 'r') as file:
+            content = file.read()
+    except Exception as e:
+        flash(f'Error reading template: {str(e)}', 'danger')
+        return redirect(url_for('index'))
+    
+    return render_template('edit_html.html', filename=filename, content=content)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)

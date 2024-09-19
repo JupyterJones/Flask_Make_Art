@@ -1,0 +1,29 @@
+{% extends 'base_1.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Home</h2>
+<ul>
+    {% for post in posts %}
+    <li>
+        <h2>{{ post[1] }}</h2>
+        <br/>
+        {% if post[3] %}
+        <img src="data:image/png;base64,{{ post[3] }}" alt="image.jpg">
+        {% endif %}
+        {% if post[4] %}
+        <video width="320" height="240" controls>
+            <source src="{{ url_for('static', filename='videos/' ~ post[4]) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+        <p>ID:{{post[0]}}<br/>  {{ post[2][:200] }}...</p>
+        <a href="{{ url_for('show_post', post_id=post[0]) }}">Read more</a> &nbsp;&nbsp; | &nbsp;&nbsp; <a href="{{ url_for('edit_post', post_id=post[0]) }}">EDIT</a>
+
+        <hr style="margin-top: 20px;"/>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+

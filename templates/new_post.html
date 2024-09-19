@@ -1,0 +1,22 @@
+{% extends 'base_1.html' %}
+
+{% block title %}Create New Post{% endblock %}
+
+{% block content %}
+
+    <form action="{{ url_for('new_post') }}" method="post" enctype="multipart/form-data">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required>
+        <br>
+        <label for="content">Content</label>
+        <textarea id="content" name="content" required></textarea>
+        <br>
+        <label for="video">Upload Video</label>
+        <input type="file" id="video" name="video" accept="video/*">
+        <br>
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" name="image" accept="image/*">
+        <br>
+        <button type="submit">Create Post</button>
+    </form>
+{% endblock %}

@@ -53,7 +53,7 @@
     </style>
 </head>
 
-<body style="background-color: cadetblue;">
+<body  style="background-color: rgb(156, 23, 23);">
     <h1 style="color: orange;">Randomly_ Selected Images</h1>
 
     <form action="/blend_images" method="post">
@@ -88,7 +88,39 @@
     <form action="/" method="get">
         <button type="submit">Home</button>
     </form>
-   
+   <hr>
+   <form action="/blend_images" method="post">
+
+    <div class="container">
+        {% for image_path_ in image_paths_ %}
+        <div class="image-item">
+            <img src="{{ image_path_ }}" alt="Image">
+            <div>
+                <label>
+                    <input type="radio" name="top_image" value="{{ image_path_ }}" required> Top
+                </label>
+                <label>
+                    <input type="radio" name="mask_image" value="{{ image_path_ }}" required> Mask
+                </label>
+                <label>
+                    <input type="radio" name="bottom_image" value="{{ image_path_}}" required> Bottom
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+        <input type="hidden" name="image_paths" value="{{ image_path }}">
+
+        <input type="hidden" name="mask_path" value="{{ mask_path }}">
+        <!--input type="hidden" name="opacity" value="{{ opacity }}"-->
+        <label for="opacity">Opacity (between 0 and 1):</label>
+        <input type="text" id="opacity" name="opacity" value="{{ opacity }}">
+        <button type="submit">Edit Mask and Blend Again</button>
+</form>
+<!-- return home -->
+<form action="/" method="get">
+    <button type="submit">Home</button>
+</form>
 </body>
 
 </html>

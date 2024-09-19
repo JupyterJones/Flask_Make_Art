@@ -1,0 +1,42 @@
+'''
+To join a directory of *.mp4 files using MoviePy, you can use the following Python script. This script will iterate through all the *.mp4 files in a specified directory, concatenate them together, and save the result as a single video file.
+'''
+from moviepy.editor import VideoFileClip, concatenate_videoclips
+import os
+
+def join_mp4_files(directory, output_file, target_size=(512, 768)):
+    video_clips = []
+    cnt = 0
+    # Iterate through all files in the directory
+    for filename in os.listdir(directory):
+        if filename.endswith(".mp4"):
+            cnt += 1
+            filepath = os.path.join(directory, filename)
+            print(cnt)
+            # Load the video file
+            video_clip = VideoFileClip(filepath)
+
+            # Resize the video to the target size (512x768)
+            resized_clip = video_clip.resize(newsize=target_size)
+
+            # Add the resized clip to the list
+            video_clips.append(resized_clip)
+
+    # Concatenate all resized video clips
+    final_clip = concatenate_videoclips(video_clips, method="compose")
+
+    # Write the final concatenated clip to the output file
+    final_clip.write_videofile(output_file)
+
+    # Close the clips to release resources
+    for clip in video_clips:
+        clip.close()
+
+# Directory containing *.mp4 files
+input_directory = "/home/jack/Desktop/Flask_Make_Art/static/assets_exp"
+
+# Output file name
+output_file = "/home/jack/Desktop/Flask_Make_Art/static/assets_exp/all_asset_videos.mp4"
+
+# Call the function to join the *.mp4 files with resizing
+join_mp4_files(input_directory, output_file)

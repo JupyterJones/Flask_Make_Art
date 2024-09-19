@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Text to Image</title>
+    <style>
+        body {
+            background-color: #2b2b2b;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 30px;
+        }
+        .container {
+            margin: 50px;
+        }
+        input[type="text"], input[type="number"], select {
+            color: black;
+        }
+        img {
+            margin-top: 20px;
+            max-width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .in_s{
+            width: 80%;
+            height: 50px;
+            font-size: 30px;
+        }
+        .image-preview {
+            display: inline-block;
+            text-align: center;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .image-preview img {
+            max-width: 200px;
+            max-height: 300px;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        .image-preview.selected img {
+            border-color: orange;
+        }
+    </style>
+    <script>
+        function selectImage(imageFile) {
+            document.getElementById('image_file').value = imageFile;
+            var previews = document.querySelectorAll('.image-preview');
+            previews.forEach(function(preview) {
+                preview.classList.remove('selected');
+            });
+            document.getElementById('preview-' + imageFile).classList.add('selected');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Add Text to Image - add_text.html</h1>
+        <a href="{{ url_for('index') }}" style="font-size: 30px;color: chocolate;">Back to Home</a><br/><br/>
+        
+        <a href="{{ url_for('add_text') }}" style="font-size: 30px;color: chocolate;">Reload</a>
+        <form method="POST">
+            <div class="form-group">
+                <label>Select an image:</label>
+                <div id="image-previews">
+                    {% for image in images %}
+                    <div id="preview-{{ image }}" class="image-preview" onclick="selectImage('{{ image }}')">
+                        <img src="{{ url_for('static', filename='archived-store/' + image) }}" alt="{{ image }}">
+                        <br>{{ image }}
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" id="image_file" name="image_file" value="{% if selected_image %}{{ selected_image }}{% endif %}" required>
+            </div>
+            <div class="form-group">
+                <label for="text">Text to add:</label>
+                <input class="in_s" type="text" name="text" required>
+            </div>
+            <div class="form-group">
+                <label for="x_position">X Position:</label>
+                <input class="in_s" type="number" name="x_position" value="50" required>
+            </div>
+            <div class="form-group">
+                <label for="y_position">Y Position:</label>
+                <input class="in_s" type="number" name="y_position" value="50" required>
+            </div>
+            <div class="form-group">
+                <label for="font_size">Font Size:</label>
+                <input class="in_s" type="number" name="font_size" value="30" required>
+            </div>
+            <div class="form-group">
+                <label for="color">Text Color:</label>
+                <select class="in_s" name="color">
+                    <option class="in_s" value="red">Red</option>
+                    <option class="in_s" value="blue">Blue</option>
+                    <option class="in_s" value="yellow">Yellow</option>
+                    <option class="in_s" value="orange">Orange</option>
+                </select>
+            </div>
+            <button type="submit">Preview</button>
+        </form>
+
+        {% if temp_image %}
+        <hr>
+        <h2>Preview</h2>
+        <img src="{{ url_for('static', filename='archived-store/' + temp_image) }}" alt="Image Preview">
+        <form method="POST" action="{{ url_for('save_image') }}">
+            <input type="hidden" name="image_file" value="{{ selected_image }}">
+            <input type="hidden" name="final_text" value="{{ text }}">
+            <input type="hidden" name="final_position" value="{{ position }}">
+            <input type="hidden" name="final_font_size" value="{{ font_size }}">
+            <input type="hidden" name="final_color" value="{{ color }}">
+            <button type="submit">Save Image</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>

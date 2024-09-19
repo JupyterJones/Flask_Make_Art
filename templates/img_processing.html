@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Blending</title>
+
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            padding: 5px 5px 5px 5px;
+            margin: 10px 10px 10px 10px;
+
+            font-size: 2em;
+            background-color: orange;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button2 {
+            display: inline-block;
+            padding: 5px 5px 5px 5px;
+            margin: 10px 10px 10px 10px;
+
+            font-size: 2em;
+            background-color: rgb(255, 225, 0);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button:hover {
+            background-color: orange;
+        }
+
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: orange;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        body {
+                background-color: #2c2c2c;
+                color: #f5f5f5;
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                text-align: center!important;
+            }
+            .image-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center
+            }
+            .image-box {
+                margin: 10px;
+                text-align: center;
+            }
+            img {
+                max-width: 300px;
+                max-height: 400px;
+                display: block;
+                margin-bottom: 5px;
+                border-radius: 8px;
+            }
+            .btn-submit {
+                margin-top: 20px;
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            .btn-submit:hover {
+                background-color: #45a049;
+            }
+    </style>
+</head>
+
+<body style="background-color: rgb(156, 23, 23);">
+    <center>
+        <h1 style="color: orange;">FlaskArchitect's - img_processing.html</h1>
+
+        <a href="{{ url_for('index') }}" class="refresh-button2">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('mk_videos') }}" class="refresh-button2"> Video Processing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       <a href="{{ url_for('home2') }}" class="refresh-button2">Blog</a><br /><br /> 
+        <a href="{{ url_for('select_images') }}" class="refresh-button">Select Images to
+            Blend</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('index_upload') }}" class="refresh-button">Upload a Specific Image</a><br /><br />
+        <a href="{{ url_for('get_video_images') }}" class="refresh-button">Get Images via YouTube
+            Videos</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('face_detect') }}" class="refresh-button">Image For Face Detection</a> <br /><br />
+
+        <a href="{{ url_for('add_text') }}" class="refresh-button">Add Text</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="{{ url_for('display_resources') }}" class="refresh-button">Display Resource
+            Images</a>
+        <a href="{{ url_for('upload_image') }}" class="refresh-button">Add a Torn Edge
+            Effect</a> <br /><br /> <a href="{{ url_for('refresh_images') }}" class="refresh-button">Refresh
+            Images</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <a href="{{ url_for('clean_archives') }}" class="refresh-button">Clean
+            Archives</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('clean_storage_route') }}" class="refresh-button">Clean Movie
+            Sources</a><br /> <br />
+        <a href="{{ url_for('select_mask_image') }}" class="refresh-button">Mask
+            -Choice-</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('create_video') }}" class="refresh-button">Create Seamless
+            Video</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('mk_mask') }}" class="refresh-button">Custom Mask</a> <br /><br />
+        <a href="{{ url_for('upload_form') }}" class="refresh-button2">Create Title Video</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('archive_images_route') }}" class="refresh-button2">Transfer Masks</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('delete_mask') }}"class="refresh-button2">Go to Delete Mask Page</a>
+        <br /><br />
+
+                <a href="{{ url_for('rorschach') }}" class="refresh-button2">Create Rorschach</a><br /> <br /><br /> <br />
+        <hr><br /> <br />
+        <form action="/get_images" method="post">
+            <button type="submit">Get Three Random Images</button>&nbsp;&nbsp; | &nbsp;&nbsp;
+            <a style="color:yellow;" href=" {{ url_for('about') }}">About this Application</a>
+        </form><br /> <br />
+
+    
+        <h1>Select Images to Remove</h1>
+        <a style="font-size: 30px;color: chocolate;"href="{{ url_for('index') }}">Back to Home</a>
+        <p>Check the images you want to remove from the storage.</p>
+        <form method="POST" action="{{ url_for('clean_storage_route') }}">
+            <div class="image-container">
+                {% for image in images %}
+                <div class="image-box">
+                    <img src="{{ url_for('static', filename='archived-store/' + image) }}" alt="{{ image }}">
+                    <input type="checkbox" name="selected_images" value="{{ image }}">
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn-submit">Remove Selected Images</button>
+        </form>
+    
+    </body>
+    </html>
+    

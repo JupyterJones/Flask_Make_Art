@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit a Text File</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 1%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url('../static/assets/01-back.jpg');
+            background-repeat: repeat-y;
+            background-size: cover;
+            /* Use 'cover' to make the image cover the entire body */
+            background-position: top;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 10vh;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+        #logo {
+      position: absolute;
+      /* Position the logo absolutely */
+      top: 5vw;
+      /* Adjust the top distance as needed */
+      left: 2vw;
+      /* Adjust the left distance as needed */
+      max-width: 10vw;
+      /* Set a maximum width for the logo */
+      max-height: 15vw;
+      /* Set a maximum height for the logo */
+  }
+    </style>
+ 
+</head>
+
+<body>
+    <script>
+        // Fetches the file content and updates the textarea
+        function loadFileContent() {
+            var select = document.getElementById("filename-select");
+            var textarea = document.getElementById("file-content");
+            var selectedFile = select.value;
+
+            if (selectedFile) {
+                fetch(`/get_file_content/${selectedFile}`)
+                    .then(response => response.text())
+                    .then(content => {
+                        textarea.value = content;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching file content:', error);
+                    });
+            } else {
+                textarea.value = "";
+            }
+        }
+
+        // Call the function initially to load content for the selected file
+        loadFileContent();
+    </script>
+    <div class="wrapper"><a href="{{ url_for('view_text') }}"><img id="logo" src="../static/assets/channels4_profile.png" alt="logo"/> </a><br/>
+
+        <a href="{{ url_for('search_files') }}"><img id="logo" src="../static/assets/search.png" alt="logo"/> </a>
+
+        <form method="POST" action="{{ url_for('new_snippet') }}">
+            <label for="snippet_content">New Content:</label><br>
+            <textarea id="snippet_content" name="content" rows="20" cols="100"></textarea><br>
+            <input type="submit" value="Save">
+        </form>
+    </div>
+</body>
+
+</html>

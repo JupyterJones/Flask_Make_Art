@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Custom Mask</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+        input {
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="number"] {
+            width: 25%;
+            font-size: 2em;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }       
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 2.25em;
+        
+        }
+    p {
+        font-size: 1.5em;
+    }
+   label {
+        font-size: 1em;
+    }
+   img {
+        width: 250px;
+        height: auto;
+        display: block;
+        border: 1px solid lightgray;
+ 
+    }
+    h2 {
+        color: #333;
+    }
+    .separator {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    span {
+        font-size: 1em;
+    }
+    pre {
+        font-size: 1.5em;
+        color: navy;
+    }
+   
+    </style>
+
+</head>
+<body>
+    <h1>Create Custom Mask</h1>
+    <a href="/">Back to Home</a>
+    <p>Enter the following details to create a custom mask:</p>
+    <pre>filename mask_0_0_120_20_0.jpg details:
+    mask_0_0 is position _120 is diameter _20 is the feather _0 is the aspect .jpg </pre>
+    <h2>Mask Details</h2>
+    <form action="/create_mask" method="post">
+        <label for="x">Position X:</label>
+        <input type="number" id="x" name="x" value="0"><br><br>
+
+        <label for="y">Position Y:</label>
+        <input type="number" id="y" name="y" value="0"><br><br>
+
+        <label for="size">Size:</label>
+        <input type="number" id="size" name="size" value="100"><br><br>
+
+        <label for="feather">Feather:</label>
+        <input type="number" id="feather" name="feather" value="30"><br><br>
+
+        <label for="aspect">Aspect (0 = Circle, + Tall, - Wide):</label>
+        <input type="number" id="aspect" name="aspect" value="0"><br><br>
+
+        <input type="submit" value="Create Mask">
+    </form>
+    
+<!-- Check if there are masks to display -->
+{% if mask_data %}
+    <!-- Container for side-by-side images -->
+    <div class='separator'>
+        <!-- Loop through each pair of mask and filename -->
+        {% for mask, filename in mask_data %}
+            <div style="text-align: center;">
+                <h2>Mask Preview</h2>
+                <img src="{{ mask }}" alt="Mask" style="width: 250px; height: auto;">
+                
+                <h2>Filename</h2>
+                <pre>{{ filename[:-4] }}</pre>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- Link to create another mask -->
+<a href="{{ url_for('mk_mask') }}">Create Another Mask</a>
+
+
+
+</body>
+</html>

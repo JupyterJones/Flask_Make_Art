@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Blending</title>
+
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            padding: 5px 5px 5px 5px;
+            margin: 10px 10px 10px 10px;
+
+            font-size: 2em;
+            background-color: orange;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button2 {
+            display: inline-block;
+            padding: 5px 5px 5px 5px;
+            margin: 10px 10px 10px 10px;
+
+            font-size: 2em;
+            background-color: rgb(255, 225, 0);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button:hover {
+            background-color: orange;
+        }
+
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: orange;
+            padding: 10px 0;
+            z-index: 1000;
+            }
+        figure {
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        figcaption {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+    </style>
+    </style>
+</head>
+
+<body style="background-color: rgb(156, 23, 23);">
+    <center>
+        <h1 style="color: orange;">FlaskArchitect's Image Blending with Grayscale Mask</h1>
+
+        <a href="{{ url_for('refresh_images') }}" class="refresh-button">Refresh
+            Images</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('display_resources') }}" class="refresh-button">Display Resource
+            Images</a><br /><br />
+        <a href="{{ url_for('select_images') }}" class="refresh-button">Select Images to
+            Blend</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('index_upload') }}" class="refresh-button">Upload a Specific Image</a><br /><br />
+        <a href="{{ url_for('get_video_images') }}" class="refresh-button">Get Images via YouTube
+            Videos</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('face_detect') }}" class="refresh-button">Image For Face Detection</a> <br /><br />
+        <a href="{{ url_for('refresh_video') }}" class="refresh-button">Make Video</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('add_text') }}" class="refresh-button">Add Text</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('upload_image') }}" class="refresh-button">Add a Torn Edge
+            Effect</a> <br /><br />
+        <a href="{{ url_for('uploadfile') }}" class="refresh-button"> Segment Image</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('clean_archives') }}" class="refresh-button">Clean
+            Archives</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('clean_storage') }}" class="refresh-button">Clean Movie
+            Sources</a><br /> <br />
+        <a href="{{ url_for('select_mask_image') }}" class="refresh-button">Mask
+            -Choice-</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('create_video') }}" class="refresh-button">Create Seamless
+            Video</a-->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('mk_mask') }}" class="refresh-button">Custom Mask</a> <br /><br />
+        <a href="{{ url_for('home2') }}" class="refresh-button2">Text/Search/Notes</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="{{ url_for('rorschach') }}" class="refresh-button2">Create Rorschach</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a
+            href="{{ url_for('search_file') }}" class="refresh-button2">App_Search</a>
+
+        <a href="{{ url_for('outlinefile') }}" class="refresh-button2">Outline Image</a>
+        <hr><br /> <br />
+        <form action="/get_images" method="post">
+            <button type="submit">Get Three Random Images</button>&nbsp;&nbsp; | &nbsp;&nbsp;
+            <a style="color:yellow;" href=" {{ url_for('about') }}">About this Application</a>
+        </form><br /> <br />
+
+
+                
+        <h2>Recently Created Videos</h2><br /> <br />
+<figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/TEMP2X.mp4" type="video/mp4">
+            
+        </video>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <figcaption>TEMP2X.mp4</figcaption>
+        </figure>
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/verticalX.mp4" type="video/mp4">
+        </video>
+        <figcaption>verticalX</figcaption>
+        </figure> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/TEMP0X.mp4" type="video/mp4">
+        </video><br /><br />
+        <figcaption>TEMP0X.mp4</figcaption>
+        </figure>
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/final_flipbookX.mp4" type="video/mp4">
+        </video>
+        <figcaption>final_flipbookX.mp4</figcaption>
+        </figure>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/TEMP1X.mp4" type="video/mp4">
+        </video>
+        <figcaption>TEMP1X.mp4</figcaption>
+        </figure>
+        
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/verticalX.mp4" type="video/mp4">
+
+        </video>
+        <figcaption>verticalX.mp4</figcaption>
+        </figure>
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/blendem_final_outputX.mp4" type="video/mp4">
+        </video>
+        <figcaption>blendem_final_outputX.mp4</figcaption>
+        </figure>
+        <figure>
+        
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/final_output_expX.mp4" type="video/mp4">
+        </video>
+        <figcaption>final_output_expX.mp4</figcaption>
+        </figure>
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/verticalX.mp4" type="video/mp4">
+        </video>
+        <figcaption>verticalX.mp4</figcaption>
+        </figure>
+        <figure>
+        <video width="300" height="auto" controls>
+            <source src="static/temp_exp/all_videos.mp4" type="video/mp4">
+        </video>
+        <figcaption>all_videos.mp4</figcaption>
+        </figure>
+
+    </center>
+</body>
+
+</html>

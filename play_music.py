@@ -1,3 +1,4 @@
+#!/home/jack/Desktop/Flask_Make_Art/flask_env/bin/python
 import pygame
 import glob
 
@@ -5,7 +6,7 @@ import glob
 pygame.mixer.init()
 
 # Get a list of all MP3 files in the 'music' directory
-music_files = glob.glob("/home/jack/Desktop/collections/music_long/*.mp3")
+music_files = glob.glob("/home/jack/Desktop/collections/MUSIC/*.mp3")
 
 # Function to play a list of MP3 files sequentially
 def play_music(files):

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Imports and Examples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #f0f0f0;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #7289da;
+            font-weight: bold;
+            font-size: 2.5em;
+        }
+        .example {
+            background-color: #23272a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #7289da;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #7289da;
+            color: white;
+        }
+        code {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        
+        }
+
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 2.5em;
+        
+        }
+        strong {
+            color: #43b581;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.7em;
+        
+        }
+        a {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        
+        }
+    </style>
+</head>
+<body>
+
+<h1>Flask Imports Explained</h1>
+<a href="{{ url_for('index') }}">Home</a>
+<h2>1. Flask</h2>
+<p>The core of your Flask application. This import is essential for creating your Flask app and defining routes.</p>
+<div class="example">
+    <code>from flask import Flask</code><br>
+    <strong>Example:</strong>
+    <pre>
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, World!"
+    </pre>
+</div>
+
+<h2>2. request</h2>
+<p>Used to access data from incoming requests, such as form data or query parameters.</p>
+<div class="example">
+    <code>from flask import request</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/submit', methods=['POST'])
+def submit_form():
+    name = request.form.get('name')
+    return f'Hello, {name}!'
+    </pre>
+</div>
+
+<h2>3. render_template</h2>
+<p>Renders HTML templates from the templates folder with optional dynamic content.</p>
+<div class="example">
+    <code>from flask import render_template</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/about')
+def about():
+    return render_template('about.html')
+    </pre>
+</div>
+
+<h2>4. redirect</h2>
+<p>Redirects the user to a different URL.</p>
+<div class="example">
+    <code>from flask import redirect</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/old-page')
+def old_page():
+    return redirect(url_for('new_page'))
+
+@app.route('/new-page')
+def new_page():
+    return "Welcome to the new page!"
+    </pre>
+</div>
+
+<h2>5. url_for</h2>
+<p>Generates URLs for routes, making it easier to manage links between pages.</p>
+<div class="example">
+    <code>from flask import url_for</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/user/<username>')
+def profile(username):
+    return f"Profile page of {username}"
+
+@app.route('/go-to-profile')
+def go_to_profile():
+    return redirect(url_for('profile', username='Jack'))
+    </pre>
+</div>
+
+<h2>6. send_from_directory</h2>
+<p>Serves files from a specified directory.</p>
+<div class="example">
+    <code>from flask import send_from_directory</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/downloads/<filename>')
+def download_file(filename):
+    return send_from_directory('static/files', filename)
+    </pre>
+</div>
+
+<h2>7. send_file</h2>
+<p>Sends a specific file from the server to the client.</p>
+<div class="example">
+    <code>from flask import send_file</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/download-image')
+def download_image():
+    return send_file('static/images/picture.jpg', as_attachment=True)
+    </pre>
+</div>
+
+<h2>8. flash</h2>
+<p>Used to send one-time messages (like success or error messages) to the client.</p>
+<div class="example">
+    <code>from flask import flash</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/submit', methods=['POST'])
+def submit_form():
+    flash('Form submitted successfully!')
+    return redirect(url_for('home'))
+    </pre>
+</div>
+
+<h2>9. jsonify</h2>
+<p>Turns a Python dictionary into a JSON response, often used for APIs.</p>
+<div class="example">
+    <code>from flask import jsonify</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/api/data')
+def api_data():
+    data = {'name': 'Jack', 'age': 36}
+    return jsonify(data)
+    </pre>
+</div>
+
+<h2>10. make_response</h2>
+<p>Used to create a custom response object, useful when you need to modify headers or status codes.</p>
+<div class="example">
+    <code>from flask import make_response</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/custom-response')
+def custom_response():
+    response = make_response("This is a custom response", 202)
+    response.headers['X-Custom-Header'] = 'MyHeaderValue'
+    return response
+    </pre>
+</div>
+
+<h2>11. Response</h2>
+<p>Another way to build and customize a response.</p>
+<div class="example">
+    <code>from flask import Response</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/custom-json')
+def custom_json():
+    data = '{"name": "Jack", "message": "Life is good!"}'
+    return Response(data, mimetype='application/json')
+    </pre>
+</div>
+
+<h2>12. session</h2>
+<p>Handles session data to store temporary information across requests.</p>
+<div class="example">
+    <code>from flask import session</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/login', methods=['POST'])
+def login():
+    session['user'] = request.form['username']
+    return redirect(url_for('dashboard'))
+
+@app.route('/dashboard')
+def dashboard():
+    if 'user' in session:
+        return f"Welcome, {session['user']}!"
+    return redirect(url_for('login'))
+    </pre>
+</div>
+
+<h2>13. abort</h2>
+<p>Aborts a request with a specified error code (like 404 or 403).</p>
+<div class="example">
+    <code>from flask import abort</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/admin')
+def admin():
+    if not session.get('admin'):
+        abort(403)
+    return "Welcome, Admin!"
+    </pre>
+</div>
+
+<h2>14. Markup</h2>
+<p>Allows you to safely inject HTML into templates.</p>
+<div class="example">
+    <code>from flask import Markup</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/greet')
+def greet():
+    greeting = Markup("<strong>Hello, Jack!</strong>")
+    return render_template('greet.html', greeting=greeting)
+    </pre>
+</div>
+
+<h2>15. after_this_request</h2>
+<p>Registers a function to be called after the current request is completed.</p>
+<div class="example">
+    <code>from flask import after_this_request</code><br>
+    <strong>Example:</strong>
+    <pre>
+@app.route('/process')
+def process():
+    @after_this_request
+    def clean_up(response):
+        print("Cleaning up after request...")
+        return response
+    return "Processing complete!"
+    </pre>
+</div>
+
+<footer>
+    <p>Life is good, especially with Flask! 🦄</p>
+    <p>Generated by Esperanza for Jack 💻</p>
+</footer>
+
+</body>
+</html>
+<!-- Compare this snippet from templates/flask_info.html: -->

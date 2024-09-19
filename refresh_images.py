@@ -1,5 +1,5 @@
 import cv2
-from random import randint
+from random import randint, shuffle
 from PIL import Image
 import time
 import random
@@ -9,7 +9,7 @@ import shutil
 import logging
 
 # Set up logging
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime%s - %(levelname)s - %(message)s')
 
 # Directories
 junk_dir = 'static/junk'
@@ -63,11 +63,15 @@ def get_frame():
     """Process multiple video files to extract frames."""
     setup_directories()
     vid_list = glob.glob(os.path.join(videos_dir, '*.mp4'))
-    random.shuffle(vid_list)
+    
+    # Improved shuffling technique
+    shuffle(vid_list)  # Shuffle the list of videos
+    
+    selected_vid_list = random.sample(vid_list, min(50, len(vid_list)))  # Select a random sample of 50 videos without repetition
 
-    for i in range(min(25, len(vid_list))):
-        logging.info(f"Processing video {i + 1}/{len(vid_list)}")
-        vid2img(i, vid_list[i], archived_images_dir)
+    for i, video in enumerate(selected_vid_list):
+        logging.info(f"Processing video {i + 1}/{len(selected_vid_list)}: {video}")
+        vid2img(i, video, archived_images_dir)
         logging.info(f"Video {i + 1} done")
         time.sleep(1)
 

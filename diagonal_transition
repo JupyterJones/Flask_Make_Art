@@ -22,14 +22,13 @@ def manage_directory(temp_directory):
         # Create the directory if it doesn't exist
         os.makedirs(temp_directory)
         print(f"Directory '{temp_directory}' created.")
-        temp_directory("TEMPP")
+        temp_directory("TEMP")
         manage_directory(temp_directory)
 def diag_trans(DIR,output_file):
     image_dir=DIR
-    # Get a list of image file names in the directory
-    image_files = [f for f in os.listdir(image_dir) if f.endswith('.png') or f.endswith('.jpg')]
-    
-
+    # Get a list of image file names in the directory jpg or png
+    image_files = [f for f in os.listdir(image_dir) if f.endswith('.jpg') or f.endswith('.png')]
+    print(image_files)
     # Sort the image files to maintain order
     image_files.sort()
     VIDEOS=[]
@@ -38,7 +37,7 @@ def diag_trans(DIR,output_file):
     for i in range(len(image_files)-1):
         input_file = os.path.join(image_dir, image_files[i])
         input_file2 = os.path.join(image_dir, image_files[i+1])
-        output_video = f"static/assets_exp/{i}.mp4"
+        output_video = f"TEMP/{i}.mp4"
         
         ffmpeg_cmd = [
             "FFmpeg",
@@ -79,13 +78,11 @@ def diag_trans(DIR,output_file):
     print(f"Video created: {output_file}")
     print(f"Video copied: {mp4_file}")
     
-if __name__=="__main__":
-    #remove mylist.txt
-    if os.path.exists("mylist.txt"):
-        os.remove("mylist.txt")
-            
-    DIR="static/archived-store"
-    
-    output_file = "static/assets_exp/diagonal.mp4"
+if __name__=="__main__":    
+    DIR='static/archived-store'
+
+    output_file = "static/temp_exp/output5.mp4"
     diag_trans(DIR,output_file)
-    subprocess.run("ffmpeg -i static/assets_exp/diagonal.mp4 -vf scale=512:768 -y static/assets_exp/diagonal1.mp4".split())
+
+    # ffmpeg -i "static/temp_exp/output5.mp4" "static/temp_exp/diagonal1.mp4"
+    subprocess.run(["ffmpeg", "-i", "static/temp_exp/output5.mp4", "-y","static/temp_exp/diagonal1.mp4"])

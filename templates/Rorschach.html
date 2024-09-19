@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rorschach Inkblot Test</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #ddd;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .inkblot-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .inkblot-container img {
+            margin: 10px;
+            border: 2px solid #555;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            width: 256px; /* or adjust according to your need */
+            height: 384px; /* or adjust according to your need */
+        }
+    </style>
+</head>
+<body>
+    <h1>Rorschach Inkblot Test</h1>
+    <p>What do you see in the inkblots below?</p>
+    <a href="{{ url_for('index') }}" class="refresh-button">HOME</a>
+    <div class="inkblot-container">
+        {% for image in inkblot_images %}
+            <img src="{{ url_for('static', filename=image.split('static/')[1]) }}" alt="Inkblot">
+        {% endfor %}
+    </div>
+</body>
+</html>

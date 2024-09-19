@@ -10,14 +10,14 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #98de91;
             color: #333;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            background: #fff;
+            background: #21f356;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1, h2, h3 {
@@ -65,10 +65,10 @@
             margin-top: 20px;
             white-space: pre-wrap;
         }
-        <style>
+       
         body {
             background-color: #2C2C2C;
-            color: white;
+            color: rgb(27, 1, 1);
             font-family: Arial, sans-serif;
         }
         .refresh-button {
@@ -81,6 +81,16 @@
             border-radius: 5px;
             margin: 1px;
         }
+        .refresh_button {
+            display: inline-block;
+            padding: 5px 10px;
+            font-size: 24px;
+            background-color: #ffcd04;
+            color: rgb(61, 142, 235);
+            text-decoration: underline;
+            border-radius: 5px;
+            margin: 1px;
+        }
         .refresh-button:hover {
             background-color: #3C3CFF;
         }
@@ -90,7 +100,13 @@
 <body>
     <div class="container">
         <h1>Flask-Based Image and Video Processing Application</h1>
-        <a href="{{ url_for('index') }}" class="refresh-button">HOMES</a>
+        <a href="{{ url_for('index') }}" class="refresh_button">HOME</a>
+        <h1>Audio Player</h1>
+        <audio controls>
+            <source src="{{ url_for('static', filename='audio/narration.mp3') }}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        
         
         <h2>Application Overview</h2>
         <p>This Flask-based application is a versatile tool for image and video processing, particularly geared towards creating, manipulating, and blending images for various creative projects. The application supports multiple functionalities, including image uploads, grayscale and binary mask generation, image blending, and video frame extraction. It's designed to provide a smooth user experience for managing and processing media files within a structured web interface.</p>

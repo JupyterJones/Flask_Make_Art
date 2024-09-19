@@ -1,0 +1,90 @@
+import os
+import cv2
+import numpy as np
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.utils import secure_filename
+from skimage import future, data, segmentation, filters, color, io
+from skimage.future import graph
+import time
+
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+from skimage.io import imread, imsave
+UPLOAD_FOLDER = 'static/archived-images/'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/', methods=['GET', 'POST'])
+def uploadfile():
+    if request.method == 'POST':
+        # Check if the post request has the file part
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            # Process the image and get the output path
+            processed_image_path = process_image(filepath)
+            filepath = 'static/archived-images/processed.png'
+            return redirect(url_for('uploadfile', filename=filepath))
+    filepath = 'static/archived-images/processed.png'           
+    return render_template('seg.html', filename=filepath)
+    
+try:
+    os.makedirs("static/outlines")
+except FileExistsError:
+    # directory already exists
+    pass
+
+def process_image(image_path):
+    img = imread(image_path)
+    labels = segmentation.slic(img, compactness=30, n_segments=400)
+    g = future.graph.rag_mean_color(img, labels)
+
+    def weight_boundary(graph, src, dst, n):
+        default = {'weight': 0.0, 'count': 0}
+        count_src = graph[src].get(n, default)['count']
+        count_dst = graph[dst].get(n, default)['count']
+        weight_src = graph[src].get(n, default)['weight']
+        weight_dst = graph[dst].get(n, default)['weight']
+        count = count_src + count_dst
+        return {
+            'count': count,
+            'weight': (count_src * weight_src + count_dst * weight_dst) / count
+        }
+
+    def merge_boundary(graph, src, dst):
+        pass
+
+    labels2 = future.graph.merge_hierarchical(labels, g, thresh=0.08, rag_copy=False,
+                                              in_place_merge=True,
+                                              merge_func=merge_boundary,
+                                              weight_func=weight_boundary)
+
+    out = color.label2rgb(labels2, img, kind='avg')
+    
+    # Save the processed image
+    output_filename = 'static/archived-images/processed.png'
+    unique_name = "static/archived-images/"+f"processed_{time.time()}.png"
+    imsave(output_filename, out)
+    imsave(unique_name, out)
+    return output_filename
+
+
+if __name__ == '__main__':
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
+    app.run(debug=True, host='0.0.0.0', port=5300)

@@ -1,0 +1,17 @@
+<!-- confirm_image.html -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Image</title>
+</head>
+<body>
+    <h1>Confirm Image</h1>
+    <img src="{{ url_for('static', filename=image_path.split('/')[-1]) }}" alt="Uploaded Image" style="max-width:100%; height:auto;">
+    <form action="/torn_edge" method="POST">
+        <input type="hidden" name="image_path" value="{{ image_path }}">
+        <button type="submit">Apply Torn Edge Effect</button>
+    </form>
+</body>
+</html>

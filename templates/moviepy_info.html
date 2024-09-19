@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoviePy Reference</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #f0f0f0;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #7289da;
+            font-weight: bold;
+            font-size: 2.5em;
+        }
+        .example {
+            background-color: #23272a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #7289da;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #7289da;
+            color: white;
+        }
+        code {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        
+        }
+
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 2.5em;
+        
+        }
+        strong {
+            color: #43b581;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.7em;
+        
+        }
+        a {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        
+        }
+    </style>
+    
+</head>
+<body>
+
+    <h1>MoviePy Reference</h1>
+<a href="{{ url_for('index') }}">Home</a>
+    <h2>1. ImageClip</h2>
+    <p><strong>Purpose:</strong> Creates a video clip from an image file.</p>
+    <pre>from moviepy.editor import ImageClip
+
+image_clip = ImageClip("path_to_image.jpg", duration=5)  # duration in seconds
+image_clip.write_videofile("image_to_video.mp4", fps=24)</pre>
+
+    <h2>2. VideoClip</h2>
+    <p><strong>Purpose:</strong> The base class for creating custom video clips using a frame-by-frame function.</p>
+    <pre>from moviepy.editor import VideoClip
+import numpy as np
+
+def make_frame(t):
+    return np.array([[[255, 0, 0], [0, 255, 0], [0, 0, 255]] * 128] * 72, dtype='uint8')
+
+video_clip = VideoClip(make_frame, duration=3)
+video_clip.write_videofile("custom_clip.mp4", fps=24)</pre>
+
+    <h2>3. clips_array</h2>
+    <p><strong>Purpose:</strong> Arranges video clips into a grid (collage).</p>
+    <pre>from moviepy.editor import VideoFileClip, clips_array
+
+clip1 = VideoFileClip("clip1.mp4").subclip(0, 5)
+clip2 = VideoFileClip("clip2.mp4").subclip(0, 5)
+
+final_clip = clips_array([[clip1, clip2]])
+final_clip.write_videofile("side_by_side.mp4")</pre>
+
+    <h2>4. concatenate_videoclips</h2>
+    <p><strong>Purpose:</strong> Concatenates multiple video clips into one.</p>
+    <pre>from moviepy.editor import VideoFileClip, concatenate_videoclips
+
+clip1 = VideoFileClip("clip1.mp4").subclip(0, 5)
+clip2 = VideoFileClip("clip2.mp4").subclip(5, 10)
+
+final_clip = concatenate_videoclips([clip1, clip2])
+final_clip.write_videofile("combined_clips.mp4")</pre>
+
+    <h2>5. CompositeVideoClip</h2>
+    <p><strong>Purpose:</strong> Overlays multiple video clips on top of each other (e.g., adding text).</p>
+    <pre>from moviepy.editor import VideoFileClip, CompositeVideoClip, TextClip
+
+clip = VideoFileClip("video.mp4").subclip(0, 5)
+text = TextClip("Hello World!", fontsize=70, color='white')
+set_duration(5).set_position('center')
+''' multiple lines example:
+text = TextClip("Hello World!\nWelcome to MoviePy", fontsize=70, color='white', align='center').set_duration(5).set_position((50, 100))
+'''
+composite_clip = CompositeVideoClip([clip, text])
+composite_clip.write_videofile("video_with_text.mp4")</pre>
+
+    <h2>6. ColorClip</h2>
+    <p><strong>Purpose:</strong> Creates a solid color clip, useful for backgrounds or transitions.</p>
+    <pre>from moviepy.editor import ColorClip
+
+color_clip = ColorClip(size=(640, 480), color=(255, 0, 0), duration=3)
+color_clip.write_videofile("red_background.mp4", fps=24)</pre>
+
+    <h2>7. VideoFileClip</h2>
+    <p><strong>Purpose:</strong> Loads and manipulates video files.</p>
+    <pre>from moviepy.editor import VideoFileClip
+
+video_clip = VideoFileClip("video.mp4")
+subclip = video_clip.subclip(5, 10)
+subclip.write_videofile("subclip.mp4")</pre>
+
+    <h2>8. AudioFileClip</h2>
+    <p><strong>Purpose:</strong> Loads and manipulates audio files.</p>
+    <pre>from moviepy.editor import AudioFileClip
+
+audio_clip = AudioFileClip("audio.mp3")
+video_clip = VideoFileClip("video.mp4").set_audio(audio_clip)
+video_clip.write_videofile("video_with_audio.mp4")</pre>
+
+    <h2>9. concatenate_audioclips</h2>
+    <p><strong>Purpose:</strong> Concatenates multiple audio clips into one.</p>
+    <pre>from moviepy.editor import AudioFileClip, concatenate_audioclips
+
+audio_clip1 = AudioFileClip("audio1.mp3").subclip(0, 5)
+audio_clip2 = AudioFileClip("audio2.mp3").subclip(0, 5)
+
+final_audio = concatenate_audioclips([audio_clip1, audio_clip2])
+final_audio.write_audiofile("combined_audio.mp3")</pre>
+
+    <h2>10. TextClip</h2>
+    <p><strong>Purpose:</strong> Adds text to videos.</p>
+    <pre>from moviepy.editor import TextClip
+
+text_clip = TextClip("Welcome!", fontsize=50, color='white').set_duration(5)
+text_clip.write_videofile("text_video.mp4", fps=24)</pre>
+
+    <h2>11. ImageSequenceClip</h2>
+    <p><strong>Purpose:</strong> Creates a video from a sequence of images.</p>
+    <pre>from moviepy.editor import ImageSequenceClip
+
+images = ['frame1.png', 'frame2.png', 'frame3.png']
+image_sequence = ImageSequenceClip(images, fps=10)
+image_sequence.write_videofile("image_sequence.mp4")</pre>
+
+</body>
+</html>

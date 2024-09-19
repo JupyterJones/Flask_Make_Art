@@ -1,0 +1,38 @@
+<!-- search.html -->
+{% extends 'base.html' %}
+
+{% block title %}Search Results - My Blog{% endblock %}
+
+{% block content %}
+<h1>Search</h1>
+<form action="{{ url_for('search') }}" method="post">
+    <label for="search_terms">Search for (comma-separated):</label>
+    <input type="text" id="search_terms" name="search_terms" required>
+    <button type="submit">Search</button>
+</form>
+
+{% if results %}
+<h2>Search Results</h2>
+<ul>
+    {% for result in results %}
+    <li>
+        <h3>{{ result[1] }}</h3>
+        <p>{{ result[2][:200] }}...</p>
+        {% if result[3] %}
+        <img src="data:image/png;base64,{{ result[3] }}" alt="image.jpg">
+        {% endif %}
+        {% if result[4] %}
+        <video width="320" height="240" controls>
+            <source src="{{ url_for('static', filename='videos/' + result[4]) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+        <a href="{{ url_for('show_post', post_id=result[0]) }}">Read more</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No results found</p>
+{% endif %}
+
+{% endblock %}

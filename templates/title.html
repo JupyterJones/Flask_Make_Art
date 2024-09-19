@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select and Concatenate Videos</title>
+    <style>
+        .video-container {
+            margin-bottom: 20px;
+        }
+        .video-container video {
+            max-width: 300px;
+            max-height: 200px;
+        }
+        a {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    
+    </style>
+</head>
+<body>
+    <h1>Select Videos to Concatenate</h1>
+    <a href="{{ url_for('index') }}">Home</a>
+    <form action="{{ url_for('title_route') }}" method="post">
+        <fieldset>
+            <legend>Select Title Video:</legend>
+            {% for file in title_files %}
+                <div class="video-container">
+                    <label>
+                        <input type="radio" name="title_file" value="{{ file }}">
+                        {{ file }}
+                    </label><br>
+                    <video controls>
+                        <source src="{{ url_for('static', filename='overlay_zooms/title/' ~ file) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            {% endfor %}
+        </fieldset>
+        
+        <fieldset>
+            <legend>Select Main Video:</legend>
+            {% for file in main_files %}
+                <div class="video-container">
+                    <label>
+                        <input type="radio" name="main_file" value="{{ file }}">
+                        {{ file }}
+                    </label><br>
+                    <video controls>
+                        <source src="{{ url_for('static', filename='temp_exp/' ~ file) }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            {% endfor %}
+        </fieldset>
+        
+        <button type="submit">Concatenate</button>
+    </form>
+    
+    {% if request.args.get('result') == 'success' %}
+        <h2>Video Successfully Concatenated!</h2>
+        <video controls>
+            <source src="{{ url_for('static', filename='temp_exp/titled.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% endif %}
+</body>
+</html>

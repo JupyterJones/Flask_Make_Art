@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Image Blending</title>
+    <style>
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: orange;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button2 {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: rgb(255, 225, 0);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+        .refresh-button3 {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: blue;
+            color: yellow;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+        .refresh-button:hover {
+            background-color: orange;
+        }
+
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: orange;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        figure {
+            max-width: 300px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgb(156, 23, 23);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 23px;
+            color: black;
+            background-color: orange;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: orange;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(156, 23, 23);">
+    <center>
+        <h1 style="color: orange;">FlaskArchitect's Video Processing mk_videos.html</h1>
+        <a href="{{ url_for('index') }}" class="refresh-button2">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="{{ url_for('mk_videos') }}" class="refresh-button2">Video
+            Processing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('img_processing_route') }}"
+            class="refresh-button2">Image Procesing</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('home2') }}"
+            class="refresh-button2">blog</a><br/.><br />
+
+
+        <a href="{{ url_for('clean_storage_route') }}" class="refresh-button">Remove Unwanted Video Images</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ url_for('get_videos') }}" class="refresh-button">View Video History</a>
+
+           <br />
+        <br />        <a href="{{ url_for('add_text') }}" class="refresh-button">Add Text</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('title_route') }}" class="refresh-button">Add Title Video</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{{ url_for('remove_images') }}" class="refresh-button3">Remove_images from Store</a><br /> <br />
+
+        <div class="container">
+            <h1>Control Panel</h1>
+            <a href="{{ url_for('convert_images_route') }}" class="button">Convert Images</a>
+            <a href="{{ url_for('refresh_all_route') }}" class="button">Refresh All</a>
+        </div>
+        <hr><br /> <br />
+<a href="{{ url_for('upload_form') }}" class="refresh-button">Upload Form</a><br /> <br /><a href="{{ url_for('concat_videos') }}" class="refresh-button">concat_videos</a><br /> <br />
+        <form action="/get_images" method="post">
+            <button type="submit">Get Three Random Images</button>&nbsp;&nbsp; | &nbsp;&nbsp;
+
+        </form><br /> <br />
+
+        <h2>Recently Created Videos</h2><br /><br />
+
+        <div class="video-gallery">
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/TEMP2X.mp4" type="video/mp4">
+                </video>
+                <figcaption>TEMP2X.mp4<br /> <a href="{{ url_for('create_video_route') }}" class="button">Horizontal
+                        Scroll</a></figcaption>
+            </figure>
+
+            <figure>
+
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/final_flipbookX.mp4" type="video/mp4">
+                </video>
+                <figcaption>final_flipbookX.mp4<br /> <a href="{{ url_for('best_flipbook_route') }}" class="button">Best
+                        FlipBook</a></figcaption>
+            </figure>
+
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/final_output_expX.mp4" type="video/mp4">
+                </video>
+                <figcaption>final_output_expX.mp4<br /> <a href="{{ url_for('zoom_each_route') }}" class="button">Zoom
+                        Images</a></figcaption>
+            </figure>
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/TEMP0X.mp4" type="video/mp4">
+                </video>
+                <figcaption>TEMP0X.mp4<br /> <a href="{{ url_for('slide_route') }}" class="button">Slide</a>
+                </figcaption>
+            </figure>
+
+
+
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/TEMP1X.mp4" type="video/mp4">
+                </video>
+                <figcaption>TEMP1X.mp4<br /> <a href="{{ url_for('diagonal_transition_route') }}"
+                        class="button">Diagonal Transition</a></figcaption>
+            </figure>
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/blendem_final_outputX.mp4" type="video/mp4">
+                </video>
+                <figcaption>blendem_final_outputX.mp4<br /> <a href="{{ url_for('blendem_route') }}"
+                        class="button">Blendem</a></figcaption>
+            </figure>
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/verticalX.mp4" type="video/mp4">
+                </video>
+                <figcaption>verticalX.mp4 <br /> <a href="{{ url_for('vertical_scroll_route') }}"
+                        class="button">Vertical Scroll</a></figcaption>
+            </figure>
+
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/final_zoomxX.mp4" type="video/mp4">
+                </video>
+                <figcaption><br />final_zoomxX <a href="{{ url_for('zoomx4_route') }}" class="button">Zoom X4
+                        Videos</a></figcaption>
+            </figure>
+
+              <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/finalX.mp4" type="video/mp4">
+                </video>
+                <figcaption>outputX.mp4<br /> <a href="{{ url_for('title_route') }}" class="button">concatenate_videos</a>
+                </figcaption>
+            </figure>
+
+
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/overlay_zooms/title/title_video.mp4" type="video/mp4">
+                </video>
+                <figcaption>titled.mp4<br /> <a href="{{ url_for('add_text') }}" class="button">Title_1st Step AddText</a>
+                </figcaption>
+            </figure>
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/overlay_zooms/final/final_video.mp4" type="video/mp4">
+                </video>all_videos
+                <figcaption>final_video.mp4<br /> <a href="{{ url_for('join_video_route') }}" class="button">Join
+                        Videos</a></figcaption>
+            </figure>
+            <figure>
+                <video width="300" height="auto" controls>
+                    <source src="static/temp_exp/all_videos.mp4" type="video/mp4">
+                </video>all_videos
+                <figcaption>all_videos.mp4<br /> <a href="{{ url_for('join_video_route') }}" class="button">Join
+                        Videos</a></figcaption>
+            </figure>
+        </div>
+    </center>
+</body>
+
+</html>

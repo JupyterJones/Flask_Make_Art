@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Select Images</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .form-section {
+            margin: 20px;
+        }
+
+        .image-container {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 150px;
+            max-height: 150px;
+            border: 2px solid #ffffff;
+            border-radius: 5px;
+        }
+
+        .image-container p {
+            margin-top: 5px;
+            color: #cccccc;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Upload or Select Images upload_form.html</h1>
+    <a href="{{ url_for('index') }}" style="font-size: 24px; color: rgb(255, 238, 0);">HOME</a>
+
+    <div class="form-section">
+        <h2>Select Existing Images</h2>
+        <form action="{{ url_for('process_selected_images') }}" method="post" enctype="multipart/form-data">
+            <h3>Select Background Image:</h3>
+            {% for image in image_files %}
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='archived-store/' + image) }}" alt="{{ image }}">
+                <p>{{ image }}</p>
+                <input type="radio" name="bg_image_selected" value="{{ image }}"> Select as Background
+            </div>
+            {% endfor %}
+
+            <h3>Select Foreground Image:</h3>
+            {% for image in image_files %}
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='archived-store/' + image) }}" alt="{{ image }}">
+                <p>{{ image }}</p>
+                <input type="radio" name="fg_image_selected" value="{{ image }}"> Select as Foreground
+            </div>
+            {% endfor %}
+
+            <hr>
+
+            <h2>Or Upload New Images</h2>
+            <label for="bg_image">Upload Background Image:</label>
+            <input type="file" name="bg_image" accept="image/*"><br><br>
+
+            <label for="fg_image">Upload Foreground Image:</label>
+            <input type="file" name="fg_image" accept="image/*"><br><br>
+
+            <button type="submit">Process Selected Images</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

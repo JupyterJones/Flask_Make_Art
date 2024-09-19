@@ -1,0 +1,6 @@
+Saturday_Aug-17-2024_09-00-17 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 45: /home/jack/Desktop/Flask_Make_Art
+Saturday_Aug-17-2024_09-01-33 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 45: /home/jack/Desktop/Flask_Make_Art
+Saturday_Aug-17-2024_09-05-23 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 43: Starting SEARCH script
+Saturday_Aug-17-2024_09-05-23 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 46: /home/jack/Desktop/Flask_Make_Art
+Saturday_Aug-17-2024_09-06-10 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 43: Starting SEARCH script
+Saturday_Aug-17-2024_09-06-10 - File: /home/jack/Desktop/Flask_Make_Art/json2sqlite3db/SEARCH, Line: 46: /home/jack/Desktop/Flask_Make_Art

@@ -1,0 +1,87 @@
+#!/home/jack/miniconda3/envs/cloned_base/bin/python
+from moviepy.editor import VideoFileClip, clips_array, AudioFileClip, ImageClip, CompositeVideoClip
+import glob
+import uuid
+import random
+import os
+import cv2
+from PIL import Image
+import numpy as np
+import shutil
+
+# Define the size for resizing images
+SIZE = (512, 768)
+
+def get_an_mp3():
+    mp3s = random.choice(glob.glob("/home/jack/Desktop/collections/music_dark/*.mp3"))
+    return mp3s
+
+def makevideo(DIR):
+    image_files = sorted(glob.glob(DIR + "*.jpg")) + sorted(glob.glob(DIR + "*.png"))
+    random.shuffle(image_files)
+    print(f"Number of images: {len(image_files)}")
+
+    # Create a temporary directory to store the resized images
+    temp_dir = 'btemp/'
+    os.makedirs(temp_dir, exist_ok=True)
+
+    # Load and resize the images
+    resized_images = []
+    for image_file in image_files:
+        img = cv2.imread(image_file)
+        img = cv2.resize(img, SIZE)
+        resized_images.append(img)
+
+    # Create a video writer
+    out_path = 'xxxxoutput.mp4'
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(out_path, fourcc, 30, SIZE)
+
+    # Keep track of video duration
+    video_duration = 0
+
+    # Create the video with fading transitions
+    for i in range(len(resized_images)):
+        if video_duration >= 58:  # Limit video to 58 seconds
+            break
+
+        img1 = resized_images[i]
+        img2 = resized_images[(i + 1) % len(resized_images)]  # Wrap around to the first image
+        step_size = 5
+        for alpha in range(0, 150):  # Gradually change alpha from 0 to 100 for fade effect
+            alpha /= 150.0
+            blended = cv2.addWeighted(img1, 1 - alpha, img2, alpha, 0)
+            out.write(blended)
+            video_duration += 1 / 30  # Assuming 30 FPS
+
+    out.release()
+
+    # Prepare an audio clip of the same duration (58 seconds)
+    audio_clip = AudioFileClip(get_an_mp3()).subclip(0, 58)
+
+    # Load the video clip
+    video_clip = VideoFileClip(out_path)
+
+    # Set the audio of the video clip
+    video_clip = video_clip.set_audio(audio_clip)
+
+    # Load the static frame to overlay
+    frame_clip = ImageClip("static/assets/blendem_frame.png", duration=video_clip.duration).set_position("center")
+
+    # Composite the frame with the video
+    final_clip = CompositeVideoClip([video_clip, frame_clip])
+
+    # Save the final video with the overlay and music
+    final_output_path = 'static/temp_exp/blendem_final_outputX.mp4'
+    uid = str(uuid.uuid4())
+    des = DIR.replace("/", "_")
+    mp4_file = f"/home/jack/Desktop/HDD500/collections/vids/{des}{uid}.mp4"
+
+    final_clip.write_videofile(final_output_path, codec='libx264')
+    shutil.copyfile(final_output_path, mp4_file)
+    return print(mp4_file)
+
+if __name__ == "__main__":
+    DIR = 'static/archived-store/'
+    print(DIR)
+    makevideo(DIR)

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIL Imports and Examples</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c2f33;
+            color: #f0f0f0;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #7289da;
+            font-weight: bold;
+            font-size: 2.5em;
+        }
+        .example {
+            background-color: #23272a;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 4px solid #7289da;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            text-align: center;
+            background-color: #7289da;
+            color: white;
+        }
+        code {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        }
+
+        pre {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            /* wrap text  */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 2.5em;
+        }
+        strong {
+            color: #43b581;
+        }
+        p {
+            margin: 10px 0;
+            font-size: 1.7em;
+        }
+        a {
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+            color: orange;
+            font-size: 2.2em;
+        }
+    </style>
+</head>
+<body>
+
+<h1>PIL Imports Explained</h1>
+<a href="{{ url_for('index') }}">Home</a>
+
+<h2>1. Image</h2>
+<p>The core class for handling images in PIL. It can open, manipulate, and save image files.</p>
+<div class="example">
+    <code>from PIL import Image</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+img.show()
+img.save('output.png')
+    </pre>
+</div>
+
+<h2>2. ImageOps</h2>
+<p>Provides a set of image processing functions that operate on entire images.</p>
+<div class="example">
+    <code>from PIL import ImageOps</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+inverted_img = ImageOps.invert(img.convert('RGB'))
+inverted_img.show()
+    </pre>
+</div>
+
+<h2>3. ImageDraw</h2>
+<p>Used to draw shapes, text, and lines on images.</p>
+<div class="example">
+    <code>from PIL import ImageDraw</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+draw = ImageDraw.Draw(img)
+draw.text((10, 10), "Hello, Jack!", fill="white")
+img.show()
+    </pre>
+</div>
+
+<h2>4. ImageFont</h2>
+<p>Used to specify fonts when drawing text onto images with ImageDraw.</p>
+<div class="example">
+    <code>from PIL import ImageFont</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+draw = ImageDraw.Draw(img)
+font = ImageFont.truetype('arial.ttf', 40)
+draw.text((10, 10), "Life is Good!", font=font, fill="white")
+img.show()
+    </pre>
+</div>
+
+<h2>5. ImageFilter</h2>
+<p>Provides a set of predefined image filters.</p>
+<div class="example">
+    <code>from PIL import ImageFilter</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+blurred_img = img.filter(ImageFilter.BLUR)
+blurred_img.show()
+PIL's ImageFilter module provides various filters that you can apply to images. Here is a list of some of the most commonly used filters along with their descriptions:
+
+    BLUR
+        Applies a basic blur to the image.
+img.filter(ImageFilter.BLUR)
+
+CONTOUR
+    Produces a contour or edge detection effect.
+img.filter(ImageFilter.CONTOUR)
+
+DETAIL
+    Enhances the details of the image.
+img.filter(ImageFilter.DETAIL)
+
+EDGE_ENHANCE
+    Enhances the edges in the image.
+img.filter(ImageFilter.EDGE_ENHANCE)
+
+EDGE_ENHANCE_MORE
+    Further enhances the edges in the image.
+img.filter(ImageFilter.EDGE_ENHANCE_MORE)
+
+EMBOSS
+    Gives an embossed effect to the image.
+img.filter(ImageFilter.EMBOSS)
+
+FIND_EDGES
+    Highlights the edges of objects in the image.
+img.filter(ImageFilter.FIND_EDGES)
+
+SHARPEN
+    Sharpens the image.
+img.filter(ImageFilter.SHARPEN)
+
+SMOOTH
+    Smooths the image by reducing noise.
+img.filter(ImageFilter.SMOOTH)
+
+SMOOTH_MORE
+    Applies stronger smoothing.
+img.filter(ImageFilter.SMOOTH_MORE)
+
+GaussianBlur
+    Applies a Gaussian blur with a specified radius.
+img.filter(ImageFilter.GaussianBlur(radius=5))
+
+UnsharpMask
+    Applies an unsharp mask filter, useful for sharpening.
+    img.filter(ImageFilter.UnsharpMask(radius=2, percent=150, threshold=3))
+
+The ImageFilter module can be used in combination with the filter() method of the Image class to apply these filters to images. For example, to apply a Gaussian blur with a radius of 5 to an image, you can use the following code:
+img = Image.open('example.jpg')
+blurred_img = img.filter(ImageFilter.GaussianBlur(radius=5))
+        
+    </pre>
+</div>
+
+<h2>6. ImageEnhance</h2>
+<p>Contains classes that allow enhancement of various image properties like brightness, contrast, and sharpness.</p>
+<div class="example">
+    <code>from PIL import ImageEnhance</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+enhancer = ImageEnhance.Brightness(img)
+brightened_img = enhancer.enhance(1.5)
+brightened_img.show()
+    </pre>
+</div>
+
+<h2>7. ImageSequence</h2>
+<p>Used to iterate through the frames of an image, especially useful for animated images (GIFs).</p>
+<div class="example">
+    <code>from PIL import ImageSequence</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.gif')
+for frame in ImageSequence.Iterator(img):
+    frame.show()
+    </pre>
+</div>
+
+<h2>8. ImageChops</h2>
+<p>Provides arithmetic image operations, like adding, subtracting, and blending images.</p>
+<div class="example">
+    <code>from PIL import ImageChops</code><br>
+    <strong>Example:</strong>
+    <pre>
+img1 = Image.open('image1.jpg')
+img2 = Image.open('image2.jpg')
+blended_img = ImageChops.blend(img1, img2, alpha=0.5)
+blended_img.show()
+    </pre>
+</div>
+
+<h2>9. ImageStat</h2>
+<p>Gathers statistics from images, such as mean, median, and standard deviation.</p>
+<div class="example">
+    <code>from PIL import ImageStat</code><br>
+    <strong>Example:</strong>
+    <pre>
+img = Image.open('example.jpg')
+stat = ImageStat.Stat(img)
+print(stat.mean)
+    </pre>
+</div>
+
+<h2>10. ImageColor</h2>
+<p>Handles color string conversions, like converting between color names and RGB values.</p>
+<div class="example">
+    <code>from PIL import ImageColor</code><br>
+    <strong>Example:</strong>
+    <pre>
+rgb_color = ImageColor.getrgb("red")
+print(rgb_color)  # Output: (255, 0, 0)
+    </pre>
+</div>
+
+<h2>11. ImagePalette</h2>
+<p>Allows manipulation of image color palettes, particularly useful for GIFs and other paletted images.</p>
+<div class="example">
+    <code>from PIL import ImagePalette</code><br>
+    <strong>Example:</strong>
+    <pre>
+palette = ImagePalette.random()
+img = Image.new("P", (100, 100))
+img.putpalette(palette)
+img.show()
+    </pre>
+</div>
+
+<footer>
+    <p>Life is good, especially with PIL! 🎨</p>
+    <p>Generated by Esperanza for Jack 💻</p>
+</footer>
+
+</body>
+</html>
+<!-- Compare this snippet from templates/index.html: -->

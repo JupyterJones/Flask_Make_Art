@@ -8,10 +8,14 @@
     <style>
         body {
             background-color: cadetblue;
+
+
         }
 
         h1 {
             color: orange;
+            margin: 0px auto;
+            text-align: center;
             font-family: Arial, sans-serif;
         }
 
@@ -28,7 +32,7 @@
         }
 
         .image-item img {
-            width: 256px;
+            width: 256pxs;
             height: 384px;
            
             border: 1px solid #ccc;
@@ -54,13 +58,35 @@
         button:hover {
             background-color: #45a049;
         }
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            color: #ffa600;
+            width: 85%;
+            top: 0;
+            margin-left: auto;
+            margin-right: auto;
+            
+            text-align: center;
+            background-color: #af0909;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+        a {
+            color: #ffa600;
+            font-size: 20px;
+        
+        }
+   
     </style>
 </head>
 
 <body>
-    <h1>Select Images,, for Blending</h1>
+    <h1 id="top">Select Images for Blending</h1>
+    <p class="sticky"><a href="#jump">Submit/Page Bottom</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="{{ url_for('index') }}">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <form action="{{ url_for('blend_images') }}" method="post">
+    
+    </p><form action="{{ url_for('blend_images') }}" method="post">
         <div class="container">
             {% for image_path in image_paths %}
             <div class="image-item">
@@ -82,7 +108,8 @@
 
         <label for="opacity">Opacity (between 0 and 1):</label>
         <input type="text" id="opacity" name="opacity" value="0.5">
-        <button type="submit">Submit</button>
-    </form>
+        <button id="jump" type="submit">Submit</button>
+    </form>&nbsp;&nbsp;
+    <a style="color:navy;margin-left: auto;margin-right: auto;" href="#top">Page Top</a>
 </body>
 </html>

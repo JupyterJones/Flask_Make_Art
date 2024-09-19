@@ -1,0 +1,208 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit a Text File</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 1%;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url('../static/assets/01-back.jpg');
+            background-repeat: repeat-y;
+            background-size: cover;
+            /* Use 'cover' to make the image cover the entire body */
+            background-position: top;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            background-color: rgba(255, 255, 255, 0.25);
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        h1 {
+            color: #ffffff;
+            font-size: 3vw;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        label {
+            color: #ffffff;
+            font-size: 1.5vw;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        form {
+            color: #ffffff;
+            font-size: 1.5vw;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .columns {
+            display: flex;
+            width: 95%;
+            margin-top: 20px;
+        }
+
+        .column {
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .column.left {
+            width: 15%;
+            border: 1px solid #000;
+            text-align: center;
+        }
+
+        .column.right {
+            margin: 0 auto;
+            /* Center horizontally */
+            width: 80%;
+            border: 1px solid #000;
+            text-align: center;
+            /* Center video vertically */
+        }
+
+        .column.right video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .note {
+            color: red;
+            font-size: 24px;
+        }
+
+        textarea {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+            width: 100%;
+        }
+
+        #logo {
+            position: absolute;
+            /* Position the logo absolutely */
+            top: 5vw;
+            /* Adjust the top distance as needed */
+            left: 6vw;
+            /* Adjust the left distance as needed */
+            max-width: 10vw;
+            /* Set a maximum width for the logo */
+            max-height: 15vw;
+            /* Set a maximum height for the logo */
+        }
+
+        #logo2 {
+            position: absolute;
+            /* Position the logo absolutely */
+            top: 22.5vw;
+            /* Adjust the top distance as needed */
+            left: 6vw;
+            /* Adjust the left distance as needed */
+            max-width: 10vw;
+            /* Set a maximum width for the logo */
+            max-height: 15vw;
+            /* Set a maximum height for the logo */
+        }
+
+        .overlaylogo {
+            position: absolute;
+            /* Position the logo absolutely */
+            top: 6.4vw;
+            /* Adjust the top distance as needed */
+            left: 7.7vw;
+            /* Adjust the left distance as needed */
+            max-width: 15w;
+            /* Set a maximum width for the logo */
+            max-height: 10vw;
+            /* Set a maximum height for the logo */
+        }
+        p {
+            color: #ffffff;
+            font-size: 1.5vw;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    </style>
+    <div class="wrapper">
+        <div class="columns">
+            <div class="column left">
+                <h2>File Search and Edit</h2>
+
+                <a href="{{ url_for('view_text') }}"><img id="logo" src="../static/assets/search.png"
+                        alt="logo" />
+                </a><br />
+
+                <a href="{{ url_for('indexapp') }}"><img id="logo2" src="../static/assets/channels4_profile.png" alt="logo" /> </a>
+                <a href="/"><img class="overlaylogo" src={{logo}} alt="logo" /> </a>
+
+            </div>
+            <div class="column right">
+                <a href="{{ url_for('view_text') }}"><button>Create New File</button></a>
+                <h2>Edit File - {{ filename }}</h2>
+
+                <br />
+
+                <h1>File Search and/or Edit</h1>
+                <form method="POST" action="{{ url_for('indexapp') }}">
+                    <label for="search_term">Search Term:</label>
+                    <input type="text" name="search_term" id="search_term" required>
+                    <button type="submit">Search</button>
+                </form>
+
+                {% if files %}
+                <h2>Matching Files:</h2>
+                <form method="GET" action="{{ url_for('edit_files', filename='') }}">
+                    <label for="file_select">Select File:</label>
+                    <select name="filename" id="file_select">
+                        {% for file in files %}
+                        <option value="{{ file }}">{{ file }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Edit Selected File</button>
+                </form>
+                {% endif %}
+                <br /><br />
+                <form method="POST" action="{{ url_for('new_snippet') }}">
+                    <label for="snippet_content">Snippet Content:</label><br>
+                    <textarea id="snippet_content" name="content" rows="10" cols="50"></textarea><br>
+                    <input type="submit" value="Save">
+                </form>
+            </div>
+        </div class="header">
+        <p>Search for a file by entering a search term below. Then select a file from the list of matching files and
+            click the "Edit Selected File" button.</p>
+        <p>Once you have selected a file, you can edit the file content in the text area below. When you are done
+            editing, click the "Save Changes" button to save the changes to the file.
+            Click the "Back to Search" button to return to the search page.</p>
+    </div>
+    </div>
+    </div>
+    < </div>
+        </body>
+
+</html>

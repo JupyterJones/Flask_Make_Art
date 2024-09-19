@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Mask</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        form {
+            display: inline-block;
+            background-color: #444444;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #666666;
+            border-radius: 4px;
+            width: 300px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delete Mask</h1>
+    <form action="{{ url_for('delete_mask') }}" method="post">
+        <label for="mask_path">Mask Path:</label><br>
+        <input type="text" id="mask_path" name="mask_path" placeholder="Enter mask path to delete" required><br><br>
+        <input type="submit" value="Delete Mask">
+    </form>
+</body>
+</html>

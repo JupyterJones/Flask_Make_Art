@@ -1,0 +1,91 @@
+import cv2
+import subprocess
+import random
+import glob
+import os
+
+def concatenate_videos(video_paths, output_path):
+    # Initialize the VideoWriter
+    first_video = cv2.VideoCapture(video_paths[0])
+    frame_width = int(first_video.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(first_video.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = first_video.get(cv2.CAP_PROP_FPS)
+
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+
+    # Process each video
+    for video_path in video_paths:
+        video = cv2.VideoCapture(video_path)
+
+        while True:
+            ret, frame = video.read()
+            if not ret:
+                break
+            out.write(frame)
+
+        video.release()
+
+    out.release()
+    first_video.release()
+
+def add_music_with_fade_effects(video_path, music_file, output_path):
+    # Output path for intermediate video with music
+    intermediate_video_path = '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/Temp_video_with_music.mp4'
+
+    # Combine video and music
+    subprocess.call([
+        'ffmpeg', '-i', video_path,
+        '-i', music_file,
+        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k',
+        '-map', '0:v:0', '-map', '1:a:0',
+        '-shortest', '-y', intermediate_video_path
+    ])
+
+    # Add fade-in and fade-out effects to the audio
+    subprocess.call([
+        'ffmpeg', '-i', intermediate_video_path,
+        '-af', 'afade=t=in:st=0:d=0.75,afade=t=out:st=10:d=0.75',
+        '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k',
+        '-strict', 'experimental', '-y', output_path
+    ])
+
+# List of video paths
+video_files = [
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/TEMP0.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/TEMP1.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/vertical.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/final_zoom.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/diagonal1.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/final_output_exp.mp4',
+    '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/blendem_final_output.mp4'
+]
+
+# Output video path
+output_video_path = '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/All_videos_in_one.mp4'
+
+# Call the function to concatenate videos
+concatenate_videos(video_files, output_video_path)
+
+# Run a final ffmpeg command to recode the video
+subprocess.call([
+    'ffmpeg', '-i', output_video_path,
+    '-c:v', 'libx264', '-crf', '23',
+    '-c:a', 'aac', '-b:a', '192k', '-strict', 'experimental',
+    '-y', '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/Long_video_in_one.mp4'
+])
+
+# Directory containing music files
+music_dir = '/home/jack/Desktop/collections/music_long'
+
+# Pick a random music file
+music_files = glob.glob(os.path.join(music_dir, '*.mp3'))
+if not music_files:
+    raise ValueError("No music files found in the specified directory.")
+random_music = random.choice(music_files)
+
+# Path for the final output video with music and effects
+final_output_path = '/home/jack/Desktop/Flask_Make_Art/static/temp_exp/Final_Video_With_Music.mp4'
+
+# Add music to the video and apply fade effects
+add_music_with_fade_effects('/home/jack/Desktop/Flask_Make_Art/static/temp_exp/Long_video_in_one.mp4', random_music, final_output_path)

@@ -1,0 +1,27 @@
+<!-- post.html -->
+{% extends 'base.html' %}
+{% block title %}{{ post[1] }} - My Blog{% endblock %}
+{% block content %}
+<article>
+    <span>ID: {{ post[0] }} &nbsp;&nbsp; | &nbsp;&nbsp; {{ post[1] }}</span> &nbsp;&nbsp; | &nbsp;&nbsp;
+    <a href="{{ url_for('edit_post', post_id=post[0]) }}">EDIT</a>
+    <div><pre>{{ post[2] }}</pre></div>
+    {% if post[3] %}
+    <img src="data:image/png;base64,{{ post[3] }}" alt="{{ post[1] }}" />
+    {% endif %}
+    {% if post[4] %}
+    <video width="320" height="240" controls>
+        <source src="{{ url_for('static', filename='videos/' + post[4]) }}" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+</article>
+
+<form method="post" enctype="multipart/form-data" action="{{ url_for('upload_video', post_id=post[0]) }}">
+    <div class="mb-3">
+        <label for="videoFile" class="form-label">Upload Video:</label>
+        <input type="file" class="form-control" id="videoFile" name="videoFile" accept="video/mp4" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

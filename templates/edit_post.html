@@ -1,0 +1,35 @@
+<!-- edit_post.html -->
+{% extends 'base_1.html' %}
+
+{% block title %}ID:{{post[0]}}&nabla;&nabla; | &nabla;&nabla; Edit - Post - {{ post[1] }}{% endblock %}
+
+{% block content %}
+
+
+
+<h1>Edit Post- edit_post.html</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label>Title</label><br>
+    <input type="text" name="title" value="{{ post[1] }}" required><br><br>
+
+    <label>Content</label><br>
+    <textarea name="content" rows="50" required>{{ post[2] }}</textarea><br><br>
+
+    <label>Image</label><br>
+    <input type="file" name="image"><br><br>
+    {% if post[3] %}
+    <img src="data:image/png;base64,{{ post[3] }}" alt="{{ post[1] }}" style="max-width: 400px;"><br><br>
+    {% endif %}
+
+    <label for="video">Upload Video</label>
+    <input type="file" id="video" name="video" accept="video/*">
+    {% if post[4] %}
+    <video width="320" height="240" controls>
+        <source src="{{ url_for('static', filename='videos/' + post[4]) }}" type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+    {% endif %}
+<br/>
+    <button type="submit">Update</button>
+</form>
+{% endblock %}

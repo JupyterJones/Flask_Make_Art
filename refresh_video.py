@@ -57,7 +57,7 @@ def image_dir_to_zoom():
         #make it
         os.makedirs(selected_directory)        
     try:
-        image_files = glob.glob(f'{selected_directory}/*.png')
+        image_files = glob.glob(f'{selected_directory}/*.png')+glob.glob(f'{selected_directory}/*.jpg')+glob.glob(f'{selected_directory}/*.jpeg')
         if not image_files:
             logging.error("No images found in the directory.")
             return
@@ -72,10 +72,12 @@ def image_dir_to_zoom():
     zoom_increment = 0.0005
     zoom_duration = 300
     width, height = SIZE
+    width = 512
+    height = 768
 
     ffmpeg_cmd = (
         f"ffmpeg -hide_banner -pattern_type glob -framerate {frame_rate} "
-        f"-i '{selected_directory}/*.png' "
+        f"-i '{selected_directory}/*.jpg' "
         f"-vf \"scale=8000:-1,zoompan=z='min(zoom+{zoom_increment},1.5)':x='iw/2':y='ih/2-4000':d={zoom_duration}:s={width}x{height},crop={width}:{height}:0:256\" "
         f"-c:v libx264 -pix_fmt yuv420p -r {frame_rate} -s {width}x{height} -y {output_video}"
     )
@@ -166,7 +168,7 @@ def add_title_image(video_path, hex_color="#A52A2A"):
     composite_clip = composite_clip.set_audio(music_clip)
 
     # Define the output path
-    output_path = 'static/temp_exp/final_output_exp.mp4'
+    output_path = 'static/temp_exp/final_output_expX.mp4'
 
     # Export the final video with the background music
     composite_clip.write_videofile(output_path)
@@ -179,9 +181,6 @@ def add_title_image(video_path, hex_color="#A52A2A"):
 
     VIDEO = output_path
     return VIDEO
-
-
-
 
 if __name__ == "__main__":
     prep_homedirectory()

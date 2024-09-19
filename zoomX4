@@ -1,0 +1,16 @@
+#!/bin/bash
+ffmpeg -hide_banner -i static/seamless_videoX.mp4 -vf "fps=60,scale=8000:-1,zoompan=z='pzoom+0.0002':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=512x768:fps=60" -c:v libx264 -pix_fmt yuv420p -y output.mp4 
+
+ffmpeg -hide_banner -i output.mp4 -vf "fps=60,scale=8000:-1,zoompan=z='pzoom+0.0002':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=512x768:fps=60,unsharp=3:3:0.5:3:3:0.5" -c:v libx264 -pix_fmt yuv420p -y output_2_.mp4
+
+ffmpeg -hide_banner -i output_2_.mp4 -vf "fps=60,scale=8000:-1,zoompan=z='pzoom+0.0002':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=512x768:fps=60" -c:v libx264 -pix_fmt yuv420p -y output_3_.mp4
+
+ffmpeg -hide_banner -i output_3_.mp4 -vf "fps=60,scale=8000:-1,zoompan=z='pzoom+0.0002':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=562x818:fps=60,unsharp=3:3:0.5:3:3:0.5" -c:v libx264 -pix_fmt yuv420p -y static/temp_exp/final_zoom0.mp4
+ffmpeg -hide_banner -i static/temp_exp/final_zoom0.mp4 -i static/assets/mp4_video_zoom_512x568_border.png -filter_complex "[0:v][1:v]overlay=W-w-0:H-h-0" -codec:a copy -y static/temp_exp/final_zoomxX.mp4
+rm output.mp4 output_2_.mp4 output_3_.mp4
+#ffmpeg -hide_banner -i static/temp_exp/final_zoom0.mp4 -y static/temp_exp/final_zoom.mp4
+#vlc static/temp_exp/final_zoom_output.mp4
+
+#ffmpeg -i output_4_$1 -vf "fps=60,scale=8000:-1,zoompan=z='pzoom+0.0005':x=iw/2-(iw/zoom/2):y=ih/2-(ih/zoom/2):d=1:s=512x768:fps=60" -c:v libx264 -pix_fmt yuv420p -y final_$1
+
+

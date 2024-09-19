@@ -1,0 +1,384 @@
+#!/home/jack/miniconda3/envs/cloned_base/bin/python
+import sqlite3
+import os
+from flask import Flask, render_template, request, redirect, url_for, jsonify, send_file
+from time import sleep
+from bs4 import BeautifulSoup
+import glob
+import datetime
+import re
+import random
+import uuid
+app = Flask(__name__, static_url_path='/static')
+currentDir = os.getcwd()
+# Function to log messages
+def logit(message):
+    currentDir = os.getcwd()
+    log_file = currentDir+"/static/AA_log.txt"  # Replace with the actual path to your log file
+    timestamp = datetime.datetime.now().strftime("%A_%b-%d-%Y_%H-%M-%S")
+    with open(log_file, "a") as log:
+        log.write(f"{timestamp}: {message}\n")
+def logit2(logdata):
+    timestamp = datetime.datetime.now().strftime("%A_%b-%d-%Y_%H-%M-%S")
+    Input=open(currentDir+"/static/AA_log2.txt","a")
+    Input.write(f"{timestamp}: {logdata}\n")
+    Input.close()
+    return print("mylog2.txt entry: ",logdata)        
+def readlog():
+    Input=open(currentDir+"/static/AA_log2.txt","r")
+    logdata=Input.read()
+    # print last entry
+    logdata=logdata.split("\n")
+    logdata=logdata[-1]
+    logit(f"READLOG: {logdata}")
+    Input.close()
+    return logdata
+logit("This is a DEBUG message for mylog.py"+readlog())
+
+def load_html_file(file_path):
+    with open(file_path, "r") as file:
+        html_content = file.read()
+    return html_content
+
+def edit_html_file(file_path, new_content):
+    with open(file_path, "w") as file:
+        file.write(new_content)
+
+def save_html_file(file_path, soup):
+    with open(file_path, "w") as file:
+        file.write(str(soup))
+def choose_html():
+    path = currentDir+"/static/resulting_html/"
+    files = glob.glob(path + "*.html")  # get all files in the directory
+
+    if not files:
+        print("No files found")
+        return None
+    return files
+
+@app.route('/edit_html', methods=['POST', 'GET'])
+def edit_html():
+    path = currentDir+"/static/resulting_html/"
+    
+    if request.method == 'POST':
+        if 'load_file' in request.form:
+            selected_file = request.form['selected_file']
+            file_path = os.path.join(path, selected_file)
+            logit(f"Received request to load file: {file_path}")
+
+            # Load the HTML content from the file
+            html_content = load_html_file(file_path)
+            logit(f"Loaded HTML content: {html_content}")
+
+            # Pass the loaded content to the template
+            return render_template('choose_file.html', files=choose_html(), file_path=file_path, html_content=html_content)
+
+        elif 'edited_content' in request.form:
+            edited_content = request.form['edited_content']
+            file_path = os.path.join(path, request.form['selected_file'])
+
+            # Save the edited HTML content
+            with open(file_path, "w") as file:
+                logit(f"Saving edited content to file: {file_path}")
+                logit(f"Edited content: {edited_content}")
+                file.write(edited_content)
+
+    return render_template('choose_file.html', files=choose_html())
+@app.route('/load_file', methods=['GET'])
+def load_file():
+    path = currentDir+"/static/resulting_html/"
+    selected_file = request.args.get('file')
+    file_path = os.path.join(path, selected_file)
+
+    # Load the HTML content from the file
+    html_content = load_html_file(file_path)
+
+    return jsonify({'html_content': html_content})
+
+
+
+# Example usage:
+#file_path = "static/resulting_html/google.html"
+#html_content = load_html_file(file_path)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        search_term = request.form['search_term']
+        logit(f"Received search term from the form: {search_term}")
+        #logging.debug(f"Received search term from the form: {search_term}")
+        return redirect(url_for('search_and_display', search_term=search_term))
+
+    return render_template('index.html')
+
+@app.route('/search/<search_term>')
+def search_and_display(search_term):
+    try:
+        conn = sqlite3.connect('chat_database_html.db')
+        cursor = conn.cursor()
+        rows = cursor.execute("SELECT ROWID,content,text_content FROM files")
+        data = []
+        cnts = 0
+
+        for row in rows:
+            cnts = cnts + 1
+            data.append(row[2])
+
+        # Make a directory for your results
+        results = 'static/resulting_html/'
+
+        # Ensure the output folder exists
+        os.makedirs(results, exist_ok=True)
+
+        filename = search_term.replace(' ', '_')
+        file_path = results + filename + ".html"
+
+        #logging.debug(f"Search term: {search_term}, File path: {file_path}")
+
+        with open(file_path, "w") as Input:
+            STYLE=''' <style>
+    pre {
+        white-space: pre-wrap; /* Allows text to wrap within the pre element */
+        font-family: monospace; /* Choose a monospace font for consistent spacing */
+        background-color: #8ca9f1; /* Set a background color for the pre element */
+        padding: 10px; /* Add some padding for spacing */
+        border: 1px solid #d2ad5d; /* Add a border for separation */
+    }
+</style>'''
+            Input.write(STYLE)
+            cnt = 0
+            for line in data:
+                if search_term in line:
+                    cnt = cnt + 1
+                    line = line.replace("\\n", "").replace("\n", "")
+                    Input.write(line)
+                    Input.write(f"\n--------- END: {cnt} ----------------------------\n")
+                    if cnt >= 4:
+                        #logging.debug(f"Found and saved {cnt} occurrences of '{search_term}', stopping search.")
+                        break
+
+        #logging.debug(f'File {file_path} created successfully')
+
+        #sleep(5)  # Simulating some processing time
+        #logging.debug('Processing complete, opening the web browser')
+        nsearch = readlog()
+        trak=logit2(f"nsearch: {nsearch}")
+        print('trak: ',trak)
+        #logit('trak: '+trak)
+        return render_template('display.html', file_path=file_path, nsearch_term=search_term, nsearch=search_term)
+
+    except Exception as e:
+        #logging.error(f'An error occurred: {e}')
+        return render_template('error.html', error_message=str(e))
+@app.route('/view_text')
+def view_text():
+    text_files_dir = 'static/output_txt_html_json'
+    text_files = [filename for filename in os.listdir(text_files_dir) if filename.endswith('.txt')]
+    text_files=sorted(text_files, reverse=False)
+    #return render_template('select_file.html', text_files=text_files)
+    return render_template('view2.html', text_files=text_files)
+
+@app.route('/view_text/<filename>')
+def display_text(filename):
+    text_file_path = f'static/output_txt_html_json/{filename}'
+    try:
+        with open(text_file_path, 'r') as file:
+            file_contents = file.read()
+        return render_template('view_text.html', file_contents=file_contents, filename=filename)
+    except FileNotFoundError:
+        return f'Text file {filename} not found.'
+@app.route('/indexapp', methods=['GET', 'POST'])
+def indexapp():
+  
+    if request.method == 'POST':
+        search_term = request.form.get('search_term')
+        logit(f'Searching for files containing: {search_term}')
+
+        # Search for text files in the current directory
+        Text_Directory = "static/output_txt_html_json"
+        txt_files = [os.path.join(Text_Directory, f) for f in os.listdir(Text_Directory) if f.endswith('.txt')]
+
+        # Filter files containing the search term
+        matching_files = [file for file in txt_files if search_term in open(file, 'r').read()]
+
+        logit(f'Found matching files: {matching_files}')
+        logo=random.choice(glob.glob('static/assets/*logo.jpg'))
+        print("LOGO: ",logo)
+        logit(f"LOGO: {logo}")
+        return render_template('indexapp.html', files=matching_files, logo=logo)
+    logo=random.choice(glob.glob('static/assets/*logo.jpg'))  
+
+    logit(f"LOGO: {logo}")
+    return render_template('indexapp.html', files=None, logo=logo)
+
+# ... (your existing imports) ...
+
+@app.route('/edit_files', methods=['GET', 'POST'])
+def edit_files():
+    filename = request.args.get('filename', '')
+    directory_path = "static/output_txt_html_json"  # Replace with the actual path to your text files directory
+    PATH = os.getcwd()
+    print("Current Directory:", PATH)
+    full_path = os.path.join(PATH, directory_path, filename)
+
+    print("Requested Filename:", filename)
+    print("Directory Path:", directory_path)
+    print("Full Path:", full_path)
+
+    # Print the list of files in the directory for debugging purposes
+    print("Files in Directory:", os.listdir(directory_path))
+
+    if not os.path.exists(filename):
+        return "File not found", 404
+
+    if request.method == 'POST':
+        content = request.form.get('content')
+        
+        if content is not None:
+            date_str = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+            new_filename = f"{os.path.splitext(filename)[0]}_{date_str}.txt"
+
+            with open(os.path.join(directory_path, new_filename), 'w') as new_file:
+                new_file.write(content)
+
+            logit(f'File edited and saved as: {new_filename}')
+
+            return send_file(os.path.join(directory_path, new_filename), as_attachment=True)
+
+    with open(full_path, 'r') as file:
+        content = file.read()
+
+    return render_template('edit_files.html', filename=filename, content=content)
+
+
+def search_text_files(directory, search_terms):
+    matching_files = []
+    try:
+        text_files_dir = 'static/output_txt_html_json'
+        text_files = [filename for filename in os.listdir(text_files_dir) if filename.endswith('.txt')]
+        # Use glob to get a list of text files in the specified directory
+        logit(f"NOTICE__directory: {directory}")
+        logit(f"NOTICE__text_files: {text_files}")
+        # Split the search terms into individual words and phrases
+        search_words_phrases = [term.strip() for term in search_terms.split(',')]
+        logit(f"search_words_phrases: {search_words_phrases}")
+
+        for file_name in text_files:
+            # Build the full file path
+            file_path = os.path.join(text_files_dir, file_name)
+
+            # Read the content of each text file
+            logit(f"file_path: {file_path}")
+            with open(file_path, 'r') as file:
+                content = file.read()
+
+
+            # Check if all search terms are present in the file content
+            if all(re.search(rf'\b{re.escape(term)}\b', content, re.IGNORECASE) for term in search_words_phrases):
+                matching_files.append(file_path)
+                logit(f"File '{file_path}' contains all search terms.")
+
+        return matching_files
+
+    except Exception as e:
+        logit(f"An error occurred: {e}")
+        return []
+
+@app.route('/search_files', methods=['GET', 'POST'])
+def search_files():
+    if request.method == 'POST':
+        directory_path = "/static/output_txt_html_json"  # Replace with your actual path
+        search_terms_input = request.form['search_terms']
+        logit(f"Received search terms from the form: {search_terms_input}")
+
+        # Add logging to see the result of the search_text_files function
+        result = search_text_files(directory_path, search_terms_input)
+        logit(f"Search result: {result}")
+
+        return render_template('view_list.html', search_terms=search_terms_input, files=result)
+    return render_template('search_files.html', search_terms='', files=[])
+
+def create_backup_folder():
+    backup_folder = os.path.join(os.getcwd(), "static", "Backups")
+    if not os.path.exists(backup_folder):
+        os.makedirs(backup_folder)
+        logit(f"Backup folder created at: {backup_folder}")
+@app.route('/view_application')
+def view_application():
+    file_path = "App"
+    logit(f"Fetching content for file: {file_path}")
+    
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        logit(f"File content fetched successfully")
+        return render_template('view_application.html', content=content)
+
+    except Exception as e:
+        logit(f"Error fetching file content: {e}")
+        return "Error fetching file content"
+
+@app.route('/save_application', methods=['POST'])
+def save_application():
+    file_path = "App"
+    create_backup_folder()  # Ensure the "Backups" folder exists
+
+    try:
+        # Create a unique backup filename
+        backup_filename = str(uuid.uuid4())
+        backup_path = os.path.join(os.getcwd(), "static", "Backups", backup_filename)
+        logit(f"Creating backup at: {backup_path}")
+
+        # Copy original file to backup location
+        shutil.copy(file_path, backup_path)
+        logit(f"Backup created successfully at: {backup_path}")
+
+        # Save new content to the original file
+        content = request.form.get('content')
+        with open(file_path, 'w') as file:
+            file.write(content)
+        logit("File content saved successfully")
+
+        return redirect(url_for('view_application'))
+
+    except Exception as e:
+        logit(f"Error saving file content: {e}")
+        return "Error saving file content"
+
+
+@app.route('/get_file_content/<path:filename>')
+def get_file_content(filename):
+    try:
+        file_path = os.path.join('static', 'output_txt_html_json', filename)
+        logit(file_path)
+        with open(file_path, 'r') as file:
+            file_contents = file.read()
+            logit(len(file_contents))
+        return file_contents
+    except FileNotFoundError:
+        return f'Text file {filename} not found.'
+# ... (your existing imports) ...
+
+@app.route('/new_snippet', methods=['GET', 'POST'])
+def new_snippet():
+    if request.method == 'POST':
+        content = request.form.get('content')
+
+        if content is not None:
+            # Extract the first line to generate the filename
+            first_line = content.split('\n')[0].strip()
+            filename = f"{first_line.replace(' ', '_')}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.txt"
+
+            # Save the content to the new file
+            with open(os.path.join("static/output_txt_html_json", filename), 'w') as new_file:
+                new_file.write(content)
+                new_file.write("\n\n\nPythonSnippet")
+
+            logit(f'New snippet saved as: {filename}')
+
+    return render_template('indexapp.html')
+
+
+if __name__ == '__main__':
+    print("Starting App on port 5200")
+    app.run(debug=True, host='0.0.0.0', port=5100)
