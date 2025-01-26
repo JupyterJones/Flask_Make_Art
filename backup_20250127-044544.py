@@ -3509,54 +3509,20 @@ def concatenate_title_video():
         print("Concatenation successful!")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred during concatenation: {e}")
-import hashlib
-import shutil
-import os
-import datetime
-
 def bak(filename):
     try:
-        # Ensure the backups directory exists
-        backups_dir = "backups"
-        os.makedirs(backups_dir, exist_ok=True)
-
-        # Calculate the hash of the current file
-        with open(filename, "rb") as file:
-            file_hash = hashlib.sha256(file.read()).hexdigest()
-
-        # List existing backups
-        backup_files = sorted(
-            [f for f in os.listdir(backups_dir) if f.startswith("backup_")],
-            key=lambda x: os.path.getmtime(os.path.join(backups_dir, x))
-        )
-
-        # Check if the latest backup is identical
-        if backup_files:
-            latest_backup = os.path.join(backups_dir, backup_files[-1])
-            with open(latest_backup, "rb") as latest_file:
-                latest_hash = hashlib.sha256(latest_file.read()).hexdigest()
-            if file_hash == latest_hash:
-                print("No changes detected. Backup not created.")
-                return
-
-        # Generate a timestamped backup filename
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        backup_filename = os.path.join(backups_dir, f"backup_{timestamp}.py")
-
-        # Copy the file to the backup directory
+        # Get the current date and time
+        timestamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        
+        # Generate a backup filename with the timestamp
+        backup_filename = f"backup_{timestamp}.py"
+        
+        # Copy the file to the new backup filename
         shutil.copy(filename, backup_filename)
+        
         print(f"File '{filename}' successfully backed up as '{backup_filename}'.")
-
-        # Remove older backups if more than 5 exist
-        if len(backup_files) >= 5:
-            for old_backup in backup_files[:-4]:  # Keep only the last 5 backups
-                old_backup_path = os.path.join(backups_dir, old_backup)
-                os.remove(old_backup_path)
-                print(f"Deleted old backup: {old_backup_path}")
-
     except Exception as e:
         print(f"An error occurred while backing up the file: {e}")
-
 @app.route('/moviepy')
 def moviepy_route():
     return render_template('moviepy_info.html')

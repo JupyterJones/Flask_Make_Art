@@ -1,0 +1,13 @@
+
+sudo find ~/ -type f -exec du -ah {} + | sort -rh |head -50
+
+history | grep swap
+sudo fallocate -l 8G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+swapon --show
+cat /proc/sys/vm/swappiness
+sudo sysctl vm.swappiness=10
+cat /proc/sys/vm/swappiness
+results $ 10
