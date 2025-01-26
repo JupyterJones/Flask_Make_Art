@@ -553,7 +553,7 @@ def blend_images():
     image_paths = [top_image, mask_image, bottom_image]
     result_path = blend_images_with_grayscale_mask(image_paths, mask_image, opacity)
     mask_image ="static/masks/mask.png"
-    return redirect(url_for('index'))#, image_paths=image_paths, mask_path=mask_image, opacity=opacity))
+    return redirect(url_for('clean_storage_route'))#, image_paths=image_paths, mask_path=mask_image, opacity=opacity))
 #render_template('blend_result_exp.html', result_image=result_path, image_paths=image_paths, mask_image=mask_image, opacity=opacity)
 
 def blend_images_with_grayscale_mask(image_paths, mask_path, opacity):
@@ -3573,7 +3573,174 @@ def moviepy_fx_route():
 def PIL_info_route():
     return render_template('PIL_info.html')
 
+@app.route('/upload_mp4_video')
+def upload_mp4_video():
+    return render_template('upload_mp4.html')
+@app.route('/upload_mp4', methods=['POST', 'GET'])
+def upload_mp4_route():
+    if not os.path.exists('static/video_history'):
+        os.makedirs('static/video_history')
+    if not os.path.exists('static/video_resources'):
+        os.makedirs('static/video_resources')
+    if not os.path.exists('static/temp'):
+        os.makedirs('static/temp')        
+    uploaded_file = request.files['videoFile']
+    if uploaded_file.filename != '':
+        # Save the uploaded file to a directory or process it as needed
+        # For example, you can save it to a specific directory:
+        uploaded_file.save('static/video_resources/forward.mp4')
+        #                   /' + uploaded_file.filename)
+        VIDEO='static/video_resources/forward.mp4'
+        #use a uuid and copy 'to static/video_history'
+        shutil.copy('static/video_resources/forward.mp4', 'static/video_history/' + str(uuid.uuid4()) + '.mp4')
+        return render_template('upload_mp4.html',VIDEO=VIDEO)
+    else:
+        VIDEO='static/video_resources/forward.mp4'
+        return render_template('upload_mp4.html',VIDEO=VIDEO)
+@app.route('/reverse_videos', methods=['POST', 'GET'])
+def reverse_videos():
+    try:
+        # Define paths
+        input_video = 'static/video_resources/forward.mp4'
+        temp_dir = 'static/temp/'
+        final_output_dir = 'static/video_history/'
+        os.makedirs(temp_dir, exist_ok=True)
+        os.makedirs(final_output_dir, exist_ok=True)
 
+        # Step 1: Slow down the input video
+        slow_video = os.path.join(temp_dir, 'slow_video.mp4')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-i', input_video,
+            '-filter:v', 'scale=512x700,setpts=2.0*PTS',
+            '-an', '-y', slow_video
+        ], check=True)
+
+        # Step 2: Reverse the slowed video
+        reverse_slow_video = os.path.join(temp_dir, 'reverse_slow_video.mp4')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-i', slow_video,
+            '-vf', 'reverse', '-af', 'areverse',
+            '-y', reverse_slow_video
+        ], check=True)
+
+        # Step 3: Concatenate slow and reverse videos
+        joined = os.path.join(temp_dir, 'joined.mp4')
+        file_list1 = os.path.join(temp_dir, 'file_list1.txt')
+
+        # Dynamically create file_list1.txt
+        with open(file_list1, 'w') as f:
+            f.write(f"file '{os.path.abspath(slow_video)}'\n")
+            f.write(f"file '{os.path.abspath(reverse_slow_video)}'\n")
+
+        # Run FFmpeg concatenation
+        subprocess.run([
+            'ffmpeg', '-f', 'concat', '-safe', '0',
+            '-i', file_list1,
+            '-c:v', 'libx264', '-crf', '23', '-preset', 'fast',
+            '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart',
+            '-y', joined
+        ], check=True)
+
+        # Step 4: Reverse the concatenated video
+        joined_reverse = os.path.join(temp_dir, 'joined_reverse.mp4')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-i', joined,
+            '-vf', 'reverse', '-af', 'areverse',
+            '-y', joined_reverse
+        ], check=True)
+
+        # Step 5: Concatenate joined and reversed joined videos
+        final = os.path.join(temp_dir, 'final.mp4')
+        file_list2 = os.path.join(temp_dir, 'file_list2.txt')
+
+        # Dynamically create file_list2.txt
+        with open(file_list2, 'w') as f:
+            f.write(f"file '{os.path.abspath(joined)}'\n")
+            f.write(f"file '{os.path.abspath(joined_reverse)}'\n")
+
+        subprocess.run([
+            'ffmpeg', '-f', 'concat', '-safe', '0',
+            '-i', file_list2,
+            '-c:v', 'libx264', '-crf', '23', '-preset', 'fast',
+            '-c:a', 'aac', '-b:a', '128k', '-movflags', '+faststart',
+            '-y', final
+        ], check=True)
+
+        # Step 6: Add a border overlay
+        border_image = 'static/assets/512x700.png'
+        final_with_border = os.path.join(temp_dir, 'final_with_border.mp4')
+        if os.path.exists(border_image):
+            subprocess.run([
+                'ffmpeg', '-hide_banner', '-i', final, '-i', border_image,
+                '-filter_complex', "[1:v]scale=iw:ih[border];[0:v][border]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:format=auto",
+                '-c:a', 'copy', '-y', final_with_border
+            ], check=True)
+        else:
+            raise FileNotFoundError(f"Border file '{border_image}' not found!")
+
+        # Step 7: Add background music to the video with no sound
+        music_files = [os.path.join('static/music/', f) for f in os.listdir('static/music/') if f.endswith('.mp3')]
+        if not music_files:
+            raise FileNotFoundError("No background music files found in the specified directory!")
+        music_file = random.choice(music_files)
+        final_temp = os.path.join(temp_dir, 'FINAL_TEMP.mp4')
+
+        # Add background music to the video (no existing audio in the video)
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-i', final_with_border, '-i', music_file,
+            '-filter_complex', "[1:a]volume=0.7[a1]",  # Adjust volume of the music
+            '-map', '0:v', '-map', '[a1]', '-shortest', '-c:v', 'copy', '-y', final_temp
+        ], check=True)
+
+        # Step 8: Save the final video with timestamp
+        timestamp = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        final_filename = os.path.join(final_output_dir, f'{timestamp}_FINAL.mp4')
+        subprocess.run([
+            'ffmpeg', '-hide_banner', '-i', final_temp,
+            '-g', '48', '-keyint_min', '48', '-movflags', '+faststart',
+            '-pix_fmt', 'yuv420p', '-c:v', 'libx264', '-preset', 'fast',
+            '-crf', '23', '-c:a', 'aac', '-b:a', '128k', '-y', final_filename
+        ], check=True)
+
+        # Cleanup intermediate files
+        intermediate_files = [slow_video, reverse_slow_video, joined, joined_reverse, final, final_with_border, final_temp]
+        for file in intermediate_files:
+            if os.path.exists(file):
+                os.remove(file)
+
+        # Copy the final output to a specific location
+        src = final_filename
+        dest = 'static/use.mp4'
+        shutil.copy(src, dest)
+
+        return redirect(url_for('video_edit'))
+
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
+@app.route('/video_edit')
+def video_edit():
+    return render_template('video_edit.html')
+
+@app.route('/trim-video', methods=['POST'])
+def trim_video():
+    if not os.path.exists('static/bash_vids'):
+        os.makedirs('static/bash_vids')
+    start_time = float(request.form['startTime'])
+    end_time = float(request.form['endTime'])
+    input_video = 'static/use.mp4'
+    output_video = 'static/bash_vids/trimmed_video.mp4'
+
+    try:
+        # Log the trimming process
+        ic(f"Trimming video from {start_time} to {end_time}")
+         
+        # Use MoviePy to trim the video
+        ffmpeg_extract_subclip(input_video, start_time, end_time, targetname=output_video)
+        return redirect(url_for('video_edit'))
+
+    except Exception as e:
+        print(f"Error trimming video: {str(e)}")
+        return f"Error: {str(e)}", 500
 if __name__ == '__main__':
 
     bak('app.py')
