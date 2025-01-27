@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transfer Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: black;
+            color: white;
+        }
+        h1 {
+            font-family: 'xkcd-script', sans-serif;
+            font-size: 36px;
+            color: orange;
+        }
+        a {
+            text-decoration: none;
+            color: goldenrod;
+            font-weight: bold;
+            font-size: 26px;
+        }
+        p {
+            font-size: 18px;
+            color: darkgreen;
+        }
+        input[type="submit"] {
+        font-size: 22px;            
+        }
+        input[type="radio"] {
+        /* use percentages for sizing */ 
+        width: 3vw;   
+        font-size: 2vw;
+            
+        }
+        input[type="radio"]:checked {
+        background-color: red;
+        }
+        .sticky {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: red;
+            color: white;
+            padding: 10px;
+            padding-left: 50%;
+            display: flex;
+            align-items: center;
+            text-align: center;!important
+
+        }
+
+    </style>
+<script>
+        function findString(str) {
+            if (parseInt(navigator.appVersion) < 4) return;
+
+            if (window.find) {
+                var strFound = window.find(str);
+                if (!strFound) {
+                    window.find(str, 0, 1);
+                }
+                if (strFound) {
+                    var range = window.getSelection().getRangeAt(0);
+                    var span = document.createElement("span");
+                    span.style.backgroundColor = "yellow";
+                    range.surroundContents(span);
+                }
+            } else if (navigator.appName.indexOf("Microsoft") != -1) {
+                // Not implemented for brevity
+            } else if (navigator.appName == "Opera") {
+                alert("Opera browsers not supported, sorry...");
+                return;
+            }
+
+            if (!strFound) alert("String '" + str + "' not found!");
+        }
+
+        function moveToNextOccurrence() {
+            var search_str = document.getElementById("search_input").value;
+            findString(search_str);
+        }
+    </script>
+</head>
+
+<body>
+    <header class="sticky">
+    <!--a href="{{ url_for('search') }}" class="refresh-button2">Search</a-->
+        <input type="text" id="search_input" />
+        <button id="search_submit" onclick="moveToNextOccurrence()">Find Next</button>
+</header>
+
+    <h1>File Transfer transfer.html</h1>
+    <a href="/">Home</a>
+
+    <a href="/empty_0000_resources">/empty_0000_resources</a>
+
+    <p><strong>Total Source Directories:</strong> {{ data_src }}</p>
+    <p><strong>Total Destination Directories:</strong> {{ data_dst }}</p>
+
+    <form action="/transfer_src_to_dst" method="POST">
+        <h3>Select Source Directory:</h3>
+        {% for src, file_count in transfer_src %}
+            <input type="radio" name="src" value="{{ src }}"> {{ src }} ({{ file_count }} files)<br>
+        {% endfor %}
+
+        <h2>Select Destination Directory:</h2>
+        {% for dst, file_count in transfer_dst %}
+            <input type="radio" name="dest" value="{{ dst }}"> {{ dst }} ({{ file_count }} files)<br>
+        {% endfor %}
+
+        <input type="submit" value="Transfer">
+    </form>
+    <script>
+    // Clear radio button selections on page load
+    window.onload = function() {
+        const radios = document.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => radio.checked = false);
+    };
+</script>
+
+</body>
+</html>
