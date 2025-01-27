@@ -1,0 +1,47 @@
+#!/bin/bash
+# filename: vidall.sh
+
+function vidall() {
+    # Check if the directory exists
+    if [ ! -d "$1" ]; then
+        echo "Error: Directory $1 does not exist."
+        exit 1
+    fi
+
+    # Check for the presence of .png and .jpg files in the directory
+    if ls "$1"/*.png 1>/dev/null 2>&1 || ls "$1"/*.jpg 1>/dev/null 2>&1; then
+        echo "Creating video from images in directory: $1"
+
+        # Create a temporary file list
+        filelist="filelist.txt"
+        > $filelist  # Create or empty the filelist
+
+        for f in "$1"/*.png "$1"/*.jpg; do
+            # Ensure the file exists before adding it to the list
+            if [ -f "$f" ]; then
+                echo "file '$f'" >> $filelist
+            fi
+        done
+
+        # Ensure the static/videos directory exists
+        mkdir -p static/videos
+
+        # Run ffmpeg to create the video
+        output_video="static/videos/$(basename "$1").mp4"
+        ffmpeg -r 17 -f concat -safe 0 -i "$filelist" -c:v libx265 -pix_fmt yuv420p -y "$output_video"
+
+        # Clean up the temporary file list
+        rm -f $filelist
+        echo "Video created successfully: $output_video"
+    else
+        echo "No .png or .jpg files found in the directory $1."
+    fi
+}
+
+# Call the function with the provided directory as argument
+if [ -z "$1" ]; then
+    echo "Usage: $0 <directory>"
+    exit 1
+fi
+
+vidall "$1"

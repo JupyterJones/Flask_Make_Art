@@ -1,0 +1,87 @@
+/* Basic body styling for alignment */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style the video element */
+video {
+    max-width: 100%;
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center everything and give the sliders and button some spacing */
+h1 {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* Style sliders */
+input[type="range"] {
+    width: 300px;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #ddd;
+    border-radius: 5px;
+    height: 8px;
+    outline: none;
+}
+
+/* Thumb for slider */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #333;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Button style */
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Flexbox to position sliders and labels nicely */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Basic responsiveness */
+@media (max-width: 768px) {
+    input[type="range"] {
+        width: 200px;
+    }
+}

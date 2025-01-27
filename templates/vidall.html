@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="static/css/dark.css">
+
+    <title>VidAll - Create Video</title>
+    <style>
+        img {
+            max-width: 200px;
+            margin: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>VidAll - Create Video from Images</h1>
+
+    <!-- Directory Selection -->
+    <form method="POST" action="/vidall">
+        <label for="directory">Select a Directory:</label>
+        <select name="directory" id="directory">
+            <option value="" disabled selected>Select a directory</option>
+            {% for subdirectory in subdirectories %}
+                <option value="{{ subdirectory }}" {% if subdirectory == selected_directory %}selected{% endif %}>
+                    {{ subdirectory }}
+                </option>
+            {% endfor %}
+        </select>
+        <!-- Submit button -->
+        <button type="submit">View Images</button>
+    </form>
+
+    <!-- Display Images (if a directory is selected) -->
+    {% if selected_directory %}
+        <h2>Images in Directory: {{ selected_directory }}</h2>
+        <div class="grid">
+            {% for image in images %}
+                <img src="/static/{{ image }}" alt="Image">
+            {% endfor %}
+        </div>
+        <form method="POST" action="/create_vidall_video">
+            <input type="hidden" name="directory" value="{{ selected_directory }}">
+            <button type="submit">Create Video</button>
+        </form>
+    {% endif %}
+</body>
+</html>

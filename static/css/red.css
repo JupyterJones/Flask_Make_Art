@@ -1,0 +1,347 @@
+        body {
+            background-color: #2C2C2C;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px, 20px, 20px, 20px;
+        }
+
+        .refresh-button {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: orange;
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button2 {
+            display: inline-block;
+            padding: 5px;
+            margin: 10px;
+            font-size: 2em;
+            background-color: rgb(255, 225, 0);
+            color: rgb(0, 0, 0);
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 1px;
+        }
+
+        .refresh-button:hover {
+            background-color: orange;
+        }
+
+        .sticky {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            background-color: orange;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            word-break: break-all;
+            justify-content: space-around;
+        }
+
+        figure {
+            max-width: 300px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        figcaption {
+            margin-top: 8px;
+            font-size: 1rem;
+            color: #cccccc;
+        }
+        pre {
+            color: white;
+            font-size: 24px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        p {
+            color: white;
+            font-size: 24px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    img {
+        width: 200px;
+        height: auto;
+        
+        display: block;
+        margin-bottom: 5px;
+        border-radius: 8px;
+    }
+      body {
+      /*background-color: rgb(156, 23, 23);*/
+      background-color: darkred;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .refresh-button {
+      display: inline-block;
+      padding: 5px;
+      margin: 10px;
+      font-size: 2em;
+      background-color: orange;
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 1px;
+    }
+
+    .refresh-button2 {
+      display: inline-block;
+      padding: 5px;
+      margin: 10px;
+      font-size: 2em;
+      background-color: rgb(255, 225, 0);
+      color: rgb(0, 0, 0);
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 1px;
+    }
+
+    .refresh-button3 {
+      display: inline-block;
+      padding: 5px;
+      margin: 10px;
+      font-size: 2em;
+      background-color: blue;
+      color: yellow;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 1px;
+    }
+    .refresh-button4 {
+      display: inline-block;
+      padding: 5px;
+      margin: 10px;
+      font-size: 2em;
+      background-color: green;
+      color: yellow;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 1px;
+    }
+    .refresh-button:hover {
+      background-color: orange;
+    }
+
+    .sticky {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      background-color: orange;
+      padding: 10px 0;
+      z-index: 1000;
+    }
+
+    .video-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    figure {
+      max-width: 300px;
+      margin: 10px;
+      text-align: center;
+    }
+
+    figcaption {
+      margin-top: 8px;
+      /* Keep the same margin */
+      font-size: 1.2vw;
+      /* Set a specific font size */
+      color: #cccccc;
+      /* Consistent color */
+      line-height: 1.5;
+      /* Set a specific line height for consistency */
+      text-align: center;
+      /* Center align if necessary */
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: rgb(156, 23, 23);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 23px;
+      color: black;
+      background-color: orange;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: orange;
+    }
+
+    .round {
+      display: inline-block;
+      padding: 15px 15px 15px 15px;
+      min-width: 1vw;
+      min-height: 1vw;
+      font-size: 18px;
+      color: black;
+      background-color: red;
+      border: 2px black solid;
+      border-radius: 50%;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+    .responsive-img {
+  width: 256px;
+  height: 384px;
+  object-fit: cover;
+  display: block;
+}
+a {
+  color: orange;
+  font-weight: bold;
+  font-size: 3vw;
+  text-decoration: none;
+}
+/* Style for centering and displaying the videos and audios side by side */
+.media-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; /* Spacing between elements */
+    /* Center the container */
+    margin-left: auto;
+    margin-right: auto;
+/* ADD BURRY SHADOW
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #282c34; */
+
+}
+
+.media-item {
+    margin: 10px;
+    width: 20%; /* Each item takes up 25% of the width */
+    text-align: center;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: lightgray;   box-shadow: 0 0 10px 5px rgba(200, 200, 200, 0.5);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #282c34;
+}
+.media-item img {
+ border: 2px solid #007BFF;   
+}
+video, audio {
+    width: 100%; /* Make the video/audio take up the full width of its container */
+    height: auto;
+}
+.siz{
+    font-size: 3vw;
+    }
+.check_siz {
+    margin-top: 10px;
+    width: 20px; /* Adjust width */
+    height: 20px; /* Adjust height */
+    transform: scale(1.5); /* Make the checkbox larger */
+    margin-right: 8px; /* Optional spacing between checkbox and label */
+}
+.check_siz:hover {
+    outline: 2px solid #007BFF; /* Add a blue outline on hover */
+    background-color: #f0f8ff; /* Change background color on hover */
+    border-radius: 4px; /* Optional: Add rounded corners */
+}
+.image-checkbox {
+  cursor: pointer;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border: 4px solid transparent;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  overflow: hidden;
+  padding: 0;
+}
+.image-checkbox input[type="checkbox"] {
+  display: none;
+}
+.image-checkbox-checked {
+  border: 4px solid orange;
+}
+#wrapper {
+    background-color: rgb(156, 23, 23);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .image-container {
+            text-align: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .directory-buttons {
+            margin: 20px;
+        }
+        .directory-button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .delete-button {
+            font-size: 3vw;
+            background-color: #ff4444;
+            color: white;
+            padding: 10px 20px;
+            border: yellow 4px solid;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 25px;
+        }
+        .cntr {
+            margin-right: auto;
+            margin-left: auto;
+        text-align: center;
+        }
+        hr {
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 75%;
+            height: 4px;
+        }
