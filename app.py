@@ -11,7 +11,7 @@ import time
 from sys import argv
 from datetime import datetime
 import inspect
-
+from icecream import ic
 # Flask Imports
 from flask import (
     Flask, request, render_template, redirect, url_for, send_from_directory, 
@@ -32,7 +32,14 @@ from moviepy.editor import (
     ImageSequenceClip
 )
 # from moviepy.video.fx import resize, speedx, crop
+# Video Processing Imports
+from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+
 import cv2
+
+# Video Processing Imports
+from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+
 
 # Scientific and Numerical Computing Imports
 import numpy as np
@@ -3741,6 +3748,134 @@ def trim_video():
     except Exception as e:
         print(f"Error trimming video: {str(e)}")
         return f"Error: {str(e)}", 500
+
+# Create frames and keepers directories if they don't exist
+if not os.path.exists('static/frames'):
+    os.mkdir('static/frames')
+if not os.path.exists('static/keepers_resourses'):
+    os.mkdir('static/keepers_resourses')
+
+# Function to extract frames from MP4 using OpenCV
+def extract_frames(video_path, output_folder):
+    cap = cv2.VideoCapture(video_path)
+    count = 0
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+        cv2.imwrite(os.path.join(output_folder, f'frame_{count}.jpg'), frame)
+        count += 1
+    cap.release()
+# ----------------------- VIDEO ROUTES -----------------------
+def limit_backups(source_dir='static/archived-images',max_files = 15):
+    backup_dir = 'static/backups_resources'
+    # Ensure backup directory exists
+    os.makedirs(backup_dir, exist_ok=True)
+    
+    # Get all files in the source directory, sorted by modification time (oldest first)
+    files = sorted(
+        [f for f in os.listdir(source_dir) if os.path.isfile(os.path.join(source_dir, f))],
+        key=lambda f: os.path.getmtime(os.path.join(source_dir, f))
+    )
+    
+    # If there are more than the max allowed, move the oldest files to the backup directory
+    if len(files) > max_files:
+        files_to_backup = files[:-max_files]  # Select all but the last 15 files
+        
+        for file in files_to_backup:
+            file_path = os.path.join(source_dir, file)
+            # Create a unique backup filename with a timestamp, preserving the extension
+            file_extension = os.path.splitext(file)[1]
+            timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+            backup_filename = f"{os.path.splitext(file)[0]}_{timestamp}{file_extension}"
+            backup_file_path = os.path.join(backup_dir, backup_filename)
+            
+            # Move the file to the backup directory
+            shutil.move(file_path, backup_file_path)
+            print(f"Moved {file} to {backup_file_path}")
+
+#delete images in 'static/keepers_resourses/
+def keepers_resourses():
+    if not os.path.exists('static/keepers_resourses'):
+        os.mkdir('static/keepers_resourses')
+    for file in os.listdir('static/keepers_resourses'):
+        file_path = os.path.join('static/keepers_resourses', file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+# Function to delete all files in 'static/frames/'
+def delete_frames():
+    frames_dir = 'static/frames'
+    for file in os.listdir(frames_dir):
+        file_path = os.path.join(frames_dir, file)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+           
+# Route to display video selection and form submission
+@app.route('/get_frames', methods=['GET', 'POST'])
+def get_frames():
+    delete_frames()
+    #video_dir = '/home/jack/Desktop/HDD500/Image_Retriever/static/videos/'
+    video_dir = 'static/videos'
+    keepers_resourses()
+    # Use glob to find all .mp4 files in the directory
+    video_files = glob.glob(os.path.join(video_dir, '*.mp4'))
+    # sort the files by modification time
+    video_files = sorted(video_files, key=os.path.getmtime, reverse=True)    
+    # Get only the filenames (basename)
+    video_files = [os.path.basename(video) for video in video_files]  
+    video_images= glob.glob('static/keepers_resourses/*.jpg')  
+    video_images = sorted(video_images, key=os.path.getmtime, reverse=True)                                                          # post the images in reverse order      
+    return render_template('copy_frames.html', video_files=video_files, video_images=video_images)
+
+# Route to handle form submission and extract frames from the selected video
+@app.route('/process_frames', methods=['POST'])
+def process_video():
+    # Get selected video from form in copy_frames.html
+    video_filename = request.form.get('video')
+    # This is the location of the archive videos 
+    #video_dir = '/home/jack/Desktop/HDD500/Image_Retriever/static/videos/'
+    video_dir = '/home/jack/Desktop/Flask_Make_Art/static/videos'
+    video_path = os.path.join(video_dir, video_filename)
+    output_folder = 'static/frames'
+
+    # Clear frames folder before extracting new frames
+    for filename in os.listdir(output_folder):
+        file_path = os.path.join(output_folder, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)
+
+    # Extract frames from the selected video
+    extract_frames(video_path, output_folder)
+
+    # List all frames in the frames directory
+    frames = os.listdir(output_folder)
+    return render_template('copy_frames.html', frames=frames)
+
+# Route to handle form submission for image deletion
+@app.route('/add_frames', methods=['POST', 'GET'])
+def add_frames_route():
+    selected_images = request.form.getlist('image')
+    for image in selected_images:
+        id_ = str(uuid.uuid4())
+        source = os.path.join('static/frames', image)
+        destination1 = os.path.join('static/keepers_resourses', id_ + image)
+        shutil.copy(source, destination1)
+        destination2 = os.path.join('static/archived-images', id_ + image)
+        shutil.copy(source, destination2)
+        destination3 = os.path.join('static/archived-images', id_ + image)
+        shutil.copy(source, destination3)
+        destination4 = os.path.join('static/archived-images', id_ + image)
+        shutil.copy(source, destination4)
+    limit_backups(source_dir='static/archived-images',max_files=40)
+    limit_backups(source_dir = 'static/archived-images')            
+    return redirect(url_for('get_frames'))
+
+
+# ----------------------- END VIDEO ROUTES -----------------------    
+
+
+
 if __name__ == '__main__':
 
     bak('app.py')

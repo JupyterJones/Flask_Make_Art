@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Review and Keep</title>
+</head>
+<body>
+        <h1>Select a Video to Process</h1>
+        <a href="/">Choose Another Video</a>
+    <form action="/process_frames" method="post">
+        <label for="video">Choose a video:</label>
+        <select name="video" id="video">
+            {% for video in video_files %}
+                <option value="{{ video }}">{{ video }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Process Video">
+    </form>
+    <h1>Review and Keep Images</h1>
+    <form action="/add_frames" method="post">
+        {% for frame in frames %}
+            <div style="display: inline-block; text-align: center; margin: 10px;">
+                <img src="{{ url_for('static', filename='frames/' + frame) }}" width="200">
+                <br>
+                <input type="checkbox" name="image" value="{{ frame }}"> Keep
+            </div>
+        {% endfor %}
+        <br><br>
+        <input type="submit" value="Keep Selected Images">
+    </form>
+</body>
+</html>
