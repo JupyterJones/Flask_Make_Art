@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# Print the current working directory
+echo "Current working directory: $(pwd)"
+
+# Input files
+VIDEO1=$(pwd)/"latina_01.mp4"
+VIDEO1L=$(pwd)/"latina_01L.mp4"
+VIDEO2=$(pwd)/"latina_02.mp4"
+VIDEO2L=$(pwd)/"latina_02L.mp4"
+OUTPUT=$(pwd)/"output.mp4"
+FRAMED_OUTPUT=$(pwd)/"output_framed.mp4"
+FRAME=$(pwd)/"512x768.png"
+
+# Resize VIDEO1 to 512x768
+ffmpeg -i "$VIDEO1" -vf scale=512:768 -y "$VIDEO1L"
+
+# Resize VIDEO2 to 512x768
+ffmpeg -i "$VIDEO2" -vf scale=512:768 -y "$VIDEO2L"
+
+# Get the duration of the first video
+DURATION=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$VIDEO1")
+
+# Calculate the transition offset (1 second before the end of the first video)
+OFFSET=$(echo "$DURATION - 1" | bc)
+
+# Check if the videos have audio streams
+HAS_AUDIO_1=$(ffprobe -i "$VIDEO1L" -show_streams -select_streams a -loglevel error -of csv=p=0)
+HAS_AUDIO_2=$(ffprobe -i "$VIDEO2L" -show_streams -select_streams a -loglevel error -of csv=p=0)
+
+# Apply the transition using ffmpeg in a Docker container
+if [ -n "$HAS_AUDIO_1" ] && [ -n "$HAS_AUDIO_2" ]; then
+  # Both videos have audio streams, include audio crossfade
+  docker run -i -u $(id -u):$(id -g) -v "$PWD:$PWD" -w "$PWD" mwader/static-ffmpeg:5.1.1 -hide_banner -i "$VIDEO1L" -i "$VIDEO2L" -filter_complex \
+  "[0:v][1:v]xfade=transition=fade:duration=1:offset=$OFFSET[v]; \
+  [0:a][1:a]acrossfade=duration=1[a]" \
+  -map "[v]" -map "[a]" -y "$OUTPUT"
+else
+  # One or both videos lack audio streams, skip audio crossfade
+  docker run -i -u $(id -u):$(id -g) -v "$PWD:$PWD" -w "$PWD" mwader/static-ffmpeg:5.1.1 -hide_banner -i "$VIDEO1L" -i "$VIDEO2L" -filter_complex \
+  "[0:v][1:v]xfade=transition=fade:duration=1:offset=$OFFSET[v]" \
+  -map "[v]" -y "$OUTPUT"
+fi
+
+echo "Output video: $OUTPUT"
+
+# Overlay the transparent PNG frame on the output video
+ffmpeg -hide_banner -i "$OUTPUT" -i "$FRAME" -filter_complex \
+"[0:v][1:v]overlay=0:0" -y "$FRAMED_OUTPUT"
+
+echo "Framed output video: $FRAMED_OUTPUT"

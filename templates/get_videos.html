@@ -67,7 +67,8 @@
 
 <body>
     <div class="container">
-        <a href="{{ url_for('index') }}" class="button">Home</a>
+        <h1>Video Gallery / get_videos.html</h1>
+        <a href="{{ url_for('index') }}" class="button">Home</a>&nbsp;&nbsp;<a href="{{ url_for('get_videos') }}" class="button">Refresh Page</a>
         <div class="video-gallery">
             {% for video in video_files %}
             <figure>

@@ -1,0 +1,18 @@
+
+#!/bin/bash
+
+# Input files
+VIDEO1="latina_01.mp4"
+VIDEO2="latina_02.mp4"
+OUTPUT="output.mp4"
+
+# Get the duration of the first video
+DURATION=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$VIDEO1")
+
+# Calculate the transition offset (1 second before the end of the first video)
+OFFSET=$(echo "$DURATION - 1" | bc)
+
+# Apply the transition using ffmpeg
+docker run -i -u $UID:$GROUPS -v "$PWD:$PWD" -w "$PWD" mwader/static-ffmpeg:5.1.1 -i "$VIDEO1" -i "$VIDEO2" -filter_complex \
+"[0:v][1:v]xfade=transition=fade:duration=1:offset=$OFFSET[v]" \
+-map "[v]" -an "$OUTPUT"

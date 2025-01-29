@@ -1,0 +1,82 @@
+import subprocess
+import logging
+import os
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+def concatenate_videos_with_transition(video1_path, video2_path, output_path, transition_duration=1.0, slow_down_factor=2.0):
+    """
+    Concatenates two videos with a transition effect and slows down the final output.
+
+    Args:
+        video1_path (str): Path to the first MP4 video.
+        video2_path (str): Path to the second MP4 video.
+        output_path (str): Path for the final output video.
+        transition_duration (float): Duration of the transition effect in seconds.
+        slow_down_factor (float): Factor to slow down the final video (default is 2.0 for half speed).
+    """
+    # Temporary files
+    temp_blend_output = "temp_blend.mp4"
+    temp_slow_output = "temp_slow.mp4"
+
+    try:
+        # Generate the transition effect using xfade
+        logging.info("Creating a transition effect between videos...")
+        xfade_filter = (
+            f"[0:v:0]scale=512:768:force_original_aspect_ratio=decrease,pad=512:768:(ow-iw)/2:(oh-ih)/2,setsar=1[v0];"  # Resize first video
+            f"[1:v:0]scale=512:768:force_original_aspect_ratio=decrease,pad=1512:768:(ow-iw)/2:(oh-ih)/2,setsar=1[v1];"  # Resize second video
+            f"[v0][0:a:0][v1][1:a:0]xfade=transition=fade:duration={transition_duration}:offset=duration=shortest[v][a]"
+        )
+
+        ffmpeg_blend_cmd = [
+            "ffmpeg",
+            "-i", video1_path,
+            "-i", video2_path,
+            "-filter_complex", xfade_filter,
+            "-map", "[v]",
+            "-map", "[a]",
+            "-c:v", "libx264",
+            "-preset", "fast",
+            "-crf", "23",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            temp_blend_output,
+            "-y"
+        ]
+        subprocess.run(ffmpeg_blend_cmd, check=True)
+        logging.info(f"Transition effect created successfully. Saved to {temp_blend_output}")
+
+        # Slow down the final output
+        logging.info("Slowing down the video to half speed...")
+        ffmpeg_slow_cmd = [
+            "ffmpeg",
+            "-i", temp_blend_output,
+            "-filter:v", f"setpts={slow_down_factor}*PTS",
+            "-filter:a", f"atempo={1/slow_down_factor}",
+            "-c:v", "libx264",
+            "-preset", "fast",
+            "-crf", "23",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            output_path,
+            "-y"
+        ]
+        subprocess.run(ffmpeg_slow_cmd, check=True)
+        logging.info(f"Final slowed-down video saved to {output_path}")
+
+    finally:
+        # Cleanup temporary files
+        if os.path.exists(temp_blend_output):
+            os.remove(temp_blend_output)
+        if os.path.exists(temp_slow_output):
+            os.remove(temp_slow_output)
+
+if __name__ == "__main__":
+    # Paths to the input videos
+    video1 = "latina_01.mp4"
+    video2 = "latina_02.mp4"
+    output_video = "final_latinas.mp4"
+
+    # Call the function
+    concatenate_videos_with_transition(video1, video2, output_video)
